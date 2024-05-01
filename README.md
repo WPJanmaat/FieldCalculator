@@ -1,2 +1,2 @@
-# Differentiator
-An analytical differentiator capable of handling some level of arbitrary function.
+# Field Calculator
+A system for calculation of electric fields and particle motions within, complete with built-in analytic differentiator and arbitary function evaluator.
