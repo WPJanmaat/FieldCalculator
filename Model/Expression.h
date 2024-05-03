@@ -11,7 +11,7 @@ typedef struct expression {
 typedef struct variable {
     char *name;
     int length;
-    int value;
+    long double value;
     char declared; //indicates whether the variable has been declared for evaluation.
 } variable;
 

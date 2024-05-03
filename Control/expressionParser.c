@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <stdlib.h>
+#include <stdlib.h>return
 #include <math.h>
 #include <string.h>
 #include "./model/Types.h"
@@ -92,7 +92,7 @@ expression *ParseMult(token* input, int length) {
 
     if (input[0] == '/' || input[0] == '*') {
         fprintf(stderr, "invalid input");
-        EXIT_FAILURE;
+        return NULL;
     }
     
     //skip parts in paranthesis for submitted for higher order evaluation, eventually they will be surrounded by operators.
@@ -122,7 +122,7 @@ expression *ParsePow(token* input, int length) {
     expression *output = calloc(sizeof(expression), 1);
     if (input[0] == '^') {
         fprintf(stderr, "invalid input");
-        EXIT_FAILURE;
+        return NULL;
     }
     //skip parts in paranthesis for submitted for higher order evaluation, eventually they will be surrounded by operators.
     for (int i=1; i<length; i++) {

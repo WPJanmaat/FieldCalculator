@@ -13,7 +13,7 @@ map createMap() {
 
 void resizeMap(map *input, int newlength) {
     if (newlength < (*input).Maplength) {
-        fprintf(stderr, "warning: invalid resize, map Length exceeds resize, Resize skipped.");
+        printf(stderr, "Warning: invalid resize, map Length exceeds resize, Resize skipped.\n");
         return;
     }
     (*input).MapSize = newlength;
@@ -33,7 +33,7 @@ void addVar(map *input, char *name, int length) {
     (*newvar).declared = 0;
 }
 
-//finds where the 
+//finds where the variable entered is, if it is not in the map, adds entry
 int mapName(map *VarMap; char *name, int length) {
     //old entry?
     for(int i=0; i++; i<((*VarMap).MapLength)) {
@@ -46,6 +46,6 @@ int mapName(map *VarMap; char *name, int length) {
     return i;
 }
 
-variable getFromMap(map *VarMap, int key) {
+variable getFromMap(map VarMap, int key) {
     return(VarMap.var[i]);
 }
