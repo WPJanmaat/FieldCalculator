@@ -1,6 +1,11 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include "Types.h"
+#include "Expression.h"
+
 //a + b
 expression *plus(expression *a, expression *b) {
-    output = calloc(sizeof(expression), 1);
+    expression *output = calloc(sizeof(expression), 1);
     (*output).type = Plus;
     (*output).component1 = a;
     (*output).component2 = b;
@@ -9,7 +14,7 @@ expression *plus(expression *a, expression *b) {
 
 //a - b
 expression *minus(expression *a, expression *b) {
-    output = calloc(sizeof(expression), 1);
+    expression *output = calloc(sizeof(expression), 1);
     (*output).type = Minus;
     (*output).component1 = a;
     (*output).component2 = b;
@@ -18,7 +23,7 @@ expression *minus(expression *a, expression *b) {
 
 // a * b
 expression *mult(expression *a, expression *b) {
-    output = calloc(sizeof(expression), 1);
+    expression *output = calloc(sizeof(expression), 1);
     (*output).type = Mult;
     (*output).component1 = a;
     (*output).component2 = b;
@@ -27,7 +32,7 @@ expression *mult(expression *a, expression *b) {
 
 // a / b
 expression *div(expression *a, expression *b) {
-    output = calloc(sizeof(expression), 1);
+    expression *output = calloc(sizeof(expression), 1);
     (*output).type = Div;
     (*output).component1 = a;
     (*output).component2 = b;
@@ -36,7 +41,7 @@ expression *div(expression *a, expression *b) {
 
 // a ^ b
 expression *pow(expression *a, expression *b) {
-    output = calloc(sizeof(expression), 1);
+    expression *output = calloc(sizeof(expression), 1);
     (*output).type = Pow;
     (*output).component1 = a;
     (*output).component2 = b;
@@ -45,7 +50,7 @@ expression *pow(expression *a, expression *b) {
 
 //sin(a)
 expression *sin(expression *a) {
-    output = calloc(sizeof(expression), 1);
+    expression *output = calloc(sizeof(expression), 1);
     (*output).type = Sin;
     (*output).component1 = a;
     (*output).component2 = NULL;
@@ -54,7 +59,7 @@ expression *sin(expression *a) {
 
 //cos(a)
 expression *cos(expression *a) {
-    output = calloc(sizeof(expression), 1);
+    expression *output = calloc(sizeof(expression), 1);
     (*output).type = cos;
     (*output).component1 = a;
     (*output).component2 = NULL;
@@ -63,7 +68,7 @@ expression *cos(expression *a) {
 
 //tan(a)
 expression *tan(expression *a) {
-    output = calloc(sizeof(expression), 1);
+    expression *output = calloc(sizeof(expression), 1);
     (*output).type = tan;
     (*output).component1 = a;
     (*output).component2 = NULL;
@@ -72,7 +77,7 @@ expression *tan(expression *a) {
 
 //log(a) (ln(a))
 expression *log(expression *a) {
-    output = calloc(sizeof(expression), 1);
+    expression *output = calloc(sizeof(expression), 1);
     (*output).type = log;
     (*output).component1 = a;
     (*output).component2 = NULL;

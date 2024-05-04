@@ -119,7 +119,7 @@ long double evaluateExpression(expression input, map VarMap) {
             break;
 
         case Pow:
-            evaluatePow(input, VarMap);
+            return evaluatePow(input, VarMap);
             break;
 
         case sin:
