@@ -1,3 +1,4 @@
+#include "Types.h"
 #ifndef EXPRESSION_H
 #define EXPRESSION_H
 
@@ -21,3 +22,6 @@ typedef union Contents {
     //only for constants or variable computation.
     long double value;
 } value;
+
+expression *createNum(long double value);
+#endif

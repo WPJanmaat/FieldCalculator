@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "Types.h"
 #include "Expression.h"
+#include <cstddef>
 
 //a + b
 expression *plus(expression *a, expression *b) {
@@ -40,7 +41,7 @@ expression *div(expression *a, expression *b) {
 }
 
 // a ^ b
-expression *pow(expression *a, expression *b) {
+expression *powF(expression *a, expression *b) {
     expression *output = calloc(sizeof(expression), 1);
     (*output).type = Pow;
     (*output).component1 = a;
@@ -49,7 +50,7 @@ expression *pow(expression *a, expression *b) {
 }
 
 //sin(a)
-expression *sin(expression *a) {
+expression *sinF(expression *a) {
     expression *output = calloc(sizeof(expression), 1);
     (*output).type = Sin;
     (*output).component1 = a;
@@ -58,27 +59,27 @@ expression *sin(expression *a) {
 }
 
 //cos(a)
-expression *cos(expression *a) {
+expression *cosF(expression *a) {
     expression *output = calloc(sizeof(expression), 1);
-    (*output).type = cos;
+    (*output).type = Cos;
     (*output).component1 = a;
     (*output).component2 = NULL;
     return output; 
 }
 
 //tan(a)
-expression *tan(expression *a) {
+expression *tanF(expression *a) {
     expression *output = calloc(sizeof(expression), 1);
-    (*output).type = tan;
+    (*output).type = Tan;
     (*output).component1 = a;
     (*output).component2 = NULL;
     return output; 
 }
 
 //log(a) (ln(a))
-expression *log(expression *a) {
+expression *logF(expression *a) {
     expression *output = calloc(sizeof(expression), 1);
-    (*output).type = log;
+    (*output).type = Log;
     (*output).component1 = a;
     (*output).component2 = NULL;
     return output; 

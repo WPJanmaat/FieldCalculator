@@ -1,6 +1,7 @@
 #include "VarMap.h"
-#include <string.h>
 #include "VarMap.h"
+#include "Expression.h"
+#include <cstdio>
 
 //map names are created during map addition.
 map createMap() {
@@ -12,7 +13,7 @@ map createMap() {
 }
 
 void resizeMap(map *input, int newlength) {
-    if (newlength < (*input).Maplength) {
+    if (newlength < (*input).MapLength) {
         printf(stderr, "Warning: invalid resize, map Length exceeds resize, Resize skipped.\n");
         return;
     }
@@ -23,21 +24,22 @@ void resizeMap(map *input, int newlength) {
 
 //adds a new var to the map and ensures it fits.
 void addVar(map *input, char *name, int length) {
-    if (i >= (*input).MapSize) {
+    if ((*input).MapLength >= (*input).MapSize) {
         resizeMap(input, (*input).MapSize*2);
     }
-    (*VarMap).MapLength++;
-    var *newvar = (*input).var;
+    (*input).MapLength++;
+    variable *newvar = (*input).var;
     (*newvar).name = name;
-    (*newvar).NameLength = length;
+    (*newvar).length = length;
     (*newvar).declared = 0;
 }
 
 //finds where the variable entered is, if it is not in the map, adds entry
-int mapName(map *VarMap; char *name, int length) {
+int mapName(map *VarMap, char *name, int length) {
     //old entry?
-    for(int i=0; i++; i<((*VarMap).MapLength)) {
-        if(((*VarMap).NameLength[i] == length) && !strncmp((*VarMap).name[i], name, length)) {
+    int i = 0;
+    for(i=0; i++; i<((*VarMap).MapLength)) {
+        if((((*VarMap).var[i]).length == length) && !strncmp(((*VarMap).var[i]).name, name, length)) {
             return i;
         }
     }
@@ -47,5 +49,5 @@ int mapName(map *VarMap; char *name, int length) {
 }
 
 variable getFromMap(map VarMap, int key) {
-    return(VarMap.var[i]);
+    return(VarMap.var[key]);
 }
