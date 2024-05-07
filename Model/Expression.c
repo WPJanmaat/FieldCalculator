@@ -152,6 +152,7 @@ long double evaluateExpression(expression *input, map VarMap) {
     }
 }
 
+//creates a new expression. if there is no content (i.e. not a var or a number) any value can be entered.
 expression *createExpr(type type, expression* firstcomp, expression* secondcomp, value content) {
     expression *output = calloc(sizeof(expression), 1);
     if (type == Number || type == Variable) {
@@ -163,8 +164,16 @@ expression *createExpr(type type, expression* firstcomp, expression* secondcomp,
     return output;
 }
 
+//create a new number (a shorthand for createExpr)
 expression *createNum(long double input) {
     value content;
     content.value = input;
     return createExpr(Number, NULL, NULL, content);
+}
+
+/*creates a completely separate copy of the input expression, 
+ * for maintaining memory safety (e.g. in differentiation) and avoid intermingling for free() safety*/
+expression *copy(expression *input) {
+	if(input == NULL) return NULL;
+	return createExpr((*input).type, copy(input->component1), copy(input->component2), (*input).content);
 }
