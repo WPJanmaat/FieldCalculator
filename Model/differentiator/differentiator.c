@@ -95,7 +95,9 @@ expression *differentiateTan(int diffID, expression *input map VarMap) {
 		fprintf(stderr, "NULL input on differentiateTan");
 		EXIT_FAILURE;
 	}
-	//pain
+	expression *numerator = differentiateExpression(diffID, input->component1, VarMap);
+	expression *denominator = pow(cosF(copy(input->component1)), createNum(2));
+	return div(numerator, denominator);
 }
 
 expression *differentiateLog(int diffID, expression *input map VarMap) { 
