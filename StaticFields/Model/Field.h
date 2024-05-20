@@ -1,3 +1,5 @@
+#ifndef FIELD_H
+#define FIELD_H
 //A simple 3D Field construction
 typedef struct Field {
     //number of entries
@@ -14,3 +16,5 @@ typedef struct Field {
     long double steplengthZ;
     long double *Zvals;
 } Field;
+
+#endif

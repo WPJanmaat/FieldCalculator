@@ -3,9 +3,6 @@
 #include "Types.h"
 #include "Expression.h"
 #include "VarMap.h"
-#include <cstddef>
-#include <cstdio>
-#include <cstdlib>
 
 long double evaluatePlus(expression *input, map VarMap) {
     if(input == NULL) {

@@ -1,8 +1,5 @@
-#include <cstdio>
-#include <cstdlib>
-#include <stdlib>
 #include <stdio.h>
-#include <cstddef>
+#include <stdlib.h>
 #include "./Expression.h"
 #include "./VarMap.h"
 #include "./Types.h"
