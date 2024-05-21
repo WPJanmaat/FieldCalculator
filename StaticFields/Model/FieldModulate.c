@@ -24,12 +24,12 @@ Vector position: the position on which interpolation is done
 Vector interpTriLin(Field inputField, Vector position) {
     Vector output;
     //x
-    long double *lowerX = fieldGetX(inputField, (int)floor(position.x/inputField.steplengthX));
+    long double *lowerX = fieldGet(inputField, (int)floor(position.x/inputField.steplengthX));
     if(lowerX == NULL) {
         fprintf(stderr, "Interpolation out of lower bound in x, particle outside of field?");
         EXIT_FAILURE;
     }
-    long double *upperX = fieldGetX(inputField, (int)ceil(position.x/inputField.steplengthX));
+    long double *upperX = fieldGet(inputField, (int)ceil(position.x/inputField.steplengthX));
     if(upperX == NULL) {
         fprintf(stderr, "Interpolation out of upper bound in x, particle outside of field?");
         EXIT_FAILURE;
@@ -40,12 +40,12 @@ Vector interpTriLin(Field inputField, Vector position) {
 
 
     //y
-    long double *lowerY = fieldGetY(inputField, (int)floor(position.y/inputField.steplengthY));
+    long double *lowerY = fieldGet(inputField, (int)floor(position.y/inputField.steplengthY));
     if(lowerX == NULL) {
         fprintf(stderr, "Interpolation out of lower bound in y, particle outside of field?");
         EXIT_FAILURE;
     }
-    long double *upperY = fieldGetY(inputField, (int)ceil(position.y/inputField.steplengthY));
+    long double *upperY = fieldGet(inputField, (int)ceil(position.y/inputField.steplengthY));
     if(upperX == NULL) {
         fprintf(stderr, "Interpolation out of upper bound in y, particle outside of field?");
         EXIT_FAILURE;
@@ -56,12 +56,12 @@ Vector interpTriLin(Field inputField, Vector position) {
 
 
     //z
-    long double *lowerZ = fieldGetZ(inputField, (int)floor(position.z/inputField.steplengthZ));
+    long double *lowerZ = fieldGet(inputField, (int)floor(position.z/inputField.steplengthZ));
     if(lowerX == NULL) {
         fprintf(stderr, "Interpolation out of lower bound in z, particle outside of field?");
         EXIT_FAILURE;
     }
-    long double *upperZ = fieldGetZ(inputField, (int)ceil(position.z/inputField.steplengthZ));
+    long double *upperZ = fieldGet(inputField, (int)ceil(position.z/inputField.steplengthZ));
     if(upperX == NULL) {
         fprintf(stderr, "Interpolation out of upper bound in z, particle outside of field?");
         EXIT_FAILURE;
