@@ -51,4 +51,6 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
+StaticFields/Fielddata/txt/*
+StaticFields/Fielddata/csv/*
 .vscode

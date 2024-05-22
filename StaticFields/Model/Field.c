@@ -15,12 +15,13 @@ Vector *fieldGet(Field input, int indexX, int indexY, int indexZ){
     return (input.FieldValues[indexX][indexY]+indexZ);
 }
 
-//Helper function which interpolates along a given axis to avoid redundant code.
-Vector GetInterpolate(Field inputField, Vector position, dimension axis) {
-    
-}
 
 //TODO: separate to interpolator.c file
+/*Trilinear interpolation
+input: 
+Field inputfield: the field from which values are teaken
+Vector position: the position on which interpolation is done
+*/
 Vector interpTriLin(Field inputField, Vector position) {
     //0 is lower, 1 is higher
     long double Xvals[2], Yvals[2], Zvals[2];
