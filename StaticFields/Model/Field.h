@@ -9,11 +9,11 @@ typedef struct Field {
     int lengthZ;
 
     long double steplengthX;
-    
+    long double startX;
     long double steplengthY;
-    
+    long double startY;    
     long double steplengthZ;
-
+    long double startZ;
     Vector ***FieldValues;
 } Field;
 

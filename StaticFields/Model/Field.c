@@ -46,12 +46,29 @@ Vector interpTriLin(Field inputField, Vector position) {
         Zpos[i] = (int)((getVecValue(position, z)/inputField.steplengthZ)+i);
     }
 
-    Vector InterpTwice;
+    Vector InterpTwice[2];
     for(int i = 0; i < 1; i++) {
+        //partials will contain vectors interpolated across the z axis at the given i and j values
+        Vector partials[2];
         for (int j = 0; j < 1; j ++ ) {
-            Vector lowerVec = *fieldGet(inputField, Xpos[i], Ypos[j], Zpos[0]);
-            Vector higherVec = *fieldGet(inputField, Xpos[i], Ypos[j], Zpos[1]);
-        }
-    }
+            Vector *holder = fieldGet(inputField, Xpos[i], Ypos[j], Zpos[0]);
+            if (holder == NULL) {
+                fprintf(stderr, "Null input on Fieldget in interpolation") {
+                    EXIT_FAILURE;
+                }
+            }
+            Vector lowerVec = *holder;
 
+            holder = fieldGet(inputField, Xpos[i], Ypos[j], Zpos[1]);
+            if (holder == NULL) {
+                fprintf(stderr, "Null input on Fieldget in interpolation") {
+                    EXIT_FAILURE;
+                }
+            }
+            Vector higherVec = *holder;
+            partials[j] = interpolateVec(lowerVec, higherVec, fracZ);
+        }
+        InterpTwice[i] = interpolateVec(partials[0], partials[1], fracY);
+    }
+    return interpolateVec(InterpTwice[0], InterpTwice[1], fracX);
 }

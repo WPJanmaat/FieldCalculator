@@ -15,3 +15,4 @@ typedef enum dimensions {
 } dimension;
 
 long double getVecValue(Vector a, dimension dim);
+Vector interpolateVec(Vector a, Vector b, long double fraction);
