@@ -37,22 +37,8 @@ long double getVecValue(Vector a, dimension dim) {
             return a.z;
             break;
     }
+    //This should *never* be reached.
     fprintf(stderr, "something went horribly wrong in getVecValue");
     EXIT_FAILURE;
+    return 0;
 }
-
-/**interpolate a vector along a given axis
- * Parameters:
- * Vector a: the first (lower) vector
- * Vector b: the second (higher) vector
- * long double fraction: the fraction of the distance between a and b where the interpolation point resides
-*/
-Vector interpolateVec(Vector a, Vector b, long double fraction) {
-    Vector result;
-    Vector component;
-    component = vecMin(b, a);
-    component = scalarMult(component, fraction);
-    result = vecSum(a, component);
-    return result;
-}
-

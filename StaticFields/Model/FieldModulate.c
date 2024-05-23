@@ -1,6 +1,8 @@
 #include "Parameters.h"
 #include "Vector.h"
 #include "Field.h"
+#include "FieldModulate.h"
+#include "Interpolate.h"
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -16,8 +18,4 @@ Vector ModulateField(Field ACField, Field DCField, Vector coordinates, int times
     return output;
 }
 
-/*Trilinear interpolation
-input: 
-Field inputfield: the field from which values are teaken
-Vector position: the position on which interpolation is done
-*/
+

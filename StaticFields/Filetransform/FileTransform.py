@@ -3,12 +3,15 @@
 #the unlabeled CSV will have the same form, but be deliniated by commas instead of an uncertain number of spaces.
 from pathlib import Path
 import re #oh god
-output = "ACEField.csv"
-pathin = Path(__file__) / "../Fielddata/txt/AC E field Unlabeled" #replace this last bit with the relevant file for usage.
-pathout = Path(__file__) / "../Fielddata/csv/" + output
+outpath = "../../Fielddata/csv"
+output = "../../Fielddata/csv/ACEField.csv" #output file name
+pathin = Path(__file__) / "../../Fielddata/txt/AC E field Unlabeled.txt" #replace this last bit with the relevant file for usage.
+pathout = Path(__file__) / output
+dirpath = Path(__file__) / outpath
+dirpath.mkdir(parents=True, exist_ok=True)
 with pathin.open() as infile:
-    lines = infile.readlines
-    for i in lines:
-        re.sub(' +', ',', i)
-        with pathout.open as outfile:
-            outfile.write(i)
+    with pathout.open("w", encoding ="utf-8") as outfile:
+        for line in infile:
+            outline = re.sub(' +', ',', line)
+            outline = re.sub('NaN', '0', outline)
+            outfile.write(outline)

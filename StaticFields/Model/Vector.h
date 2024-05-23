@@ -1,3 +1,6 @@
+#ifndef VECTOR_H
+#define VECTOR_H
+
 //standard 3D vectors
 typedef struct Vector {
     long double x;
@@ -5,14 +8,15 @@ typedef struct Vector {
     long double z;
 } Vector;
 
-Vector vecSum(Vector a, Vector b);
-Vector scalarMult(Vector a, long double mult);
-
 typedef enum dimensions {
     x,
     y,
     z
 } dimension;
 
+Vector vecSum(Vector a, Vector b);
+Vector scalarMult(Vector a, long double mult);
+
 long double getVecValue(Vector a, dimension dim);
-Vector interpolateVec(Vector a, Vector b, long double fraction);
+Vector vecMin(Vector a, Vector b);
+#endif
