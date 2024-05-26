@@ -17,5 +17,4 @@ typedef struct Field {
     Vector ***FieldValues;
 } Field;
 
-Vector interpTriLin(Field inputField, Vector position);
 #endif
