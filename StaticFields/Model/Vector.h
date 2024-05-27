@@ -16,7 +16,8 @@ typedef enum dimensions {
 
 Vector vecSum(Vector a, Vector b);
 Vector scalarMult(Vector a, long double mult);
-
+Vector ScalarDiv(Vector a, long double divisor);
+Vector zeroVector();
 long double getVecValue(Vector a, dimension dim);
 Vector vecMin(Vector a, Vector b);
 #endif

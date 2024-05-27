@@ -25,6 +25,14 @@ Vector scalarMult(Vector a, long double mult) {
     result.z = a.z*mult;
 }
 
+Vector ScalarDiv(Vector a, long double divisor) {
+    Vector result;
+    result.x = a.x/divisor;
+    result.y = a.y/divisor;
+    result.z = a.z/divisor;
+    return result;
+}
+
 long double getVecValue(Vector a, dimension dim) {
     switch(dim) {
         case x:
@@ -41,4 +49,12 @@ long double getVecValue(Vector a, dimension dim) {
     fprintf(stderr, "something went horribly wrong in getVecValue");
     EXIT_FAILURE;
     return 0;
+}
+
+Vector zeroVector(){
+    Vector output;
+    output.x = 0;
+    output.y = 0;
+    output.z = 0;
+    return output;
 }

@@ -7,4 +7,14 @@ typedef struct Parameters {
     long double ACV;
     long double freq;
     long double pressure;
+    long double dt;
+
+    //boundary condition for the sim, exceeding this will disable (and ultimately remove) the violating particle.
+    //Upper = higher, lower = ...lower (i.e. higherX>lowerX)
+    long double upperX;
+    long double lowerX;
+    long double upperY;
+    long double lowerY;
+    long double upperZ;
+    long double lowerZ;
 } Parameters;
