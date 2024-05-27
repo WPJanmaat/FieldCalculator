@@ -2,10 +2,22 @@
 #include "FieldModulate.h"
 #include "Field.h"
 
-void *simulateStep(particle *particleList, Field ACField, Field DCField, int length, int* timestep, Parameters params){
+void Simulate(particle* particleList, Field ACField, Field DCField, int length, Parameters params) {
+    int i=0;
+    int j=0;
+    while(i*params.dt+params.startTime < params.endTime) {
+        for(int i = 0; i*params.dt+params.startTime < params.endTime && i < 100*j; i++){
+            simulateStep(particleList, ACField, DCField, length, i, params);
+        }
+        length = eliminateParticles(particleList, length);
+        j++;
+    }
+}
+
+void simulateStep(particle *particleList, Field ACField, Field DCField, int length, int timestep, Parameters params){
     Vector *forceList = calloc(sizeof(Vector), length);
     for (int i=0; i++; i<length) {
-        Vector NextForce = ModulateField(ACField, DCField, getParPos(particleList[i]), *timestep, params);
+        Vector NextForce = ModulateField(ACField, DCField, getParPos(particleList[i]), timestep, params);
         for (int j=i+1; j++; j<length) {
             Vector Pforce = getForce(particleList[i], particleList[j]);
             forceList[i] = vecSum(forceList[i], Pforce);
@@ -13,11 +25,11 @@ void *simulateStep(particle *particleList, Field ACField, Field DCField, int len
         }
         NextForce = vecSum(NextForce, forceList[i]);
     }
-
 }
 
 particle updateParticle(particle input, Vector Force, Parameters params) {
     if(input.enabled) {
+        //leapfrog implementation
         Vector CurrentPos = input.position;
         Vector CurrentAcc = input.acceleration;
         Vector CurrentVel = input.veloity;
@@ -36,3 +48,4 @@ particle updateParticle(particle input, Vector Force, Parameters params) {
     }
     return input;
 }
+

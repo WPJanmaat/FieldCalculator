@@ -12,7 +12,7 @@ Vector ModulateField(Field ACField, Field DCField, Vector coordinates, int times
     Vector output;
     Vector ACForce = interpTriLin(ACField, coordinates);
     Vector DCForce = interpTriLin(DCField, coordinates);
-    ACForce = scalarMult(ACForce, params.ACV*sin(timestep*params.dt*params.freq*2*pi));
+    ACForce = scalarMult(ACForce, params.ACV*sin((timestep*params.dt+params.startTime)*params.freq*2*pi));
     DCForce = scalarMult(DCForce, params.DCV);
     output = vecSum(ACForce, DCForce);
     return output;
