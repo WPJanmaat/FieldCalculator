@@ -3,16 +3,23 @@
 #include "Vector.h"
 #include "Particle.h"
 //NOTE: the low numbers involved in this calculation may compromise accuracy due to Floating point arithmatic.
-typedef struct particle {
-    char enabled; //particles are disabled and not considered outside the relevant area, disabled particles are cleared up every 100 steps.
+typedef struct Particle {
+    char enabled; //Particles are disabled and not considered outside the relevant area, disabled Particles are cleared up every 100 steps.
     int charge; //in e
-    long double mass;
+    long double mass; //kg (sorry)
     Vector position;
-    Vector veloity;
+    Vector velocity;
     Vector acceleration; // required for the leapfrog algorithm. Starts at 0.
     long double impactParameter; //for use in the air calculations
-} particle;
+} Particle;
 #endif
 
-Vector getParPos(particle p);
-Vector getForce(particle a, particle b);
+//different release types, can be expended as implemented. e.g. diffusion, stimulated release etc.
+typedef enum Release {
+    grid,
+    list
+} Release;
+
+Particle* ParticleRelease(int n, long double distance, Release type);
+Vector getParPos(Particle p);
+Vector getForce(Particle a, Particle b);

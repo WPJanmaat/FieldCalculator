@@ -2,45 +2,53 @@
 #include "FieldModulate.h"
 #include "Field.h"
 
-void Simulate(particle* particleList, Field ACField, Field DCField, int length, Parameters params) {
+void Simulate(Particle* ParticleList, Field ACField, Field DCField, int length, Parameters params) {
     int i=0;
     int j=0;
+    //strange loop, interrupts every 100 runs to eliminate disabled Particles
     while(i*params.dt+params.startTime < params.endTime) {
         for(int i = 0; i*params.dt+params.startTime < params.endTime && i < 100*j; i++){
-            simulateStep(particleList, ACField, DCField, length, i, params);
+            simulateStep(ParticleList, ACField, DCField, length, i, params);
         }
-        length = eliminateParticles(particleList, length);
+        length = eliminateParticles(ParticleList, length);
         j++;
     }
 }
 
-void simulateStep(particle *particleList, Field ACField, Field DCField, int length, int timestep, Parameters params){
+void simulateStep(Particle *particleList, Field ACField, Field DCField, int length, int timestep, Parameters params){
     Vector *forceList = calloc(sizeof(Vector), length);
     for (int i=0; i++; i<length) {
         Vector NextForce = ModulateField(ACField, DCField, getParPos(particleList[i]), timestep, params);
+        //n^/2 :) best I can do short of creating field analysis.
         for (int j=i+1; j++; j<length) {
             Vector Pforce = getForce(particleList[i], particleList[j]);
             forceList[i] = vecSum(forceList[i], Pforce);
             forceList[j] = vecSum(forceList[j], scalarMult(Pforce, -1));
         }
+        //TODO: implement magnetic interactions?
         NextForce = vecSum(NextForce, forceList[i]);
+        updateParticle(particleList[i], NextForce, params);
     }
 }
 
-particle updateParticle(particle input, Vector Force, Parameters params) {
+/**Helper function implementing leapfrog on a single timestep (t to t+1)
+ * parameters:
+ *  input: the particle subject to leapfrog, Force: the force the particle is subjected to, params: the parameters for the simulations
+*/
+Particle updateParticle(Particle input, Vector force, Parameters params) {
     if(input.enabled) {
         //leapfrog implementation
         Vector CurrentPos = input.position;
         Vector CurrentAcc = input.acceleration;
-        Vector CurrentVel = input.veloity;
-        Vector AirInteract = zeroVector(); 
+        Vector CurrentVel = input.velocity;
+        Vector AirInteract = zeroVector(); // air friction gives 0 for now
         //TODO: implement air friction WILL REQUIRE CHANGES ABOVE AND BELOW
-        Vector NextAcc = vecSum(CurrentAcc, ScalarDiv(Force, input.mass));
+        Vector NextAcc = vecSum(CurrentAcc, scalarDiv(force, input.mass));
         Vector NextPos = vecSum(vecSum(CurrentPos, scalarMult(CurrentVel, params.dt)), scalarMult(CurrentAcc, pow(params.dt,2)/2)); //verbose for xcur + vcur*dt + acur*dt^2/2
-        Vector NextVel = ScalarDiv(vecSum(CurrentAcc, NextAcc),2);        
+        Vector NextVel = scalarDiv(vecSum(CurrentAcc, NextAcc),2);        
         input.position = NextPos;
         input.acceleration = NextAcc;
-        input.veloity = NextVel;
+        input.velocity = NextVel;
         //long out of bounds check
         if(NextPos.x > params.upperX || NextPos.x < params.lowerX || NextPos.y > params.upperY || NextPos.y<params.lowerY || NextPos.z > params.upperZ || NextPos.z<params.lowerZ) {
             input.enabled = 0;

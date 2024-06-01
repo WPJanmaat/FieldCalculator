@@ -25,12 +25,16 @@ Vector scalarMult(Vector a, long double mult) {
     result.z = a.z*mult;
 }
 
-Vector ScalarDiv(Vector a, long double divisor) {
+Vector scalarDiv(Vector a, long double divisor) {
     Vector result;
     result.x = a.x/divisor;
     result.y = a.y/divisor;
     result.z = a.z/divisor;
     return result;
+}
+
+long double dotProduct(Vector a, Vector b) {
+    return a.x*b.x+a.y*b.y+a.z*b.z;
 }
 
 long double getVecValue(Vector a, dimension dim) {
@@ -51,10 +55,14 @@ long double getVecValue(Vector a, dimension dim) {
     return 0;
 }
 
-Vector zeroVector(){
+Vector zeroVector() {
     Vector output;
     output.x = 0;
     output.y = 0;
     output.z = 0;
     return output;
+}
+
+void printVector(Vector a) {
+    printf("x: %f.5, y: %f.5, z: %f.5\n", a.x, a.y, a.z);
 }

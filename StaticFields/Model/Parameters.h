@@ -9,6 +9,9 @@ typedef struct Parameters {
     long double pressure;
     long double dt;
 
+    long double startTime;
+    long double endTime;
+
     //boundary condition for the sim, exceeding this will disable (and ultimately remove) the violating particle.
     //Upper = higher, lower = ...lower (i.e. higherX>lowerX)
     long double upperX;

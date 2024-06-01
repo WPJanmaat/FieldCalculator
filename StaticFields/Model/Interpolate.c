@@ -39,10 +39,10 @@ Vector interpTriLin(Field inputField, Vector position) {
 
     //i and j determine the offset, 0 is the lower bound value 1 is the higher bound value for x and y respectively.
     Vector InterpTwice[2];
-    for(int i = 0; i < 1; i++) {
+    for(int i = 0; i <= 1; i++) {
         //partials will contain vectors interpolated across the z axis at the given i and j values
         Vector partials[2];
-        for (int j = 0; j < 1; j ++ ) {
+        for (int j = 0; j <= 1; j ++ ) {
             Vector *holder = fieldGetPos(inputField, position, i, j, 0);
             if (holder == NULL) {
                 fprintf(stderr, "Null input on Fieldget in interpolation (out of bounds?)");
