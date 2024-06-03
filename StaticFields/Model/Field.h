@@ -17,4 +17,5 @@ typedef struct Field {
     Vector ***FieldValues;
 } Field;
 
+void freeFied(Field input);
 #endif
