@@ -18,4 +18,5 @@ typedef struct Field {
 } Field;
 
 void freeFied(Field input);
+Vector *fieldGet(Field* input, int indexX, int indexY, int indexZ);
 #endif
