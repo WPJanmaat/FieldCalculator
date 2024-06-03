@@ -81,7 +81,7 @@ long double evaluateVar(expression *input, map VarMap) {
         fprintf(stderr, "NULL input on evaluateCos\n");
         EXIT_FAILURE;
     }
-    var = getFromMap(input->content.id);
+    variable var = getFromMap(VarMap, (input->content.Id));
     //TODO: Find good undeclared response.
     if(var.declared == 0) {
         printf("Warning: Value considered undeclared.\n");

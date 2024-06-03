@@ -63,7 +63,7 @@ expression *differentiatePow(int diffID, expression *input, map VarMap) {
     //ln(f(x))
     expression *term1 = logF(copy((*input).component1));
     //d/dx g(x)
-    expression *diff1 = differentiateExpression(copy((*input).component2));
+    expression *diff1 = differentiateExpression(diffID, copy((*input).component2), VarMap);
     //ln(f(X))*d/dx g(x)
     expression *term2 = mult(term1, diff1);
     expression *mult1 = plus(frac1, term2);

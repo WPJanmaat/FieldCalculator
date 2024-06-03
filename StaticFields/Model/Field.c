@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "field.h"
 
-Vector *fieldGet(Field* input, int indexX, int indexY, int indexZ){
+Vector *fieldGet(Field* input, int indexX, int indexY, int indexZ) {
     if(indexX < 0 || indexX >= (*input).lengthX){
         return NULL;
     }

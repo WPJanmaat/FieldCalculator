@@ -20,6 +20,7 @@ typedef enum Release {
     list
 } Release;
 
+Particle PutParticle(Particle type, Vector position, Vector velocity);
 Particle* ParticleRelease(int n, long double distance, Release type);
 Vector getParPos(Particle p);
 Vector getForce(Particle a, Particle b);
