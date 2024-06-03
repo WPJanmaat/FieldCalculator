@@ -10,7 +10,7 @@ Particle* ListRelease(Particle* types, int* numP, int numTypes, Vector* position
     int P = 0;
 
     if(position == NULL) {
-        fprintf(stderr, "Invalid input on ParticleList positions");
+        fprintf(stderr, "Invalid input on ParticleList positions\n");
         EXIT_FAILURE;
     }
     for(int i=0; i<numTypes; i++) {
@@ -138,7 +138,7 @@ Particle* ParticleRelease(Particle* types, int* numP, int numTypes, long double 
             return ListRelease(types, numP, numTypes, position, velocities);
 
         default:
-            fprintf(stderr, "undefined or unimplememented release type");
+            fprintf(stderr, "undefined or unimplememented release type\n");
             EXIT_FAILURE;
             break;
     }

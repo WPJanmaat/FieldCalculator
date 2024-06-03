@@ -2,7 +2,7 @@
 #ifndef FIELDPROPERTIES_H
 #define FIELDPROPERTIES_H
 
-typedef struct fieldproperties {
+typedef struct FieldProperties {
     long double XStart;
     long double Xend;
     long double Xstep;
@@ -14,6 +14,6 @@ typedef struct fieldproperties {
     long double ZStart;
     long double Zend;
     long double Zstep;
-} fieldproperties;
+} FieldProperties;
 
 #endif

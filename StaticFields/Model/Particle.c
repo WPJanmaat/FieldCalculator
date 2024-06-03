@@ -7,11 +7,23 @@ Vector getParPos(Particle p) {
     return p.position;
 }
 
-//force of a on b (= - b on a)
+//Electric Coulomb force of a on b (= - b on a)
 Vector getForce(Particle a, Particle b) {
     long double chargeForce = a.charge + b.charge * e;
     Vector output = scalarMult(vecMin(b.position, a.position), chargeForce);
     return output;
+}
+
+void printParticle(Particle a) {
+    printf("Position: \n");
+    printPosition(a);
+    printf("Velocity: \n");
+    printVelocity(a);
+
+}
+
+void printVelocity(Particle a) {
+    printVector(a.velocity);
 }
 
 void printPosition(Particle a) {

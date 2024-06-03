@@ -27,7 +27,7 @@ expression *mult(expression *a, expression *b) {
 }
 
 // a / b
-expression *div(expression *a, expression *b) {
+expression *divide(expression *a, expression *b) {
     expression *output = calloc(sizeof(expression), 1);
     (*output).type = Div;
     (*output).component1 = a;

@@ -2,13 +2,18 @@
 #include "FieldModulate.h"
 #include "Field.h"
 
-void Simulate(Particle* ParticleList, Field ACField, Field DCField, int length, Parameters params) {
+void Simulate(Particle* ParticleList, Field ACField, Field DCField, int length, Parameters params, int report) {
     int i=0;
     int j=0;
     //strange loop, interrupts every 100 runs to eliminate disabled Particles
     while(i*params.dt+params.startTime < params.endTime) {
-        for(int i = 0; i*params.dt+params.startTime < params.endTime && i < 100*j; i++){
+        for(i; i*params.dt+params.startTime < params.endTime && i < report*j; i++){
             simulateStep(ParticleList, ACField, DCField, length, i, params);
+        }
+        printf("Time: %f.5", i*params.dt+params.startTime);
+        for(int l = 0; l<length; l++) {
+            printf("Particle %d", l);
+            printParticle(ParticleList[l]);
         }
         length = eliminateParticles(ParticleList, length);
         j++;

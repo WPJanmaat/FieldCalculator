@@ -50,7 +50,7 @@ long double getVecValue(Vector a, dimension dim) {
             break;
     }
     //This should *never* be reached.
-    fprintf(stderr, "something went horribly wrong in getVecValue");
+    fprintf(stderr, "something went horribly wrong in getVecValue\n");
     EXIT_FAILURE;
     return 0;
 }

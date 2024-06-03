@@ -48,7 +48,7 @@ expression *ParseFactor(char *input, int length) {
         }
     }
     if (output == NULL){
-        fprintf(stderr, "Invalid expression; empty expression or empty parantheses?");
+        fprintf(stderr, "Invalid expression; empty expression or empty parantheses?\n");
         EXIT_FAILURE;
     }
     return(output);
@@ -89,7 +89,7 @@ expression *ParseMult(char* input, int length) {
     expression *output = calloc(sizeof(expression), 1);
 
     if (input[0] == '/' || input[0] == '*') {
-        fprintf(stderr, "invalid input");
+        fprintf(stderr, "invalid input\n");
         return NULL;
     }
     
@@ -119,7 +119,7 @@ expression *ParseMult(char* input, int length) {
 expression *ParsePow(char* input, int length) {
     expression *output = calloc(sizeof(expression), 1);
     if (input[0] == '^') {
-        fprintf(stderr, "invalid input");
+        fprintf(stderr, "invalid input\n");
         return NULL;
     }
     //skip parts in paranthesis for submitted for higher order evaluation, eventually they will be surrounded by operators.

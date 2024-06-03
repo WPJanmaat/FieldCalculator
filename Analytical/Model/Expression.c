@@ -6,7 +6,7 @@
 
 long double evaluatePlus(expression *input, map VarMap) {
     if(input == NULL) {
-        fprintf(stderr, "NULL input on evaluatePlus");
+        fprintf(stderr, "NULL input on evaluatePlus\n");
         EXIT_FAILURE;
     }
     return evaluateExpression(input->component1, VarMap) + evaluateExpression((input->component2), VarMap);
@@ -14,7 +14,7 @@ long double evaluatePlus(expression *input, map VarMap) {
 
 long double evaluateMinus(expression *input, map VarMap) {
     if(input == NULL) {
-        fprintf(stderr, "NULL input on evaluateMinus");
+        fprintf(stderr, "NULL input on evaluateMinus\n");
         EXIT_FAILURE;
     }
     return evaluateExpression(input->component1, VarMap) - evaluateExpression(input->component2, VarMap);
@@ -22,7 +22,7 @@ long double evaluateMinus(expression *input, map VarMap) {
 
 long double evaluateMult(expression *input, map VarMap) {
     if(input == NULL) {
-        fprintf(stderr, "NULL input on evaluateMult");
+        fprintf(stderr, "NULL input on evaluateMult\n");
         EXIT_FAILURE;
     }
     return evaluateExpression(input->component1, VarMap) * evaluateExpression((input->component2), VarMap);
@@ -30,7 +30,7 @@ long double evaluateMult(expression *input, map VarMap) {
 
 long double evaluateDiv(expression *input, map VarMap) {
     if(input == NULL) {
-        fprintf(stderr, "NULL input on evaluateDiv");
+        fprintf(stderr, "NULL input on evaluateDiv\n");
         EXIT_FAILURE;
     }
     return evaluateExpression(input->component1, VarMap) / evaluateExpression((input->component2), VarMap);
@@ -38,7 +38,7 @@ long double evaluateDiv(expression *input, map VarMap) {
 
 long double evaluatePow(expression *input, map VarMap) {
     if(input == NULL) {
-        fprintf(stderr, "NULL input on evaluatePows");
+        fprintf(stderr, "NULL input on evaluatePows\n");
         EXIT_FAILURE;
     }
     return pow(evaluateExpression(input->component1, VarMap), evaluateExpression((input->component2), VarMap));
@@ -46,7 +46,7 @@ long double evaluatePow(expression *input, map VarMap) {
 
 long double evaluateSin(expression *input, map VarMap) {
     if(input == NULL) {
-        fprintf(stderr, "NULL input on evaluateSin");
+        fprintf(stderr, "NULL input on evaluateSin\n");
         EXIT_FAILURE;
     }
     return sin(evaluateExpression(input->component1, VarMap));
@@ -54,7 +54,7 @@ long double evaluateSin(expression *input, map VarMap) {
 
 long double evaluateCos(expression *input, map VarMap) {
     if(input == NULL) {
-        fprintf(stderr, "NULL input on evaluateCos");
+        fprintf(stderr, "NULL input on evaluateCos\n");
         EXIT_FAILURE;
     }
     return cos(evaluateExpression(input->component1, VarMap));
@@ -62,7 +62,7 @@ long double evaluateCos(expression *input, map VarMap) {
 
 long double evaluateTan(expression *input, map VarMap) {
     if(input == NULL) {
-        fprintf(stderr, "NULL input on evaluateTan");
+        fprintf(stderr, "NULL input on evaluateTan\n");
         EXIT_FAILURE;
     }
     return tan(evaluateExpression(input->component1, VarMap));
@@ -70,7 +70,7 @@ long double evaluateTan(expression *input, map VarMap) {
 
 long double evaluateLog(expression *input, map VarMap) {
     if(input == NULL) {
-        fprintf(stderr, "NULL input on evaluateLog");
+        fprintf(stderr, "NULL input on evaluateLog\n");
         EXIT_FAILURE;
     }
     return cos(evaluateExpression((input->component1), VarMap));
@@ -78,7 +78,7 @@ long double evaluateLog(expression *input, map VarMap) {
 
 long double evaluateVar(expression *input, map VarMap) {
     if(input == NULL) {
-        fprintf(stderr, "NULL input on evaluateCos");
+        fprintf(stderr, "NULL input on evaluateCos\n");
         EXIT_FAILURE;
     }
     var = getFromMap(input->content.id);
@@ -91,7 +91,7 @@ long double evaluateVar(expression *input, map VarMap) {
 
 long double evaluateNum(expression *input, map Varmap) {
     if(input == NULL) {
-        fprintf(stderr, "NULL input on evaluateNum");
+        fprintf(stderr, "NULL input on evaluateNum\n");
         EXIT_FAILURE;
     }
     return input->content.value;
@@ -99,7 +99,7 @@ long double evaluateNum(expression *input, map Varmap) {
 
 long double evaluateExpression(expression *input, map VarMap) {
     if(input == NULL) {
-        fprintf(stderr, "NULL input on evaluateExpression");
+        fprintf(stderr, "NULL input on evaluateExpression\n");
         EXIT_FAILURE;
     }
     switch((*input).type){

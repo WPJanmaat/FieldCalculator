@@ -9,7 +9,7 @@
 
 expression *differentiatePlus(int diffID, expression *input, map VarMap) {
     if(input == NULL) {
-        fprintf(stderr, "NULL input on differentiatePlus");
+        fprintf(stderr, "NULL input on differentiatePlus \n");
         EXIT_FAILURE;
     }
     return plus(differentiateExpression(diffID, (*input).component1, VarMap), 
@@ -18,7 +18,7 @@ expression *differentiatePlus(int diffID, expression *input, map VarMap) {
 
 expression *differentiateMinus(int diffID, expression *input, map VarMap) {
     if(input == NULL) {
-        fprintf(stderr, "NULL input on differentiateMinus");
+        fprintf(stderr, "NULL input on differentiateMinus \n");
         EXIT_FAILURE;
     }
     return minus(differentiateExpression(diffID, (*input).component1, VarMap), 
@@ -27,7 +27,7 @@ expression *differentiateMinus(int diffID, expression *input, map VarMap) {
 
 expression *differentiateMult(int diffID, expression *input, map VarMap) {
     if(input == NULL) {
-        fprintf(stderr, "NULL input on differentiateMult");
+        fprintf(stderr, "NULL input on differentiateMult \n");
         EXIT_FAILURE;
     }
     return plus(
@@ -37,7 +37,7 @@ expression *differentiateMult(int diffID, expression *input, map VarMap) {
 
 expression *differentiateDiv(int diffID, expression *input, map VarMap) {
     if(input == NULL) {
-        fprintf(stderr, "NULL input on differentiateDiv");
+        fprintf(stderr, "NULL input on differentiateDiv \n");
         EXIT_FAILURE;
     }
     expression *denominator;
@@ -49,17 +49,17 @@ expression *differentiateDiv(int diffID, expression *input, map VarMap) {
     nterm1 = mult(differntiateExpression(diffID, (*input).component1, VarMap), copy((*input).component2));
     nterm1 = mult(differntiateExpression(diffID, (*input).component2, VarMap), copy((*input).component1));
     numerator = minus(nterm1, nterm2);
-    return div(numerator, denominator);
+    return divide(numerator, denominator);
 }
 
 //d/dx f(x)^g(x) = (g(x)/f(x)+ln(f(x))*(d/dx g(x)))*f(x)^g(x)
-expression *differentiatePow(int diffID, expression *input map VarMap) { 
+expression *differentiatePow(int diffID, expression *input, map VarMap) { 
 	if(input == NULL) {
-        fprintf(stderr, "NULL input on differentiatePow");
+        fprintf(stderr, "NULL input on differentiatePow \n");
         EXIT_FAILURE;
     }
     //g(x)/f(x)
-    expression *frac1 = div(copy((*input).component2), copy((*input).component1));
+    expression *frac1 = divide(copy((*input).component2), copy((*input).component1));
     //ln(f(x))
     expression *term1 = logF(copy((*input).component1));
     //d/dx g(x)
@@ -70,46 +70,46 @@ expression *differentiatePow(int diffID, expression *input map VarMap) {
     return mult(mult1, input);
 }
 
-expression *differentiateSin(int diffID, expression *input map VarMap) { 
+expression *differentiateSin(int diffID, expression *input, map VarMap) { 
 	if(input == NULL) {
-        fprintf(stderr, "NULL input on differentiateSin");
+        fprintf(stderr, "NULL input on differentiateSin\n");
         EXIT_FAILURE;
     }
     return mult(differentiateExpression(diffID, (*input).component1, VarMap), cosF(copy((*input).component1)));
 }
 
-expression *differentiateCos(int diffID, expression *input map VarMap) { 
+expression *differentiateCos(int diffID, expression *input, map VarMap) { 
 	if(input == NULL) {
-		fprintf(stderr, "NULL input on differentiateCos");
+		fprintf(stderr, "NULL input on differentiateCos\n");
 		EXIT_FAILURE;
 	}
 	expression *prod = mult(differentiateExpression(diffID, (*input).component1, VarMap), createNum(-1));
 	return mult(prod, sinF(copy((*input).component1)));
 }
 
-expression *differentiateTan(int diffID, expression *input map VarMap) { 
+expression *differentiateTan(int diffID, expression *input, map VarMap) { 
 	if(input == NULL) {
-		fprintf(stderr, "NULL input on differentiateTan");
+		fprintf(stderr, "NULL input on differentiateTan\n");
 		EXIT_FAILURE;
 	}
 	expression *numerator = differentiateExpression(diffID, input->component1, VarMap);
-	expression *denominator = pow(cosF(copy(input->component1)), createNum(2));
-	return div(numerator, denominator);
+	expression *denominator = powF(cosF(copy(input->component1)), createNum(2));
+	return divide(numerator, denominator);
 }
 
-expression *differentiateLog(int diffID, expression *input map VarMap) { 
+expression *differentiateLog(int diffID, expression *input, map VarMap) { 
 	if(input == NULL) {
-		fprintf(stderr, "NULL input on differentiateLog");
+		fprintf(stderr, "NULL input on differentiateLog\n");
 		EXIT_FAILURE;
 	}
-	return div(createNum(1), copy((*input).component1));
+	return divide(createNum(1), copy((*input).component1));
 }
 
-expression *differentiateNum(int diffID, expression *input map VarMap) { 
+expression *differentiateNum(int diffID, expression *input, map VarMap) { 
 	return createNum(0);
 }
 
-expression *differentiateVar(int diffID, expression *input map VarMap) { 
+expression *differentiateVar(int diffID, expression *input, map VarMap) { 
 	if ((*input).content.Id == diffID) {
 		return createNum(1);
 	}
@@ -119,7 +119,7 @@ expression *differentiateVar(int diffID, expression *input map VarMap) {
 //this returns a *new* expression, which is the old expression differentiated along the indicated variable.
 expression *differentiateExpression (int diffID, expression *input, map VarMap) {
     if(input == NULL) {
-        fprintf(stderr, "NULL input on differentiateExpression");
+        fprintf(stderr, "NULL input on differentiateExpression\n");
         EXIT_FAILURE;
     }
     switch((*input).type) {

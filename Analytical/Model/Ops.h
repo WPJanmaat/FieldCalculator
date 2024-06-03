@@ -7,7 +7,7 @@
 expression *plus(expression *a, expression *b);
 expression *minus(expression *a, expression *b);
 expression *mult(expression *a, expression *b);
-expression *div(expression *a, expression *b);
+expression *divide(expression *a, expression *b);
 expression *powF(expression *a, expression *b);
 expression *sinF(expression *a);
 expression *cosF(expression *a);

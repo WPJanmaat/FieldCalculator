@@ -45,14 +45,14 @@ Vector interpTriLin(Field inputField, Vector position) {
         for (int j = 0; j <= 1; j ++ ) {
             Vector *holder = fieldGetPos(inputField, position, i, j, 0);
             if (holder == NULL) {
-                fprintf(stderr, "Null input on Fieldget in interpolation (out of bounds?)");
+                fprintf(stderr, "Null input on Fieldget in interpolation (out of bounds?)\n");
                 EXIT_FAILURE;    
             }
             Vector lowerVec = *holder;
 
             holder = fieldGetPos(inputField, position, i, j ,1);
             if (holder == NULL) {
-                fprintf(stderr, "Null input on Fieldget in interpolation (out of bounds?)");
+                fprintf(stderr, "Null input on Fieldget in interpolation (out of bounds?)\n");
                 EXIT_FAILURE;                
             }
             Vector higherVec = *holder;
