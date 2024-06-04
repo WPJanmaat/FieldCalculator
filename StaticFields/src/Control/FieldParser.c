@@ -53,6 +53,10 @@ Field ParseField(char *filepath, FieldProperties properties) {
     int yindex = 0;
     int zindex = 0;
 
+    output.lengthX = xsize-1;
+    output.lengthY = ysize-1;
+    output.lengthZ = zsize-1;
+
     //the function is quite verbose: each read is accompanied with an EOF check for ungraceful exits, no error handling is implemented, imperfect reads are carried on.
     do {
         do {
