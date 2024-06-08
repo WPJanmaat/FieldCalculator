@@ -1,6 +1,6 @@
 #include "Particle.h"
 #include "FieldModulate.h"
-#include "Field.h"
+#include "../../headers/Model/Field.h"
 
 void Simulate(Particle* ParticleList, Field ACField, Field DCField, int length, Parameters params, int report) {
     int i=0;

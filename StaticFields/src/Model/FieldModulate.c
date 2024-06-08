@@ -1,6 +1,6 @@
-#include "Parameters.h"
-#include "Vector.h"
-#include "Field.h"
+#include "../../headers/Model/Parameters.h"
+#include "../../headers/Model/Vector.h"
+#include "../../headers/Model/Field.h"
 #include "FieldModulate.h"
 #include "Interpolate.h"
 #include <math.h>

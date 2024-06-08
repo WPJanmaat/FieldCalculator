@@ -1,4 +1,4 @@
-#include "Particle.h"
+#include "../../headers/Model/Particle.h"
 #include <stdio.h>
 #include <stdlib.h>
 #define e 1.60217663*pow(10, -19)

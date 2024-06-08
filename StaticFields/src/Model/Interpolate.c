@@ -1,4 +1,4 @@
-#include "Interpolate.h"
+#include "../../headers/Model/Interpolate.h"
 /**interpolate a vector along a given axis
  * Parameters:
  * Vector a: the first (lower) vector

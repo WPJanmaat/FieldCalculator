@@ -1,0 +1,5 @@
+VPATH = ../src/*:../Tests/
+
+test: testMain.o tests.o parse.o
+
+parse.o

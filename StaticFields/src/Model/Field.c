@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "field.h"
+#include "../../headers/Model/Field"
 
 Vector *fieldGet(Field* input, int indexX, int indexY, int indexZ) {
     if(indexX < 0 || indexX >= (*input).lengthX){
