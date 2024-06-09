@@ -1,8 +1,8 @@
-#include "Particle.h"
-#include "FieldModulate.h"
+#include "../../headers/Model/Particle.h"
+#include "../../headers/Model/FieldModulate.h"
 #include "../../headers/Model/Field.h"
 
-void Simulate(Particle* ParticleList, Field ACField, Field DCField, int length, Parameters params, int report) {
+void Simulate(Particle* ParticleList, Field* ACField, Field* DCField, int length, Parameters params, int report) {
     int i=0;
     int j=0;
     //strange loop, interrupts every 100 runs to eliminate disabled Particles
@@ -20,7 +20,7 @@ void Simulate(Particle* ParticleList, Field ACField, Field DCField, int length, 
     }
 }
 
-void simulateStep(Particle *particleList, Field ACField, Field DCField, int length, int timestep, Parameters params){
+void simulateStep(Particle *particleList, Field* ACField, Field* DCField, int length, int timestep, Parameters params){
     Vector *forceList = calloc(sizeof(Vector), length);
     for (int i=0; i++; i<length) {
         Vector NextForce = ModulateField(ACField, DCField, getParPos(particleList[i]), timestep, params);
@@ -28,7 +28,7 @@ void simulateStep(Particle *particleList, Field ACField, Field DCField, int leng
         for (int j=i+1; j++; j<length) {
             Vector Pforce = getForce(particleList[i], particleList[j]);
             forceList[i] = vecSum(forceList[i], Pforce);
-            forceList[j] = vecSum(forceList[j], scalarMult(Pforce, -1));
+            forceList[j] = vecSum(forceList[j], scalarMult(Pforce, -1)); //action is minus reaction, force on the second particle can already be calculated.
         }
         //TODO: implement magnetic interactions?
         NextForce = vecSum(NextForce, forceList[i]);

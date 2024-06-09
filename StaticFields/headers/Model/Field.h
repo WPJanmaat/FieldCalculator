@@ -17,6 +17,10 @@ typedef struct Field {
     Vector ***FieldValues;
 } Field;
 
+/**
+ * Frees an input field, does not delete the struct, but frees the internal 3D array.
+ * @param Field Input: the field to be freed.
+*/
 void freeField(Field input);
 Vector *fieldGet(Field* input, int indexX, int indexY, int indexZ);
 #endif

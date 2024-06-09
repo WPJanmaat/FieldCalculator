@@ -1,5 +1,24 @@
-VPATH = ../src/*:../Tests/
+VPATH = ../src/Model/:../src/Control/:../Tests/:../headers/Model/:headers/Control/
 
-test: testMain.o tests.o parse.o
+SRCS_C = *.c
+SRCS_H = *.h
 
-parse.o
+SRCS = $(SRCS_C) $(SRCS_C) 
+
+Test: Vector.o Field.o TestMain.o Tests.o Parse.o
+	gcc -O2 -o ParseTest.exe vector.o field.o parse.o test.o 
+
+Vector.o: Vector.c Vector.h
+	gcc -c Vector.c Vector.h
+
+Field.o: Field.h Field.c
+	gcc -c Field.h Field.c
+
+Parse.o: FieldParser.h FieldProperites.h FieldParser.c
+	gcc -c FieldParser.h Fieldproperties.h FieldParser.c
+
+Test.o: tests.c tests.h
+	gcc -c tests.c tests.h
+
+TestMain.o: testMain.c
+	gcc -c testMain.c

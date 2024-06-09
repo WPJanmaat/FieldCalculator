@@ -4,6 +4,12 @@
 #include <stdlib.h>
 #ifndef INTERPOLATE_H
 #define INTERPOLATE_H
+//Helper function interpolating two vectors, fraction gives the distance between the vectors with 0 being at vector a and 1 at vector b
 Vector interpolateVec(Vector a, Vector b, long double fraction);
-Vector interpTriLin(Field inputField, Vector position);
+
+/**
+ * Interpolates (Triliniarly) a field around a given vector position
+ * @param Field* inputField: The field in which the interpolation takes place; @param Vector position: the position around which the interpolation is done
+*/
+Vector interpTriLin(Field* inputField, Vector position);
 #endif

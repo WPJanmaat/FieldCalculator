@@ -20,7 +20,7 @@ input:
 Field inputfield: the field from which values are teaken
 Vector position: the position on which interpolation is done
 */
-Vector interpTriLin(Field inputField, Vector position) {
+Vector interpTriLin(Field* inputField, Vector position) {
     //0 is lower, 1 is higher
     long double Xvals[2], Yvals[2], Zvals[2];
     //position.x/inputField.steplengthX
