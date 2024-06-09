@@ -10,6 +10,8 @@
  * @param Vecor coordinates: the given coordinates
  * @param int timestep: the timestep at which this evaluation takes place
  * @param Parameters params: the remaining (constant) simulation parameters.
+ * 
+ * @return The Electric field vector at the given coordinates.
 */
 Vector ModulateField(Field* ACField, Field* DCField, Vector coordinates, int timestep, Parameters params);
 #endif
