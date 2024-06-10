@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../../headers/Model/Field"
+#include "../../headers/Model/Field.h"
 
 Vector *fieldGet(Field* input, int indexX, int indexY, int indexZ) {
     if(indexX < 0 || indexX >= (*input).lengthX){
@@ -12,14 +12,14 @@ Vector *fieldGet(Field* input, int indexX, int indexY, int indexZ) {
     if(indexZ < 0 || indexZ >= (*input).lengthZ){
         return NULL;
     }
-    if(indexX == 0 | indexX == ((*input).lengthX-1)) fpritnf(stderr, "WARNING: field value collected at field edge X");
-    if(indexY == 0 | indexY == ((*input).lengthY-1)) fpritnf(stderr, "WARNING: field value collected at field edge Y");
-    if(indexZ == 0 | indexZ == ((*input).lengthZ-1)) fpritnf(stderr, "WARNING: field value collected at field edge Z");
+    if(indexX == 0 | indexX == ((*input).lengthX-1)) fprintf(stderr, "WARNING: field value collected at field edge X");
+    if(indexY == 0 | indexY == ((*input).lengthY-1)) fprintf(stderr, "WARNING: field value collected at field edge Y");
+    if(indexZ == 0 | indexZ == ((*input).lengthZ-1)) fprintf(stderr, "WARNING: field value collected at field edge Z");
     return ((*input).FieldValues[indexX][indexY]+indexZ);
 }
 
 //ordinary 3D array free for the held values.
-void freeField(Field (*input)) {
+void freeField(Field* input) {
     for (int i = 0; i<(*input).lengthX; i++) {
         for (int j = 0; j<(*input).lengthY; j++) {
             free((*input).FieldValues[i][j]);

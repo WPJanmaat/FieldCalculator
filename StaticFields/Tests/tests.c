@@ -1,5 +1,6 @@
 #include <assert.h>
 #include "tests.h"
+#include <windows.h>
 
 void CSVTest() {
     FieldProperties props;
@@ -15,9 +16,17 @@ void CSVTest() {
     props.Zend = 3.0000;
     props.Zstep = 0.1000;
 
-    Field testField = ParseField("./testFiles/TestField.csv", props);
+    Field testField = ParseField("./../Tests/testFiles/TestField.csv", props);
 
-    FILE* file = fopen("./testFiles/TestField.csv", "r");
+    FILE* file = fopen("./../Tests/testFiles/TestField.csv", "r");
+
+    if(file == NULL) {
+        printf("pain");
+        Sleep(10);
+        fprintf(stderr, "Failed to open File");
+        scanf("\n");
+        EXIT_FAILURE;
+    }
 
     long double dump;
     long double testX;
@@ -45,5 +54,9 @@ void CSVTest() {
     assert(testfile == EOF);
     printf("File successfully cleared.");
 
-    freeField(testField);
+    printf("Press any character to terminate");
+    free(file);
+    char loss = scanf("%c", &loss);
+
+    freeField(&testField);
 }

@@ -1,26 +1,37 @@
 #T.T
 
-VPATH = ../src/Model/:../src/Control/:../Tests/:../headers/Model/:headers/Control/
+#Filepath possibilities.
+vpath %.c ./../src/Model
+vpath %.c ./../src/Control
+vpath %.c ./../Tests 
+vpath %.h ./../headers/Model
+vpath %.h ./../headers/Control
+vpath %.h ./../Tests
+vpath %.c ./../
 
-SRCS_C = *.c
-SRCS_H = *.h
+vpath %.o ./../obj
 
-SRCS = $(SRCS_C) $(SRCS_C) 
+#Compiler specifications
+CC := gcc
 
-Test: Vector.o Field.o TestMain.o Tests.o Parse.o
-	gcc -O2 -o ParseTest.exe vector.o field.o parse.o test.o 
+OBJPATH = .\..\obj
 
-Vector.o: Vector.c Vector.h
-	gcc -c Vector.c Vector.h
 
-Field.o: Field.h Field.c
-	gcc -c Field.h Field.c
+MyTest : Vector.o Field.o FieldParser.o Tests.o TestMain.o
+	gcc -O2 -o ./../bin/ParseTest1.exe $^ 
 
-Parse.o: FieldParser.h FieldProperites.h FieldParser.c
-	gcc -c FieldParser.h Fieldproperties.h FieldParser.c
+Vector.o : Vector.c Vector.h
+	gcc -c $^ 
 
-Test.o: tests.c tests.h
-	gcc -c tests.c tests.h
+Field.o : Field.c Field.h 
+	gcc -c $^
 
-TestMain.o: testMain.c
-	gcc -c testMain.c
+Parse.o : FieldParser.c FieldParser.h FieldProperties.h 
+	gcc -c $^
+
+Tests.o : tests.c tests.h
+	gcc -c $^
+
+TestMain.o : testMain.c
+	gcc -c $^
+

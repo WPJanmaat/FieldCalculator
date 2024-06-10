@@ -21,7 +21,7 @@ typedef struct Field {
  * Frees an input field, does not delete the struct, but frees the internal 3D array.
  * @param Field Input: the field to be freed.
 */
-void freeField(Field input);
+void freeField(Field* input);
 
 /**
  * Gets the field values at a given index in the 3D array
@@ -42,7 +42,7 @@ Vector *fieldGet(Field* input, int indexX, int indexY, int indexZ);
  * @param int offsetY: the y offset in the array.
  * @param int offsetZ: the z offset in the array.
  * 
- * @return x,y,z are rounded to a the nearest values that have field values (xf,yf,zf respectively), then FieldValues[xf+offsetX][yf+offsetY][zf+offsetZ] is returned;
+ * @return x,y,z are rounded to down the nearest values that have field values (xf,yf,zf respectively), then FieldValues[xf+offsetX][yf+offsetY][zf+offsetZ] is returned;
 */
 Vector *fieldGetPos(Field* input, Vector position, int offsetX, int offsetY, int offsetZ);
 #endif

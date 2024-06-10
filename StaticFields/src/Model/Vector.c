@@ -1,5 +1,4 @@
 #include "../../headers/Model/Vector.h"
-#include "../../headers/Model/Field.h"
 #include <stdio.h>
 #include <stdlib.h>
 Vector vecSum(Vector a, Vector b){
