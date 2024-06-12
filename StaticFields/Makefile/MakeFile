@@ -18,7 +18,7 @@ OBJPATH = .\..\obj
 
 
 MyTest : Vector.o Field.o FieldParser.o Tests.o TestMain.o
-	gcc -O2 -o ./../bin/ParseTest1.exe $^ 
+	gcc -O2 -o ./../bin/ParseTest.exe $^ 
 
 Vector.o : Vector.c Vector.h
 	gcc -c $^ 
