@@ -1,7 +1,8 @@
 #include <assert.h>
 #include "tests.h"
-#include <windows.h>
-
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 void CSVTest() {
     FieldProperties props;
     props.XStart = -3.0000;
@@ -22,7 +23,6 @@ void CSVTest() {
 
     if(file == NULL) {
         printf("pain");
-        Sleep(10);
         fprintf(stderr, "Failed to open File");
         scanf("\n");
         EXIT_FAILURE;
