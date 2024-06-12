@@ -12,26 +12,31 @@ vpath %.c ./../
 vpath %.o ./../obj
 
 #Compiler specifications
-CC := gcc
+#CC := gcc
+CC := x86_64-w64-mingw32-gcc
 
 OBJPATH = .\..\obj
 
 
 MyTest : Vector.o Field.o FieldParser.o Tests.o TestMain.o
+<<<<<<< HEAD
 	gcc -O2 -o ./../bin/ParseTest.exe $^ 
+=======
+	$(CC) -O2 -o ./../bin/ParseTest1.exe $^ 
+>>>>>>> c60750ef8df35c40d843c67f7c34c72b765dd327
 
 Vector.o : Vector.c Vector.h
-	gcc -c $^ 
+	$(CC) -c $^ 
 
 Field.o : Field.c Field.h 
-	gcc -c $^
+	$(CC) -c $^
 
 Parse.o : FieldParser.c FieldParser.h FieldProperties.h 
-	gcc -c $^
+	$(CC) -c $^
 
 Tests.o : tests.c tests.h
-	gcc -c $^
+	$(CC) -c $^
 
 TestMain.o : testMain.c
-	gcc -c $^
+	$(CC) -c $^
 
