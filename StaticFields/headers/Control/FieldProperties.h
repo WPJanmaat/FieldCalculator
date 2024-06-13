@@ -3,17 +3,17 @@
 #define FIELDPROPERTIES_H
 
 typedef struct FieldProperties {
-    long double XStart;
-    long double Xend;
-    long double Xstep;
+    double XStart;
+    double Xend;
+    double Xstep;
     
-    long double YStart;
-    long double Yend;
-    long double Ystep;
+    double YStart;
+    double Yend;
+    double Ystep;
 
-    long double ZStart;
-    long double Zend;
-    long double Zstep;
+    double ZStart;
+    double Zend;
+    double Zstep;
 } FieldProperties;
 
 #endif

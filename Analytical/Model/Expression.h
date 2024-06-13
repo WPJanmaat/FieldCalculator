@@ -12,7 +12,7 @@ typedef struct expression {
 typedef struct variable {
     char *name;
     int length;
-    long double value;
+    double value;
     char declared; //indicates whether the variable has been declared for evaluation.
 } variable;
 
@@ -20,8 +20,8 @@ typedef union Contents {
     //of use only when the expression is a unitary variable
     int Id;
     //only for constants or variable computation.
-    long double value;
+    double value;
 } value;
 
-expression *createNum(long double value);
+expression *createNum(double value);
 #endif

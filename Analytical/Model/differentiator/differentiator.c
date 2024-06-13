@@ -10,7 +10,7 @@
 expression *differentiatePlus(int diffID, expression *input, map VarMap) {
     if(input == NULL) {
         fprintf(stderr, "NULL input on differentiatePlus \n");
-        EXIT_FAILURE;
+        exit(EXIT_FAILURE);
     }
     return plus(differentiateExpression(diffID, (*input).component1, VarMap), 
                 differentiateExpression(diffID, (*input).component2, VarMap));
@@ -19,7 +19,7 @@ expression *differentiatePlus(int diffID, expression *input, map VarMap) {
 expression *differentiateMinus(int diffID, expression *input, map VarMap) {
     if(input == NULL) {
         fprintf(stderr, "NULL input on differentiateMinus \n");
-        EXIT_FAILURE;
+        exit(EXIT_FAILURE);
     }
     return minus(differentiateExpression(diffID, (*input).component1, VarMap), 
                 differentiateExpression(diffID, (*input).component2, VarMap));
@@ -28,7 +28,7 @@ expression *differentiateMinus(int diffID, expression *input, map VarMap) {
 expression *differentiateMult(int diffID, expression *input, map VarMap) {
     if(input == NULL) {
         fprintf(stderr, "NULL input on differentiateMult \n");
-        EXIT_FAILURE;
+        exit(EXIT_FAILURE);
     }
     return plus(
             mult(differentiateExpression(diffID, (*input).component1, VarMap), copy((*input).component2)), 
@@ -38,7 +38,7 @@ expression *differentiateMult(int diffID, expression *input, map VarMap) {
 expression *differentiateDiv(int diffID, expression *input, map VarMap) {
     if(input == NULL) {
         fprintf(stderr, "NULL input on differentiateDiv \n");
-        EXIT_FAILURE;
+        exit(EXIT_FAILURE);
     }
     expression *denominator;
     //I trust the pow() function to be intelligent.
@@ -56,7 +56,7 @@ expression *differentiateDiv(int diffID, expression *input, map VarMap) {
 expression *differentiatePow(int diffID, expression *input, map VarMap) { 
 	if(input == NULL) {
         fprintf(stderr, "NULL input on differentiatePow \n");
-        EXIT_FAILURE;
+        exit(EXIT_FAILURE);
     }
     //g(x)/f(x)
     expression *frac1 = divide(copy((*input).component2), copy((*input).component1));
@@ -73,7 +73,7 @@ expression *differentiatePow(int diffID, expression *input, map VarMap) {
 expression *differentiateSin(int diffID, expression *input, map VarMap) { 
 	if(input == NULL) {
         fprintf(stderr, "NULL input on differentiateSin\n");
-        EXIT_FAILURE;
+        exit(EXIT_FAILURE);
     }
     return mult(differentiateExpression(diffID, (*input).component1, VarMap), cosF(copy((*input).component1)));
 }
@@ -81,7 +81,7 @@ expression *differentiateSin(int diffID, expression *input, map VarMap) {
 expression *differentiateCos(int diffID, expression *input, map VarMap) { 
 	if(input == NULL) {
 		fprintf(stderr, "NULL input on differentiateCos\n");
-		EXIT_FAILURE;
+		exit(EXIT_FAILURE);
 	}
 	expression *prod = mult(differentiateExpression(diffID, (*input).component1, VarMap), createNum(-1));
 	return mult(prod, sinF(copy((*input).component1)));
@@ -90,7 +90,7 @@ expression *differentiateCos(int diffID, expression *input, map VarMap) {
 expression *differentiateTan(int diffID, expression *input, map VarMap) { 
 	if(input == NULL) {
 		fprintf(stderr, "NULL input on differentiateTan\n");
-		EXIT_FAILURE;
+		exit(EXIT_FAILURE);
 	}
 	expression *numerator = differentiateExpression(diffID, input->component1, VarMap);
 	expression *denominator = powF(cosF(copy(input->component1)), createNum(2));
@@ -100,7 +100,7 @@ expression *differentiateTan(int diffID, expression *input, map VarMap) {
 expression *differentiateLog(int diffID, expression *input, map VarMap) { 
 	if(input == NULL) {
 		fprintf(stderr, "NULL input on differentiateLog\n");
-		EXIT_FAILURE;
+		exit(EXIT_FAILURE);
 	}
 	return divide(createNum(1), copy((*input).component1));
 }
@@ -120,7 +120,7 @@ expression *differentiateVar(int diffID, expression *input, map VarMap) {
 expression *differentiateExpression (int diffID, expression *input, map VarMap) {
     if(input == NULL) {
         fprintf(stderr, "NULL input on differentiateExpression\n");
-        EXIT_FAILURE;
+        exit(EXIT_FAILURE);
     }
     switch((*input).type) {
         case Plus:

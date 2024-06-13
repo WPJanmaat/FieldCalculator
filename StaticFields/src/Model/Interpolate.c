@@ -3,9 +3,9 @@
  * Parameters:
  * Vector a: the first (lower) vector
  * Vector b: the second (higher) vector
- * long double fraction: the fraction of the distance between a and b where the interpolation point resides
+ * double fraction: the fraction of the distance between a and b where the interpolation point resides
 */
-Vector interpolateVec(Vector a, Vector b, long double fraction) {
+Vector interpolateVec(Vector a, Vector b, double fraction) {
     Vector result;
     Vector component;
     component = vecMin(b, a);
@@ -22,7 +22,7 @@ Vector position: the position on which interpolation is done
 */
 Vector interpTriLin(Field* inputField, Vector position) {
     //0 is lower, 1 is higher
-    long double Xvals[2], Yvals[2], Zvals[2];
+    double Xvals[2], Yvals[2], Zvals[2];
     //position.x/inputField.steplengthX
     Xvals[0] = floor(getVecValue(position, x));
     Xvals[1] = ceil(getVecValue(position, x));
@@ -32,7 +32,7 @@ Vector interpTriLin(Field* inputField, Vector position) {
     Zvals[1] = ceil(getVecValue(position, z));
 
     //only used to extract the positional fraction.
-    long double fracX, fracY, fracZ;
+    double fracX, fracY, fracZ;
     fracX = (getVecValue(position, x)-Xvals[0])/(Xvals[1]-Xvals[0]);
     fracY = (getVecValue(position, y)-Yvals[0])/(Yvals[1]-Yvals[0]);
     fracZ = (getVecValue(position, z)-Zvals[0])/(Zvals[1]-Zvals[0]);
@@ -46,14 +46,14 @@ Vector interpTriLin(Field* inputField, Vector position) {
             Vector *holder = fieldGetPos(inputField, position, i, j, 0);
             if (holder == NULL) {
                 fprintf(stderr, "Null input on Fieldget in interpolation (out of bounds?)\n");
-                EXIT_FAILURE;    
+                exit(EXIT_FAILURE);    
             }
             Vector lowerVec = *holder;
 
             holder = fieldGetPos(inputField, position, i, j ,1);
             if (holder == NULL) {
                 fprintf(stderr, "Null input on Fieldget in interpolation (out of bounds?)\n");
-                EXIT_FAILURE;                
+                exit(EXIT_FAILURE);                
             }
             Vector higherVec = *holder;
             partials[j] = interpolateVec(lowerVec, higherVec, fracZ);

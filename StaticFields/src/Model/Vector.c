@@ -17,14 +17,14 @@ Vector vecMin(Vector a, Vector b) {
     result.z = a.z - b.z;
 }
 
-Vector scalarMult(Vector a, long double mult) {
+Vector scalarMult(Vector a, double mult) {
     Vector result;
     result.x = a.x*mult;
     result.y = a.y*mult;
     result.z = a.z*mult;
 }
 
-Vector scalarDiv(Vector a, long double divisor) {
+Vector scalarDiv(Vector a, double divisor) {
     Vector result;
     result.x = a.x/divisor;
     result.y = a.y/divisor;
@@ -32,11 +32,11 @@ Vector scalarDiv(Vector a, long double divisor) {
     return result;
 }
 
-long double dotProduct(Vector a, Vector b) {
+double dotProduct(Vector a, Vector b) {
     return a.x*b.x+a.y*b.y+a.z*b.z;
 }
 
-long double getVecValue(Vector a, dimension dim) {
+double getVecValue(Vector a, dimension dim) {
     switch(dim) {
         case x:
             return a.x;
@@ -50,7 +50,7 @@ long double getVecValue(Vector a, dimension dim) {
     }
     //This should *never* be reached.
     fprintf(stderr, "something went horribly wrong in getVecValue\n");
-    EXIT_FAILURE;
+    exit(EXIT_FAILURE);
     return 0;
 }
 
@@ -63,5 +63,5 @@ Vector zeroVector() {
 }
 
 void printVector(Vector a) {
-    printf("x: %f.5, y: %f.5, z: %f.5\n", a.x, a.y, a.z);
+    printf("x: %lf, y: %lf, z: %lf\n", a.x, a.y, a.z);
 }

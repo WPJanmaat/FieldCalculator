@@ -3,21 +3,21 @@ NB: the dimensionality of the trap is decided by the input fields (generated fro
 #define pi 3.14159265359
 
 typedef struct Parameters {
-    long double DCV;
-    long double ACV;
-    long double freq;
-    long double pressure;
-    long double dt;
+    double DCV;
+    double ACV;
+    double freq;
+    double pressure;
+    double dt;
 
-    long double startTime;
-    long double endTime;
+    double startTime;
+    double endTime;
 
     //boundary condition for the sim, exceeding this will disable (and ultimately remove) the violating particle.
     //Upper = higher, lower = ...lower (i.e. higherX>lowerX)
-    long double upperX;
-    long double lowerX;
-    long double upperY;
-    long double lowerY;
-    long double upperZ;
-    long double lowerZ;
+    double upperX;
+    double lowerX;
+    double upperY;
+    double lowerY;
+    double upperZ;
+    double lowerZ;
 } Parameters;

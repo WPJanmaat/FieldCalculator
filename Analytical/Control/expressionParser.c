@@ -49,7 +49,7 @@ expression *ParseFactor(char *input, int length) {
     }
     if (output == NULL){
         fprintf(stderr, "Invalid expression; empty expression or empty parantheses?\n");
-        EXIT_FAILURE;
+        exit(EXIT_FAILURE);
     }
     return(output);
 }

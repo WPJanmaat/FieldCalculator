@@ -11,7 +11,7 @@ Particle* ListRelease(Particle* types, int* numP, int numTypes, Vector* position
 
     if(position == NULL) {
         fprintf(stderr, "Invalid input on ParticleList positions\n");
-        EXIT_FAILURE;
+        exit(EXIT_FAILURE);
     }
     for(int i=0; i<numTypes; i++) {
         for(int j=0; j<numP[i]; j++) {
@@ -23,7 +23,7 @@ Particle* ListRelease(Particle* types, int* numP, int numTypes, Vector* position
 }
 
 //grid release of particles (stationary)
-Particle* GridRelease(Particle* types, int* numP, int numTypes, long double distance) {
+Particle* GridRelease(Particle* types, int* numP, int numTypes, double distance) {
     int totalParticles = 0;
     if(totalParticles == 0) return NULL;
     for (int i=0; i<numTypes; i++) totalParticles+=numP[i];
@@ -121,14 +121,14 @@ Particle* GridRelease(Particle* types, int* numP, int numTypes, long double dist
  * Particle* types: list of particles to be released,
  * int* numP: the number of particles for each type to be released,
  * int numTypes: the number of types of particles (length of types), 
- * long double distance: interparticle distance (for grid),
+ * double distance: interparticle distance (for grid),
  * Release type: type of particle release, 
  * Vector* position: For list release, gives position of each particle to be released, can be NULL for any non-list types,
  * Vector* velocities: similarly for list release, can be NULL even for list types, will default to 0 if null.
  * 
  * Return: Particle* array of particles released.
 */
-Particle* ParticleRelease(Particle* types, int* numP, int numTypes, long double distance, Release type, Vector* position, Vector* velocities) {
+Particle* ParticleRelease(Particle* types, int* numP, int numTypes, double distance, Release type, Vector* position, Vector* velocities) {
     switch (type) {
         case grid:
             return GridRelease(types, numP, numTypes, distance);
@@ -139,7 +139,7 @@ Particle* ParticleRelease(Particle* types, int* numP, int numTypes, long double 
 
         default:
             fprintf(stderr, "undefined or unimplememented release type\n");
-            EXIT_FAILURE;
+            exit(EXIT_FAILURE);
             break;
     }
 }

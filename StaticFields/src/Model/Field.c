@@ -32,11 +32,11 @@ void freeField(Field* input) {
 //gets field vector at a given position (rounded down), X, Y and Z offset included
 Vector *fieldGetPos(Field* input, Vector position, int offsetX, int offsetY, int offsetZ) {
     //initialisation to prevent object.value in the calculations
-    long double Xstart = (*input).startX;
-    long double Ystart = (*input).startY;
-    long double Zstart = (*input).startZ;
-    long double xpos, ypos, zpos;
-    long double stepX, stepY, stepZ;
+    double Xstart = (*input).startX;
+    double Ystart = (*input).startY;
+    double Zstart = (*input).startZ;
+    double xpos, ypos, zpos;
+    double stepX, stepY, stepZ;
     xpos = getVecValue(position, x);
     ypos = getVecValue(position, y);
     zpos = getVecValue(position, z);

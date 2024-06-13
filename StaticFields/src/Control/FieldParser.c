@@ -12,15 +12,15 @@ Field ParseField(char *filepath, FieldProperties properties) {
         printf("pain");
         fprintf(stderr, "Failed to open File");
         scanf("\n");
-        EXIT_FAILURE;
+        exit(EXIT_FAILURE);
     } else {
         printf("file opened!\n");
     }
 
     Field output;
-    long double Xstep = properties.Xstep;
-    long double Ystep = properties.Ystep;
-    long double Zstep = properties.Zstep;
+    double Xstep = properties.Xstep;
+    double Ystep = properties.Ystep;
+    double Zstep = properties.Zstep;
 
     //preliminary readings
     output.startX = properties.XStart;
@@ -34,8 +34,9 @@ Field ParseField(char *filepath, FieldProperties properties) {
 
     //this could be updated to include 2D fields.
     if(Xstep == 0 || Ystep == 0 || Zstep == 0) {
+        printf("xstep: %lf, ystep: %lf, zstep: %lf\n");
         fprintf(stderr, "0 steplength for X, Y or Z is not allowed in this program, please use a valid 3D field\n");
-        EXIT_FAILURE;
+        exit(EXIT_FAILURE);
     }
 
     //distrust of floating point inaccuracies.
@@ -55,12 +56,12 @@ Field ParseField(char *filepath, FieldProperties properties) {
 
     int check; //for EOF check
     //preliminary declarations for the loop
-    long double currentZ;
-    long double currentY;
-    long double currentX;
-    long double newZ = properties.ZStart;
-    long double newY = properties.YStart;
-    long double newX = properties.XStart;
+    double currentZ;
+    double currentY;
+    double currentX;
+    double newZ = properties.ZStart;
+    double newY = properties.YStart;
+    double newX = properties.XStart;
     int xindex = 0;
     int yindex = 0;
     int zindex = 0;
@@ -77,50 +78,50 @@ Field ParseField(char *filepath, FieldProperties properties) {
                 currentX = newX; 
                 currentY = newY; 
                 currentZ = newZ; 
-                check = fscanf(file, "%Lf,", &newX); // read X position
-
-                if (check == 0) fprintf(stderr, "Warning, failed to read new X position at X: %d, Y: %d, Z: %d \n", xindex, yindex, zindex);
+                check = fscanf(file, "%lf,%lf,%lf,%lf,%lf,%lf\n", &newX, &newY, &newZ, &(newVec.x), &(newVec.y), &(newVec.z)); // read X position
+                if (check < 6) fprintf(stderr, "Warning, failed to read %d values at X: %d, Y: %d, Z: %d \n", (6-check), xindex, yindex, zindex);
                 //if there is a graceful break, it is here.
-                if (check == EOF) break;
-
-                check = fscanf(file, "%Lf,", &newY); // read Y position
+                
+/*
+                check = fscanf(file, "%lf,", &newY); // read Y position
                 if (check == 0) fprintf(stderr, "Warning, failed to read new Y position at X: %d, Y: %d, Z: %d \n", xindex, yindex, zindex);
-                if (check == EOF) {
-                    fprintf(stderr, "Warning, ungraceful break while reading new Y position at X: %d, Y: %d, Z: %d \n", xindex, yindex, zindex);
-                    break;
-                }
 
-                check = fscanf(file, "%Lf,", &newZ); // read Z position
+                check = fscanf(file, "%lf,", &newZ); // read Z position
                 if (check == 0) fprintf(stderr, "Warning, failed to read new Z position at X: %d, Y: %d, Z: %d \n", xindex, yindex, zindex);
-                if (check == EOF) {
+                if (feof(file)) {
                     fprintf(stderr, "Warning, ungraceful break while reading new Z position at X: %d, Y: %d, Z: %d \n", xindex, yindex, zindex);
                     break;
                 }
 
-                check = fscanf(file, "%Lf,", &(newVec.x)); // read X value
+                check = fscanf(file, "%lf,", &(newVec.x)); // read X value
                 if (check == 0) fprintf(stderr, "Warning, failed to read new X value at X: %d, Y: %d, Z: %d \n", xindex, yindex, zindex);
-                if (check == EOF) {
+                if (feof(file)) {
                     fprintf(stderr, "Warning, ungraceful break while reading new X value at X: %d, Y: %d, Z: %d \n", xindex, yindex, zindex);
                     break;
                 }
 
-                check = fscanf(file, "%Lf,", &(newVec.y)); // read Y value
+                check = fscanf(file, "%lf,", &(newVec.y)); // read Y value
                 if (check == 0) fprintf(stderr, "Warning, failed to read new Y value at X: %d, Y: %d, Z: %d \n", xindex, yindex, zindex);
-                if (check == EOF) {
+                if (feof(file)) {
                     fprintf(stderr, "Warning, ungraceful break while reading new Y value at X: %d, Y: %d, Z: %d \n", xindex, yindex, zindex);
                     break;
                 }
 
-                check = fscanf(file, "%Lf\n", &(newVec.z)); // read Z value
+                check = fscanf(file, "%lf\n", &(newVec.z)); // read Z value
                 if (check == 0) fprintf(stderr, "Warning, failed to read new Z value at X: %d, Y: %d, Z: %d \n", xindex, yindex, zindex);
-                if (check == EOF) {
+                if (feof(file)) {
                     fprintf(stderr, "Warning, ungraceful break while reading new Z value at X: %d, Y: %d, Z: %d \n", xindex, yindex, zindex);
                     break;
                 }
-
+*/
                 output.FieldValues[xindex][yindex][zindex] = newVec;
+                printVector(newVec);
+                printf("field[%d][%d][%d]: x: %f y: %f  z: %f\n",xindex, yindex, zindex, newVec.x, newVec.y, newVec.z);
                 xindex++;
-
+                if (feof(file)) {
+                    fprintf(stderr, "Warning, ungraceful break while reading new Y position at X: %d, Y: %d, Z: %d \n", xindex, yindex, zindex);
+                    break;
+                }
                 //size checks
                 //this *should* only happen once at most, but floating points are not to be trusted.
                 if(xindex > xsize) {
@@ -130,11 +131,9 @@ Field ParseField(char *filepath, FieldProperties properties) {
                 if(output.lengthX <= xindex) {
                     output.lengthX = xindex+1;
                 }
-                printf("x: %d\n",xindex);
-            } while ((Xstep < 0 && newX < (currentX - (Xstep/2))) ||(Xstep > 0 && newX > (currentX + (Xstep/2))));
-            
+            } while ((Xstep < 0 && newX < (currentX - (Xstep/2))) || (Xstep > 0 && newX > (currentX - (Xstep/2))));
             //for exit.
-            if(check == EOF) break;
+            if(feof(file)) break;
             yindex++;
             //size checks
             if(yindex > ysize) {
@@ -146,7 +145,7 @@ Field ParseField(char *filepath, FieldProperties properties) {
             }
             xindex = 0;
         printf("y: %d\n",yindex);
-        } while ((Ystep < 0 && newY < (currentY - (Ystep/2))) ||(Ystep > 0 && newY > (currentY + (Ystep/2))));
+        } while ((Ystep < 0 && newY < (currentY - (Ystep/2))) || (Ystep > 0 && newY > (currentY - (Ystep/2))));
     
     if(zindex>zsize) {
         zsize +=100;
@@ -157,8 +156,8 @@ Field ParseField(char *filepath, FieldProperties properties) {
     }
     yindex = 0;
     printf("z: %d\n",zindex);
-    } while (check != EOF);
+    } while (!feof(file));
     printf("read complete");
-    free(file);
+    fclose(file);
     return output;
 }

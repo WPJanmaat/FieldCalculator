@@ -9,7 +9,7 @@ Vector getParPos(Particle p) {
 
 //Electric Coulomb force of a on b (= - b on a)
 Vector getForce(Particle a, Particle b) {
-    long double chargeForce = a.charge + b.charge * e;
+    double chargeForce = a.charge + b.charge * e;
     Vector output = scalarMult(vecMin(b.position, a.position), chargeForce);
     return output;
 }
@@ -46,7 +46,7 @@ int eliminateParticles(Particle* ParticleList, int length) {
     return length;
 }
 
-Particle createParticle(int charge, long double mass, long double impactParameter) {
+Particle createParticle(int charge, double mass, double impactParameter) {
     Particle ReturnParticle;
     ReturnParticle.enabled = 1;
     ReturnParticle.charge = charge;
