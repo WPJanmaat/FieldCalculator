@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <Windows.h>
 void CSVTest() {
     FieldProperties props;
     props.XStart = -3.0000;
@@ -28,30 +29,34 @@ void CSVTest() {
         exit(EXIT_FAILURE);
     }
 
-    double dump;
+    double dump1, dump2, dump3;
     double testX;
     double testY;
     double testZ;
-    for(int i = 0; i<testField.lengthX; i++) {
-        for(int j = 0; testField.lengthY; j++) {
-            for (int k = 0; testField.lengthZ; k++) {
-                fscanf(file, "%lf,", &dump);
-                fscanf(file, "%lf,", &dump);
-                fscanf(file, "%lf,", &dump);
-                fscanf(file, "%lf,", &testX);
-                fscanf(file, "%lf,", &testY);
-                fscanf(file, "%lf\n", &testZ);
-                assert(testX != testField.FieldValues[i][j][k].x);
-                printf("Test found difference between read x value: %lf and second round: %lf\n", testField.FieldValues[i][j][k].x, testX);
-                assert(testX != testField.FieldValues[i][j][k].y);
-                printf("Test found difference between read y value: %lf and second round: %lf\n", testField.FieldValues[i][j][k].x, testY);
-                assert(testX != testField.FieldValues[i][j][k].z);
-                printf("Test found difference between read z value: %lf and second round: %lf\n", testField.FieldValues[i][j][k].x, testZ);
+    for(int k = 0; k<testField.lengthX; k++) {
+        for(int j = 0; j<testField.lengthY; j++) {
+            for (int i = 0; i<testField.lengthZ; i++) {
+                fscanf(file, "%lf,%lf,%lf,%lf,%lf,%lf\n", &dump1, &dump2, &dump3, &testX, &testY, &testZ); // read X position
+                if(testX != testField.FieldValues[i][j][k].x) {
+                    printf("Test found difference between read x value: %lf and second parse: %lf\n", testField.FieldValues[i][j][k].x, testX);
+                    Sleep(5);
+                }
+                if(testY != testField.FieldValues[i][j][k].y) {
+                    printf("Test found difference between read y value: %lf and second parse: %lf\n", testField.FieldValues[i][j][k].y, testY);
+                    Sleep(5);
+                }
+                if(testZ != testField.FieldValues[i][j][k].z) { 
+                    printf("Test found difference between read z value: %lf and second parse: %lf\n", testField.FieldValues[i][j][k].z, testZ);
+                    Sleep(5);
+                }
+                if(feof(file)) {
+                    printf("Failed to completee read\n");
+                    break;
+                }
             }
         }
     }
-    int testfile = fscanf(file, "%lf", &dump);
-    assert(testfile == EOF);
+    assert(feof(file));
     printf("File successfully cleared.");
 
     printf("Press any character to terminate");

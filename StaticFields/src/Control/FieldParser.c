@@ -40,9 +40,9 @@ Field ParseField(char *filepath, FieldProperties properties) {
     }
 
     //distrust of floating point inaccuracies.
-    int xsize = (int)(((properties.Xend-properties.XStart)/Xstep)+1);
-    int ysize = (int)(((properties.Yend-properties.YStart)/Ystep)+1);
-    int zsize =(int)(((properties.Zend-properties.ZStart)/Zstep)+1);
+    int xsize = (int)(((properties.Xend-properties.XStart)/Xstep)+2);
+    int ysize = (int)(((properties.Yend-properties.YStart)/Ystep)+2);
+    int zsize =(int)(((properties.Zend-properties.ZStart)/Zstep)+2);
 
     //initialise arrays based on (hopefully good) size estimates.
     //the floating poitns here are a headache
@@ -56,9 +56,9 @@ Field ParseField(char *filepath, FieldProperties properties) {
 
     int check; //for EOF check
     //preliminary declarations for the loop
-    double currentZ;
-    double currentY;
-    double currentX;
+    double currentZ, vecZ;
+    double currentY, vecY;
+    double currentX, vecX;
     double newZ = properties.ZStart;
     double newY = properties.YStart;
     double newX = properties.XStart;
@@ -78,65 +78,42 @@ Field ParseField(char *filepath, FieldProperties properties) {
                 currentX = newX; 
                 currentY = newY; 
                 currentZ = newZ; 
-                check = fscanf(file, "%lf,%lf,%lf,%lf,%lf,%lf\n", &newX, &newY, &newZ, &(newVec.x), &(newVec.y), &(newVec.z)); // read X position
+                if (feof(file)) {
+                    fprintf(stderr, "Warning, ungraceful break while reading new values at X: %d, Y: %d, Z: %d \n", xindex, yindex, zindex);
+                    break;
+                }
+                check = fscanf(file, "%lf,%lf,%lf,%lf,%lf,%lf\n", &newX, &newY, &newZ, &(vecX), &(vecY), &(vecZ)); // read X position
                 if (check < 6) fprintf(stderr, "Warning, failed to read %d values at X: %d, Y: %d, Z: %d \n", (6-check), xindex, yindex, zindex);
                 //if there is a graceful break, it is here.
-                
-/*
-                check = fscanf(file, "%lf,", &newY); // read Y position
-                if (check == 0) fprintf(stderr, "Warning, failed to read new Y position at X: %d, Y: %d, Z: %d \n", xindex, yindex, zindex);
-
-                check = fscanf(file, "%lf,", &newZ); // read Z position
-                if (check == 0) fprintf(stderr, "Warning, failed to read new Z position at X: %d, Y: %d, Z: %d \n", xindex, yindex, zindex);
-                if (feof(file)) {
-                    fprintf(stderr, "Warning, ungraceful break while reading new Z position at X: %d, Y: %d, Z: %d \n", xindex, yindex, zindex);
-                    break;
-                }
-
-                check = fscanf(file, "%lf,", &(newVec.x)); // read X value
-                if (check == 0) fprintf(stderr, "Warning, failed to read new X value at X: %d, Y: %d, Z: %d \n", xindex, yindex, zindex);
-                if (feof(file)) {
-                    fprintf(stderr, "Warning, ungraceful break while reading new X value at X: %d, Y: %d, Z: %d \n", xindex, yindex, zindex);
-                    break;
-                }
-
-                check = fscanf(file, "%lf,", &(newVec.y)); // read Y value
-                if (check == 0) fprintf(stderr, "Warning, failed to read new Y value at X: %d, Y: %d, Z: %d \n", xindex, yindex, zindex);
-                if (feof(file)) {
-                    fprintf(stderr, "Warning, ungraceful break while reading new Y value at X: %d, Y: %d, Z: %d \n", xindex, yindex, zindex);
-                    break;
-                }
-
-                check = fscanf(file, "%lf\n", &(newVec.z)); // read Z value
-                if (check == 0) fprintf(stderr, "Warning, failed to read new Z value at X: %d, Y: %d, Z: %d \n", xindex, yindex, zindex);
-                if (feof(file)) {
-                    fprintf(stderr, "Warning, ungraceful break while reading new Z value at X: %d, Y: %d, Z: %d \n", xindex, yindex, zindex);
-                    break;
-                }
-*/
-                output.FieldValues[xindex][yindex][zindex] = newVec;
-                printVector(newVec);
-                printf("field[%d][%d][%d]: x: %f y: %f  z: %f\n",xindex, yindex, zindex, newVec.x, newVec.y, newVec.z);
-                xindex++;
-                if (feof(file)) {
-                    fprintf(stderr, "Warning, ungraceful break while reading new Y position at X: %d, Y: %d, Z: %d \n", xindex, yindex, zindex);
-                    break;
-                }
                 //size checks
                 //this *should* only happen once at most, but floating points are not to be trusted.
-                if(xindex > xsize) {
-                    xsize += 100;
-                    output.FieldValues = realloc(output.FieldValues, sizeof(Vector**)*xsize);
+                newVec.x = vecX;
+                newVec.y = vecY;
+                newVec.z = vecZ;
+                if(xindex >= xsize) {
+                    printf("resize");
+                    int newXsize = xsize+100;
+                    output.FieldValues = realloc(output.FieldValues, sizeof(Vector**)*newXsize);
+                    for (int i = xsize; i<newXsize; i++) {
+                        output.FieldValues[i] = calloc(sizeof(Vector*), ysize);
+                        for (int j = 0; j< ysize; j++) {
+                            output.FieldValues[i][j] = calloc(sizeof(Vector), zsize);
+                        }
+                    }
+                    xsize = newXsize;
                 }
                 if(output.lengthX <= xindex) {
                     output.lengthX = xindex+1;
                 }
+                output.FieldValues[xindex][yindex][zindex] = newVec;
+                xindex++;
             } while ((Xstep < 0 && newX < (currentX - (Xstep/2))) || (Xstep > 0 && newX > (currentX - (Xstep/2))));
             //for exit.
             if(feof(file)) break;
             yindex++;
             //size checks
             if(yindex > ysize) {
+                printf("resize(y)");
                 ysize += 100;
                 output.FieldValues[xindex] = realloc(output.FieldValues[xindex], sizeof(Vector*)*xsize);
             }
@@ -144,20 +121,22 @@ Field ParseField(char *filepath, FieldProperties properties) {
                 output.lengthY = yindex+1;
             }
             xindex = 0;
-        printf("y: %d\n",yindex);
         } while ((Ystep < 0 && newY < (currentY - (Ystep/2))) || (Ystep > 0 && newY > (currentY - (Ystep/2))));
     
-    if(zindex>zsize) {
-        zsize +=100;
-        output.FieldValues[xindex][yindex] = realloc(output.FieldValues[xindex][yindex], sizeof(Vector)*zsize);
-    }
-    if(output.lengthZ <= yindex) {
-        output.lengthZ = zindex +1;
-    }
-    yindex = 0;
-    printf("z: %d\n",zindex);
+        if(zindex>zsize) {
+            printf("resize(z)");
+            zsize +=100;
+            output.FieldValues[xindex][yindex] = realloc(output.FieldValues[xindex][yindex], sizeof(Vector)*zsize);
+        }
+        if(output.lengthZ <= yindex) {
+            output.lengthZ = zindex +1;
+        }
+        yindex = 0;
+        zindex++;
     } while (!feof(file));
-    printf("read complete");
+
+    printf("read complete\n");
+
     fclose(file);
     return output;
 }
