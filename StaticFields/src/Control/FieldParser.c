@@ -70,6 +70,14 @@ Field ParseField(char *filepath, FieldProperties properties) {
     output.lengthY = ysize-1;
     output.lengthZ = zsize-1;
 
+    if(feof(file)) {
+        fprintf(stderr, "Error: Empty file in the parser");
+        EXIT_FAILURE;
+    }
+    check = fscanf(file, "%lf,%lf,%lf,%lf,%lf,%lf\n", &newX, &newY, &newZ, &(vecX), &(vecY), &(vecZ));
+    if (check < 6) fprintf(stderr, "Warning, failed to read %d values at X: %d, Y: %d, Z: %d \n", (6-check), xindex, yindex, zindex);
+
+
     //the function is quite verbose: each read is accompanied with an EOF check for ungraceful exits, no error handling is implemented, imperfect reads are carried on.
     do {
         do {
@@ -78,18 +86,13 @@ Field ParseField(char *filepath, FieldProperties properties) {
                 currentX = newX; 
                 currentY = newY; 
                 currentZ = newZ; 
-                if (feof(file)) {
-                    fprintf(stderr, "Warning, ungraceful break while reading new values at X: %d, Y: %d, Z: %d \n", xindex, yindex, zindex);
-                    break;
-                }
-                check = fscanf(file, "%lf,%lf,%lf,%lf,%lf,%lf\n", &newX, &newY, &newZ, &(vecX), &(vecY), &(vecZ)); // read X position
-                if (check < 6) fprintf(stderr, "Warning, failed to read %d values at X: %d, Y: %d, Z: %d \n", (6-check), xindex, yindex, zindex);
-                //if there is a graceful break, it is here.
-                //size checks
-                //this *should* only happen once at most, but floating points are not to be trusted.
+
                 newVec.x = vecX;
                 newVec.y = vecY;
                 newVec.z = vecZ;
+
+                //size checks
+                //this *should* only happen once at most, but floating points are not to be trusted.
                 if(xindex >= xsize) {
                     printf("resize");
                     int newXsize = xsize+100;
@@ -107,10 +110,19 @@ Field ParseField(char *filepath, FieldProperties properties) {
                 }
                 output.FieldValues[xindex][yindex][zindex] = newVec;
                 xindex++;
+
+                //if there is a graceful break, it is here.
+                if (feof(file)) {
+                    fprintf(stderr, "Exiting at X: %d, Y: %d, Z: %d \n", xindex, yindex, zindex);
+                    break;
+                }
+                check = fscanf(file, "%lf,%lf,%lf,%lf,%lf,%lf\n", &newX, &newY, &newZ, &(vecX), &(vecY), &(vecZ)); // read line
+                if (check < 6) fprintf(stderr, "Warning, failed to read %d values at X: %d, Y: %d, Z: %d \n", (6-check), xindex, yindex, zindex);
+
             } while ((Xstep < 0 && newX < (currentX - (Xstep/2))) || (Xstep > 0 && newX > (currentX - (Xstep/2))));
             //for exit.
             if(feof(file)) break;
-            yindex++;
+            
             //size checks
             if(yindex > ysize) {
                 printf("resize(y)");
@@ -120,6 +132,7 @@ Field ParseField(char *filepath, FieldProperties properties) {
             if(output.lengthY <= yindex) {
                 output.lengthY = yindex+1;
             }
+            yindex++;
             xindex = 0;
         } while ((Ystep < 0 && newY < (currentY - (Ystep/2))) || (Ystep > 0 && newY > (currentY - (Ystep/2))));
     
