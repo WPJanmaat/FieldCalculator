@@ -62,6 +62,13 @@ Vector zeroVector() {
     return output;
 }
 
+Vector invertVec(Vector a) {
+    a.x = -a.x;
+    a.y = -a.y;
+    a.z = -a.z;
+    return a;
+}
+
 void printVector(Vector a) {
     printf("x: %lf, y: %lf, z: %lf\n", a.x, a.y, a.z);
 }

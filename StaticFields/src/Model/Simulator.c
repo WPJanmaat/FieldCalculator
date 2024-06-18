@@ -1,21 +1,24 @@
 #include "../../headers/Model/simulator.h"
 
-void Simulate(Particle* ParticleList, Field* ACField, Field* DCField, int length, Parameters params, int report) {
+Resultset Simulate(Particle* ParticleList, Field* ACField, Field* DCField, int length, Parameters params, int report) {
     int i=0;
     int j=0;
+
+    //+1 due to truncation
+    int expectedResults = (int) (((params.endTime-params.startTime)/params.dt)/report)+1;
+    Resultset output = CreateResultSet(expectedResults);
+
     //strange loop, interrupts every report runs to eliminate disabled Particles and give output
     while(i*params.dt+params.startTime < params.endTime) {
-        for(i; i*params.dt+params.startTime < params.endTime && i < report*j; i++){
+        for(i; i < report*j; i++){
             simulateStep(ParticleList, ACField, DCField, length, i, params);
         }
-        printf("Time: %lf:\n", i*params.dt+params.startTime);
-        for(int l = 0; l<length; l++) {
-            printf("Particle %d: \n", l);
-            printParticle(ParticleList[l]);
-        }
+        ResultNode newResult = createResult(i*params.dt+params.startTime, ParticleList, length);
+        addResult(&output, newResult);
         length = eliminateParticles(ParticleList, length);
         j++;
     }
+    return output;
 }
 
 void simulateStep(Particle *particleList, Field* ACField, Field* DCField, int length, int timestep, Parameters params){
@@ -26,7 +29,7 @@ void simulateStep(Particle *particleList, Field* ACField, Field* DCField, int le
         for (int j=i+1; j++; j<length) {
             Vector Pforce = getForce(particleList[i], particleList[j]);
             forceList[i] = vecSum(forceList[i], Pforce);
-            forceList[j] = vecSum(forceList[j], scalarMult(Pforce, -1)); //action is minus reaction, force on the second particle can already be calculated.
+            forceList[j] = vecSum(forceList[j], invertVec(Pforce)); //action is minus reaction, force on the second particle can already be calculated.
         }
         //TODO: implement magnetic interactions?
         NextForce = vecSum(NextForce, forceList[i]);
@@ -35,8 +38,9 @@ void simulateStep(Particle *particleList, Field* ACField, Field* DCField, int le
 }
 
 /**Helper function implementing leapfrog on a single timestep (t to t+1)
- * parameters:
- *  input: the particle subject to leapfrog, Force: the force the particle is subjected to, params: the parameters for the simulations
+ * @param input: the particle subject to leapfrog;
+ * @param Force: the force the particle is subjected to;
+ * @param params: the parameters for the simulations;
 */
 Particle updateParticle(Particle input, Vector force, Parameters params) {
     if(input.enabled) {

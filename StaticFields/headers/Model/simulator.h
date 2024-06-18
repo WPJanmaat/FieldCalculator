@@ -3,7 +3,8 @@
 #include "Particle.h"
 #include "FieldModulate.h"
 #include "Field.h"
+#include "Results.h"
 
-void Simulate(Particle* ParticleList, Field* ACField, Field* DCField, int length, Parameters params, int report);
+Results Simulate(Particle* ParticleList, Field* ACField, Field* DCField, int length, Parameters params, int report);
 
 #endif

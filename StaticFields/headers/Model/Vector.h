@@ -14,6 +14,9 @@ typedef enum dimensions {
     z
 } dimension;
 
+//gives dot product
+double dotProduct(Vector a, Vector b);
+
 //sums two vectors
 Vector vecSum(Vector a, Vector b);
 
@@ -34,4 +37,7 @@ Vector vecMin(Vector a, Vector b);
 
 //prints a vector.
 void printVector(Vector a);
+
+//inverts vectors
+Vector invertVec(Vector a);
 #endif

@@ -72,7 +72,7 @@ Field ParseField(char *filepath, FieldProperties properties) {
 
     if(feof(file)) {
         fprintf(stderr, "Error: Empty file in the parser");
-        EXIT_FAILURE;
+        exit(EXIT_FAILURE);
     }
     check = fscanf(file, "%lf,%lf,%lf,%lf,%lf,%lf\n", &newX, &newY, &newZ, &(vecX), &(vecY), &(vecZ));
     if (check < 6) fprintf(stderr, "Warning, failed to read %d values at X: %d, Y: %d, Z: %d \n", (6-check), xindex, yindex, zindex);
