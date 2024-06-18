@@ -97,9 +97,14 @@ void SimTest() {
     props.Zend = 3.0000;
     props.Zstep = 0.1000;
 
-    Field ACField = ParseField("./../Tests/testFiles/...", props);
-    Field DCField = ParseField("./../Tests/testFiles/...", props);
+    Field ACField = ParseField("./../Tests/testFiles/AC...", props);
+    Field DCField = ParseField("./../Tests/testFiles/DC...", props);
 
-    Simulate(Plist, &ACField, &DCField, 1, simparams, 100);
+    Resultset testresults = Simulate(Plist, &ACField, &DCField, 1, simparams, 100);
+    compareResults(testresults, "./../Tests/testFiles/....");
+}
+
+//compares the particle path results to a given file.
+void comapreResults(Resultset testresults, char* filepath) {
 
 }

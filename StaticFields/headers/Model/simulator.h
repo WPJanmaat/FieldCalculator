@@ -5,6 +5,6 @@
 #include "Field.h"
 #include "Results.h"
 
-Results Simulate(Particle* ParticleList, Field* ACField, Field* DCField, int length, Parameters params, int report);
+Resultset Simulate(Particle* ParticleList, Field* ACField, Field* DCField, int length, Parameters params, int report);
 
 #endif
