@@ -1,18 +1,16 @@
-#include "../../headers/Model/Particle.h"
-#include "../../headers/Model/FieldModulate.h"
-#include "../../headers/Model/Field.h"
+#include "../../headers/Model/simulator.h"
 
 void Simulate(Particle* ParticleList, Field* ACField, Field* DCField, int length, Parameters params, int report) {
     int i=0;
     int j=0;
-    //strange loop, interrupts every 100 runs to eliminate disabled Particles
+    //strange loop, interrupts every report runs to eliminate disabled Particles and give output
     while(i*params.dt+params.startTime < params.endTime) {
         for(i; i*params.dt+params.startTime < params.endTime && i < report*j; i++){
             simulateStep(ParticleList, ACField, DCField, length, i, params);
         }
-        printf("Time: %f.5", i*params.dt+params.startTime);
+        printf("Time: %lf:\n", i*params.dt+params.startTime);
         for(int l = 0; l<length; l++) {
-            printf("Particle %d", l);
+            printf("Particle %d: \n", l);
             printParticle(ParticleList[l]);
         }
         length = eliminateParticles(ParticleList, length);

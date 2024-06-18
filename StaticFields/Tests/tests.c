@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <Windows.h>
 void CSVTest() {
     FieldProperties props;
     props.XStart = -3.0000;
@@ -44,15 +43,12 @@ void CSVTest() {
                 if(testX != testField.FieldValues[i][j][k].x) {
                     printf("Test found difference between read x value: %lf and second parse: %lf\n", testField.FieldValues[i][j][k].x, testX);
                     printf("position x: %d, y: %d, z: %d\n", i,j,k);
-                    Sleep(5);
                 }
                 if(testY != testField.FieldValues[i][j][k].y) {
                     printf("Test found difference between read y value: %lf and second parse: %lf\n", testField.FieldValues[i][j][k].y, testY);
-                    Sleep(5);
                 }
                 if(testZ != testField.FieldValues[i][j][k].z) { 
                     printf("Test found difference between read z value: %lf and second parse: %lf\n", testField.FieldValues[i][j][k].z, testZ);
-                    Sleep(5);
                 }
             }
         }
@@ -60,9 +56,23 @@ void CSVTest() {
     assert(feof(file));
     printf("File successfully cleared.\n");
 
-    printf("Press any character to terminate\n");
+    printf("ParseTest complete, press enter to continue\n");
     fclose(file);
-    char loss = scanf("%c", &loss);
+    scanf("\n");
 
     freeField(&testField);
+}
+
+void SimTest() {
+    Parameters simparams;
+    simparams.ACV = 600;
+    simparams.DCV = 5;
+    simparams.endTime = 4*pow(10,-6);
+    simparams.freq = 19767.98;
+    simparams.lowerX = simparams.lowerY = simparams.lowerZ = -2.9;
+    simparams.upperX = simparams.upperY = simparams.upperZ = 2.9;
+    simparams.dt = 1*pow(10,-9);
+    simparams.startTime = 0;
+    simparams.pressure = 0;
+    
 }
