@@ -74,5 +74,32 @@ void SimTest() {
     simparams.dt = 1*pow(10,-9);
     simparams.startTime = 0;
     simparams.pressure = 0;
-    
+    Vector position = zeroVector();
+    position.x = 1;
+    position.y = 0.5;
+    //z = 0
+    //lookup params
+    int singleton = 1;
+    Particle type = createParticle(20000000, 1*pow(10,-8), 0);
+    Particle* Plist = ParticleRelease(&(type), &singleton, &singleton, 0, list, &position, NULL);
+
+
+    FieldProperties props;
+    props.XStart = -3.0000;
+    props.Xend = 3.0000;
+    props.Xstep = 0.1000;
+
+    props.YStart = -3.0000;
+    props.Yend = 3.0000;
+    props.Ystep = 0.1000;
+
+    props.ZStart = -3.0000;
+    props.Zend = 3.0000;
+    props.Zstep = 0.1000;
+
+    Field ACField = ParseField("./../Tests/testFiles/...", props);
+    Field DCField = ParseField("./../Tests/testFiles/...", props);
+
+    Simulate(Plist, &ACField, &DCField, 1, simparams, 100);
+
 }

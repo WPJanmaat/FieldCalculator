@@ -2,6 +2,14 @@
 #define PARTICLEPLACER_H
 #include "Vector.h"
 #include "Particle.h"
+
+
+//different release types, can be expended as implemented. e.g. diffusion, stimulated release etc.
+typedef enum Release {
+    grid,
+    list
+} Release;
+
 /** 
  * @param Particle* types: list of particles to be released,
  * @param int* numP: the number of particles for each type to be released,

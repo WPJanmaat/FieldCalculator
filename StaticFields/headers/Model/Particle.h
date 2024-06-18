@@ -12,7 +12,7 @@ typedef struct Particle {
     Vector acceleration; // required for the leapfrog algorithm. Starts at 0.
     double impactParameter; //for use in the air calculations
 } Particle;
-#endif
+
 
 //different release types, can be expended as implemented. e.g. diffusion, stimulated release etc.
 typedef enum Release {
@@ -23,5 +23,9 @@ typedef enum Release {
 //places particles of a given type at a given position with velocity.
 Particle PutParticle(Particle type, Vector position, Vector velocity);
 
+//charge in e (hence int), mass in Kg
+Particle createParticle(int charge, double mass, double impactParameter);
+
 Vector getParPos(Particle p);
 Vector getForce(Particle a, Particle b);
+#endif
