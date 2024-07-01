@@ -1,7 +1,7 @@
 #ifndef PARTICLEPLACER_H
 #define PARTICLEPLACER_H
-#include "Vector.h"
-#include "Particle.h"
+#include "../Model/Vector.h"
+#include "../Model/Particle.h"
 
 
 //different release types, can be expended as implemented. e.g. diffusion, stimulated release etc.

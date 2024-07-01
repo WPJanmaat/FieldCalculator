@@ -1,6 +1,3 @@
-#include "../../headers/Model/Parameters.h"
-#include "../../headers/Model/Vector.h"
-#include "../../headers/Model/Field.h"
 #include "../../headers/Model/FieldModulate.h"
 #include "../../headers/Model/Interpolate.h"
 #include <math.h>

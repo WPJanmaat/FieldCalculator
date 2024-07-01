@@ -18,7 +18,7 @@ CC := x86_64-w64-mingw32-gcc
 OBJPATH = .\..\obj
 
 
-MyTest : Vector.o Field.o FieldParser.o Tests.o TestMain.o
+MyTest : Vector.o Field.o Particle.o FieldParser.o ParticlePlacer.o Simulator.o Interpolate.o Results.o FieldModulate.o Tests.o TestMain.o
 	gcc -O2 -o ./../bin/ParseTest.exe $^ 
 
 Vector.o : Vector.c Vector.h
@@ -27,7 +27,25 @@ Vector.o : Vector.c Vector.h
 Field.o : Field.c Field.h 
 	$(CC) -c $^
 
-Parse.o : FieldParser.c FieldParser.h FieldProperties.h 
+Particle.o : Particle.c Particle.h
+	$(CC) -c $^
+
+FieldParser.o : FieldParser.c FieldParser.h FieldProperties.h 
+	$(CC) -c $^
+
+ParticlePlacer.o : ParticlePlacer.c ParticlePlacer.h
+	$(CC) -c $^
+
+Simulator.o : Simulator.c Simulator.h
+	$(CC) -c $^
+
+Interpolate.o : Interpolate.c Interpolate.h
+	$(CC) -c $^
+
+Results.o : Results.c Results.h
+	$(CC) -c $^
+
+FieldModulate.o : FieldModulate.c FieldModulate.h
 	$(CC) -c $^
 
 Tests.o : tests.c tests.h

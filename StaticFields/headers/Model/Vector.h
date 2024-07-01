@@ -40,4 +40,13 @@ void printVector(Vector a);
 
 //inverts vectors
 Vector invertVec(Vector a);
+
+double getlength(Vector a);
+
+double getDistance(Vector a, Vector b);
+
+Vector makeUnit(Vector a);
+
+
+
 #endif

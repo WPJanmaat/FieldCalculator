@@ -1,7 +1,6 @@
 #ifndef PARTICLE_H
 #define PARTICLE_H
 #include "Vector.h"
-#include "Particle.h"
 //NOTE: the low numbers involved in this calculation may compromise accuracy due to Floating point arithmatic.
 typedef struct Particle {
     char enabled; //Particles are disabled and not considered outside the relevant area, disabled Particles are cleared up every 100 steps.
@@ -13,19 +12,15 @@ typedef struct Particle {
     double impactParameter; //for use in the air calculations
 } Particle;
 
-
-//different release types, can be expended as implemented. e.g. diffusion, stimulated release etc.
-typedef enum Release {
-    grid,
-    list
-} Release;
-
 //places particles of a given type at a given position with velocity.
 Particle PutParticle(Particle type, Vector position, Vector velocity);
+
+int eliminateParticles(Particle* ParticleList, int length);
 
 //charge in e (hence int), mass in Kg
 Particle createParticle(int charge, double mass, double impactParameter);
 
 Vector getParPos(Particle p);
 Vector getForce(Particle a, Particle b);
+Particle PutParticle(Particle type, Vector position, Vector velocity);
 #endif

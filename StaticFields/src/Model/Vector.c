@@ -1,6 +1,7 @@
 #include "../../headers/Model/Vector.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 Vector vecSum(Vector a, Vector b){
     Vector result;
     result.x = a.x+b.x;
@@ -67,6 +68,20 @@ Vector invertVec(Vector a) {
     a.y = -a.y;
     a.z = -a.z;
     return a;
+}
+
+//gets the distance between vector a and b
+double getDistance(Vector a, Vector b) {
+    return getlength(vecMin(a,b));
+}
+
+Vector makeUnit(Vector a) {
+    double length = getlength(a);
+    return scalarDiv(a, length);
+}
+
+double getlength(Vector a) {
+    return sqrt(dotProduct(a, a));
 }
 
 void printVector(Vector a) {

@@ -1,13 +1,5 @@
 #include "./../../headers/Model/Results.h"
 
-void addResult(Resultset* resultset, ResultNode newResult) {
-    if(resultset->length >= resultset->size) {
-        resizeResults(resultset, resultset->size + 1000);
-    }
-    resultset->results[resultset->length] = newResult;
-    resultset->length++;
-}
-
 ResultNode createResult(double time, Particle* PList, int length) {
     ResultNode output;
     output.time = time;
@@ -37,4 +29,13 @@ Resultset CreateResultSet(int expectedSize) {
     }
     output.size = expectedSize;
 }
+
+void addResult(Resultset* resultset, ResultNode newResult) {
+    if(resultset->length >= resultset->size) {
+        resizeResults(resultset, resultset->size + 1000);
+    }
+    resultset->results[resultset->length] = newResult;
+    resultset->length++;
+}
+
 

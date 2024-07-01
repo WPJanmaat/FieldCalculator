@@ -1,4 +1,4 @@
-#this Pyton script should be fed the *unlabeled* text file Comsol output for Electric fields
+#this Pyton script should be fed the *unlabeled* text file Comsol output (spreadsheet form)
 #from there it will turn it into a CSV readable for this program.
 #the unlabeled CSV will have the same form, but be deliniated by commas instead of an uncertain number of spaces.
 from pathlib import Path

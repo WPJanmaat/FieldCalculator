@@ -1,9 +1,10 @@
+#ifndef INTERPOLATE_H
+#define INTERPOLATE_H
+
 #include "Vector.h"
 #include "Field.h"
 #include <stdio.h>
 #include <stdlib.h>
-#ifndef INTERPOLATE_H
-#define INTERPOLATE_H
 //Helper function interpolating two vectors, fraction gives the distance between the vectors with 0 being at vector a and 1 at vector b
 Vector interpolateVec(Vector a, Vector b, double fraction);
 

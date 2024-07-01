@@ -1,6 +1,7 @@
-#include "../Model/Particle.h"
+#include "../../headers/Model/Particle.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include "../../headers/Control/ParticlePlacer.h"
 
 Particle* ListRelease(Particle* types, int* numP, int numTypes, Vector* position, Vector* velocities) {
     int totalParticles = 0;
