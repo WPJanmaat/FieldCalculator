@@ -6,6 +6,6 @@
 int main(int argc, char **argv) {
     fprintf(stderr, "initialising tests\n");
 	CSVTest();
-    
+    SimTest();
     return 0;
 }
