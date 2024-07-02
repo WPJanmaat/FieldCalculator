@@ -115,9 +115,9 @@ void SimTest() {
     props.Zend = 3.0000;
     props.Zstep = 0.1000;
 
-    Field ACField = ParseField("./../Tests/testFiles/AC...", props);
-    Field DCField = ParseField("./../Tests/testFiles/DC...", props);
+    Field ACField = ParseField("./../Tests/testFiles/SimTestACField.csv", props);
+    Field DCField = ParseField("./../Tests/testFiles/SimTestDCField.csv", props);
 
     Resultset testresults = Simulate(Plist, &ACField, &DCField, 1, simparams, 100);
-    compareResults(testresults, "./../Tests/testFiles/...."); //from 0 to 400 microsec per 1 microsec
+    compareResults(testresults, "./../Tests/testFiles/TestPath.csv"); //from 0 to 400 microsec per 1 microsec
 }
