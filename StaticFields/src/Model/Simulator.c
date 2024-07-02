@@ -15,7 +15,7 @@ Particle updateParticle(Particle input, Vector force, Parameters params) {
         Vector AirInteract = zeroVector(); // air friction gives 0 for now
         //TODO: implement air friction WILL REQUIRE CHANGES ABOVE AND BELOW
         Vector NextAcc = vecSum(CurrentAcc, scalarDiv(force, input.mass));
-        Vector NextPos = vecSum(vecSum(CurrentPos, scalarMult(CurrentVel, params.dt)), scalarMult(CurrentAcc, pow(params.dt,2)/2)); //verbose for xcur + vcur*dt + acur*dt^2/2
+        Vector NextPos = vecSum(vecSum(CurrentPos, scalarMult(CurrentVel, params.dt*(1/params.scale))), scalarMult(CurrentAcc, pow(params.dt,2)/2*(1/params.scale))); //verbose for xcur + vcur*dt + acur*dt^2/2
         Vector NextVel = scalarDiv(vecSum(CurrentAcc, NextAcc),2);        
         input.position = NextPos;
         input.acceleration = NextAcc;
@@ -34,7 +34,7 @@ void simulateStep(Particle *particleList, Field* ACField, Field* DCField, int le
         Vector NextForce = ModulateField(ACField, DCField, getParPos(particleList[i]), timestep, params);
         //n^/2 :) best I can do short of creating field analysis.
         for (int j=i+1; j++; j<length) {
-            Vector Pforce = getForce(particleList[i], particleList[j]);
+            Vector Pforce = getForce(particleList[i], particleList[j], params.scale);
             forceList[i] = vecSum(forceList[i], Pforce);
             forceList[j] = vecSum(forceList[j], invertVec(Pforce)); //action is minus reaction, force on the second particle can already be calculated.
         }
