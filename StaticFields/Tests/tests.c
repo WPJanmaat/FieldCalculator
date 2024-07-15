@@ -51,13 +51,14 @@ void CSVTest() {
 
     printf("ParseTest complete, press enter to continue\n");
     fclose(file);
-    scanf("\n");
+    scanf("%c");
 
     freeField(&testField);
 }
 
 //compares the particle path results to a given file for the first particle in the simulation.
 void compareResults(Resultset testresults, char* filepath) {
+    printf("Comparing results:\n");
     FILE* file = fopen(filepath, "r");
 
     if(file == NULL) {
@@ -74,7 +75,7 @@ void compareResults(Resultset testresults, char* filepath) {
         fscanf(file, "%lf\n", &filePos.z);
         printf("Timestep %d", i);
         printf("sim result: ");
-        printVector(testresults.results[i].ParticleList[0].position);
+        printPosition(testresults.results[i].ParticleList[0]);
         printf("file result: ");
         printVector(filePos);
     }
@@ -98,7 +99,7 @@ void SimTest() {
     //z = 0
     //lookup params
     int singleton = 1;
-    Particle type = createParticle(0.0000005, -0.0000000000001, 0);
+    Particle type = createParticle(5E-7, -1E-13, 0);
     Particle* Plist = ParticleRelease(&(type), &singleton, singleton, 0, list, &position, NULL);
 
 

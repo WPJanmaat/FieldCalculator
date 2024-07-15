@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#define e 1.60217663*pow(10, -19)
+#define e 1.60217663E-19
 
 Vector getParPos(Particle p) {
     return p.position;
@@ -17,21 +17,20 @@ Vector getForce(Particle a, Particle b, double scale) {
     return scalarMult(direction, chargeForce/(distance*scale*distance*scale));
 }
 
-void printParticle(Particle a) {
-    printf("Position: \n");
-    printPosition(a);
-    printf("Velocity: \n");
-    printVelocity(a);
-
-}
-
-
 void printVelocity(Particle a) {
     printVector(a.velocity);
 }
 
 void printPosition(Particle a) {
     printVector(a.position);
+}
+
+void printParticle(Particle a) {
+    printf("Position: \n");
+    printPosition(a);
+    printf("Velocity: \n");
+    printVelocity(a);
+
 }
 
 //eliminates inative Particles and shortens the array accordingly. Returns new array length.

@@ -20,7 +20,8 @@ int eliminateParticles(Particle* ParticleList, int length);
 //charge in e (hence int), mass in Kg
 Particle createParticle(int charge, double mass, double impactParameter);
 
+void printPosition(Particle a);
 Vector getParPos(Particle p);
-Vector getForce(Particle a, Particle b);
+Vector getForce(Particle a, Particle b, double scale);
 Particle PutParticle(Particle type, Vector position, Vector velocity);
 #endif

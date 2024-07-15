@@ -27,7 +27,7 @@ Vector.o : Vector.c Vector.h
 Field.o : Field.c Field.h 
 	$(CC) -c $^
 
-Particle.o : Particle.c Particle.h
+Particle.o : Particle.h Particle.c
 	$(CC) -c $^
 
 FieldParser.o : FieldParser.c FieldParser.h FieldProperties.h 
