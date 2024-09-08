@@ -4,6 +4,59 @@
 #include "Expression.h"
 #include "VarMap.h"
 
+double evaluateExpression(expression *input, map VarMap) {
+    if(input == NULL) {
+        fprintf(stderr, "NULL input on evaluateExpression\n");
+        exit(EXIT_FAILURE);
+    }
+    switch((*input).type){
+        case Plus:
+            return evaluatePlus(input, VarMap);
+            break;
+
+        case Minus:
+            return evaluateMinus(input, VarMap);
+            break;
+
+        case Mult:
+            return evaluateMult(input, VarMap);
+            break;
+
+        case Div:
+            return evaluateDiv(input, VarMap);
+            break;
+
+        case Pow:
+            return evaluatePow(input, VarMap);
+            break;
+
+        case Sin:
+            return evaluateSin(input, VarMap);
+            break;
+
+        case Cos:
+            return evaluateCos(input, VarMap);
+            break;
+
+        case Tan:
+            return evaluateTan(input, VarMap);
+            break;
+
+        case Log:
+            return evaluateLog(input, VarMap);
+            break;
+
+        case Variable:
+            return evaluateVar(input, VarMap);
+            break;
+
+        case Number:
+            return evaluateNum(input, VarMap);
+            break;
+    }
+}
+
+
 double evaluatePlus(expression *input, map VarMap) {
     if(input == NULL) {
         fprintf(stderr, "NULL input on evaluatePlus\n");
@@ -95,58 +148,6 @@ double evaluateNum(expression *input, map Varmap) {
         exit(EXIT_FAILURE);
     }
     return input->content.value;
-}
-
-double evaluateExpression(expression *input, map VarMap) {
-    if(input == NULL) {
-        fprintf(stderr, "NULL input on evaluateExpression\n");
-        exit(EXIT_FAILURE);
-    }
-    switch((*input).type){
-        case Plus:
-            return evaluatePlus(input, VarMap);
-            break;
-
-        case Minus:
-            return evaluateMinus(input, VarMap);
-            break;
-
-        case Mult:
-            return evaluateMult(input, VarMap);
-            break;
-
-        case Div:
-            return evaluateDiv(input, VarMap);
-            break;
-
-        case Pow:
-            return evaluatePow(input, VarMap);
-            break;
-
-        case Sin:
-            return evaluateSin(input, VarMap);
-            break;
-
-        case Cos:
-            return evaluateCos(input, VarMap);
-            break;
-
-        case Tan:
-            return evaluateTan(input, VarMap);
-            break;
-
-        case Log:
-            return evaluateLog(input, VarMap);
-            break;
-
-        case Variable:
-            return evaluateVar(input, VarMap);
-            break;
-
-        case Number:
-            return evaluateNum(input, VarMap);
-            break;
-    }
 }
 
 //creates a new expression. if there is no content (i.e. not a var or a number) any value can be entered.

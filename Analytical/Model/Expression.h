@@ -1,11 +1,18 @@
-#include "Types.h"
 #ifndef EXPRESSION_H
 #define EXPRESSION_H
+#include "Types.h"
+
+typedef union Contents {
+    //of use only when the expression is a unitary variable
+    int Id;
+    //only for constants or variable computation.
+    double value;
+} value;
 
 typedef struct expression {
     type type;
-    expression *component1;
-    expression *component2;
+    struct expression *component1;
+    struct expression *component2;
     value content;
 } expression;
 
@@ -16,12 +23,7 @@ typedef struct variable {
     char declared; //indicates whether the variable has been declared for evaluation.
 } variable;
 
-typedef union Contents {
-    //of use only when the expression is a unitary variable
-    int Id;
-    //only for constants or variable computation.
-    double value;
-} value;
+
 
 expression *createNum(double value);
 #endif

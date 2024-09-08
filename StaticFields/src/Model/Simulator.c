@@ -1,4 +1,4 @@
-#include "../../headers/Model/Simulator.h"
+#include "../../headers/Model/simulator.h"
 #include <math.h>
 
 /**Helper function implementing leapfrog on a single timestep (t to t+1)
@@ -15,7 +15,7 @@ Particle updateParticle(Particle input, Vector force, Parameters params) {
         Vector AirInteract = zeroVector(); // air friction gives 0 for now
         //TODO: implement air friction WILL REQUIRE CHANGES ABOVE AND BELOW
         Vector NextAcc = vecSum(CurrentAcc, scalarDiv(force, input.mass));
-        Vector NextPos = vecSum(vecSum(CurrentPos, scalarMult(CurrentVel, params.dt*(1/params.scale))), scalarMult(CurrentAcc, pow(params.dt,2)/2*(1/params.scale))); //verbose for xcur + vcur*dt + acur*dt^2/2
+        Vector NextPos = vecSum(vecSum(CurrentPos, scalarMult(CurrentVel, params.dt*(1/params.scale))), scalarMult(CurrentAcc, pow(params.dt,2)/2*(1/params.scale))); //verbose for xcur + vcur*dt + acur*(dt^2)/2
         Vector NextVel = scalarDiv(vecSum(CurrentAcc, NextAcc),2);        
         input.position = NextPos;
         input.acceleration = NextAcc;
@@ -30,9 +30,9 @@ Particle updateParticle(Particle input, Vector force, Parameters params) {
 
 void simulateStep(Particle *particleList, Field* ACField, Field* DCField, int length, int timestep, Parameters params){
     Vector *forceList = calloc(sizeof(Vector), length);
-    for (int i=0; i++; i<length) {
+    for (int i=0; i++; i<length) { 
         Vector NextForce = ModulateField(ACField, DCField, getParPos(particleList[i]), timestep, params);
-        //n^/2 :) best I can do short of creating field analysis.
+        //n^2/2 :) best I can do short of creating field analysis.
         for (int j=i+1; j++; j<length) {
             Vector Pforce = getForce(particleList[i], particleList[j], params.scale);
             forceList[i] = vecSum(forceList[i], Pforce);
@@ -46,12 +46,11 @@ void simulateStep(Particle *particleList, Field* ACField, Field* DCField, int le
 
 Resultset Simulate(Particle* ParticleList, Field* ACField, Field* DCField, int length, Parameters params, int report) {
     int i=0;
-    int j=0;
+    int j=1;
 
     //+1 due to truncation
     int expectedResults = (int) (((params.endTime-params.startTime)/params.dt)/report)+1;
     Resultset output = CreateResultSet(expectedResults);
-
     //strange loop, interrupts every report runs to eliminate disabled Particles and give output
     while(i*params.dt+params.startTime < params.endTime) {
         for(i; i < report*j; i++){

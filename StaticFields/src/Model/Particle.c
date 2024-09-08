@@ -43,7 +43,7 @@ int eliminateParticles(Particle* ParticleList, int length) {
             for(int j = i; j<length; j++) {
                 ParticleList[j] = ParticleList[j+1];
             }
-            realloc(ParticleList, length);
+            ParticleList = realloc(ParticleList, length);
         }
     }
     return length;

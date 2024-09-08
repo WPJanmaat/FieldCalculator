@@ -1,7 +1,9 @@
 #include "VarMap.h"
 #include "VarMap.h"
 #include "Expression.h"
-#include <cstdio>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 //map names are created during map addition.
 map createMap() {

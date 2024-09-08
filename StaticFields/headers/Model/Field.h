@@ -25,7 +25,7 @@ void freeField(Field* input);
 
 /**
  * Gets the field values at a given index in the 3D array
- * @param Field* input: the field from which the vector is retrieved.
+ * @param Field input: the field from which the vector is retrieved.
  * @param int indexX: the x index of the array.
  * @param int indexY: the y index of the array.
  * @param int indexZ: the z index of the array.

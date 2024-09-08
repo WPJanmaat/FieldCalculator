@@ -22,11 +22,14 @@ Vector *fieldGet(Field* input, int indexX, int indexY, int indexZ) {
 void freeField(Field* input) {
     for (int i = 0; i<(*input).lengthX; i++) {
         for (int j = 0; j<(*input).lengthY; j++) {
-            free((*input).FieldValues[i][j]);
+            free(input->FieldValues[i][j]);
         }
-        free((*input).FieldValues[i]);
+        free(input->FieldValues[i]);
     }
-    free((*input).FieldValues);
+    (*input).lengthX = 0;
+    (*input).lengthY = 0;
+    (*input).lengthZ = 0;
+    free(input->FieldValues);
 }
 
 //gets field vector at a given position (rounded down), X, Y and Z offset included

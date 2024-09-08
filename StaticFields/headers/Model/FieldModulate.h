@@ -1,4 +1,4 @@
-#ifndef FIELDMODLUATE_H
+#ifndef FIELDMODULATE_H
 #define FIELDMODULATE_H
 #include "Field.h"
 #include "Vector.h"

@@ -13,8 +13,6 @@ Field ParseField(char *filepath, FieldProperties properties) {
         fprintf(stderr, "Failed to open File");
         scanf("\n");
         exit(EXIT_FAILURE);
-    } else {
-        printf("file opened!\n");
     }
 
     Field output;
@@ -113,7 +111,6 @@ Field ParseField(char *filepath, FieldProperties properties) {
 
                 //if there is a graceful break, it is here.
                 if (feof(file)) {
-                    fprintf(stderr, "Exiting at X: %d, Y: %d, Z: %d \n", xindex, yindex, zindex);
                     break;
                 }
                 check = fscanf(file, "%lf,%lf,%lf,%lf,%lf,%lf\n", &newX, &newY, &newZ, &(vecX), &(vecY), &(vecZ)); // read line
@@ -147,8 +144,6 @@ Field ParseField(char *filepath, FieldProperties properties) {
         yindex = 0;
         zindex++;
     } while (!feof(file));
-
-    printf("read complete\n");
 
     fclose(file);
     return output;

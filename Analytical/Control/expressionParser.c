@@ -2,149 +2,12 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
-#include "./model/Types.h"
-#include "./model/Expression.h"
+#include "./Model/Types.h"
+#include "./Model/Expression.h"
+#include "./Model/VarMaps.h"
 /*It is assumed for this program that the input expression is a valid one, a checker could be implemented later if necessary*/
 
 
-//factor is either ( + expression + ), a number, or a variable 
-expression *ParseFactor(char *input, int length) {
-    expression *output = NULL;
-    int i = 0; //intentionally declared externally, used later.
-    for(i=0; i<length; i++) {
-        if(input[i] == '(') {
-            int j=i+1;
-            while(j<length && input[j] != ')') {
-                j++;
-            }
-            output = ParsePlus(input+i+1, j-i);
-            j+=(j<length && j==')');
-            break;
-            i=j+1;
-        }
-
-        if(isalphanumeric(input[i])){
-            type item = Number;
-            int j = i;
-            while (isalphanumeric(input[j]) && j<length) {
-                if (isalpha(input[j])) item = Variable;
-                j++;
-            }
-            expression *output = calloc(sizeof(expression), 1);
-            (*output).type = item;
-            if(item == Variable) {
-                (*output).content.Id = mapVar(input[i], j-i);
-            } else {
-                (*output).content.value = getValue(input[i], j-i);
-            }
-            break;          
-        }
-    }
-    if(i<length){
-        printf("Warning: dropped unparsed section: ");
-        while(i<length){
-            printf("%c", input[i]);
-            i++;
-        }
-    }
-    if (output == NULL){
-        fprintf(stderr, "Invalid expression; empty expression or empty parantheses?\n");
-        exit(EXIT_FAILURE);
-    }
-    return(output);
-}
-
-//TODO: The factured memory is inefficient see Types.h TODO
-expression *ParsePlus(char *input, int length){
-    expression *output = calloc(sizeof(expression), 1);
-    if (input[0] == '+' || input[0] == '-') {
-        (*output).type = input[0]== '+' ? Plus : Minus;
-        (*output).component1 = ParsePlus("0", 1);
-        (*output).component2 = ParsePlus((input+1), length-1);
-        return(output);
-    }
-    //skip parts in paranthesis for submitted for higher order evaluation, eventually they will be surrounded by operators.
-    for (int i=1; i<length; i++) {
-        if (input[i] == '(') {
-            int j=i+1;
-            while(input[j] != ')' && j < length) {
-                j++;
-            }
-            //skip
-            i=j+1;
-        }
-        if(input[i] == '+' || input[i] == '-') {
-            (*output).type = input[i]== '+' ? Plus : Minus;
-            (*output).component1 = ParsePlus(input, i-1);
-            (*output).component2 = ParsePlus((input+i+1), length-i);
-            return(output);
-        }
-    }
-    //an equation devoid of additions.
-    free(output);
-    return(ParseMult(input, length));
-}
-
-expression *ParseMult(char* input, int length) {
-    expression *output = calloc(sizeof(expression), 1);
-
-    if (input[0] == '/' || input[0] == '*') {
-        fprintf(stderr, "invalid input\n");
-        return NULL;
-    }
-    
-    //skip parts in paranthesis for submitted for higher order evaluation, eventually they will be surrounded by operators.
-    for (int i=1; i<length; i++) {
-        if (input[i] == '(') {
-            int j=i+1;
-            while(input[j] != ')' && j < length) {
-                j++;
-            }
-            //skip
-            i=j+1;
-        }
-        if(input[i] == '*' || input[i] == '/') {
-            (*output).type = input[i]== '*' ? Mult : Div;
-            (*output).component1 = ParseMult(input, i-1);
-            (*output).component2 = ParseMult((input+i+1), length-i);
-            return(output);
-        }
-    }
-    //an equation devoid of multiplications.
-    free(output);
-    return(ParsePow(input, length));
-}
-
-//TODO: Figure out how to generalise algorithmic differentiation for e^x vs x^n
-expression *ParsePow(char* input, int length) {
-    expression *output = calloc(sizeof(expression), 1);
-    if (input[0] == '^') {
-        fprintf(stderr, "invalid input\n");
-        return NULL;
-    }
-    //skip parts in paranthesis for submitted for higher order evaluation, eventually they will be surrounded by operators.
-    for (int i=1; i<length; i++) {
-        if (input[i] == '(') {
-            int j=i+1;
-            while(j<length && input[j] != ')') {
-                j++;
-            }
-            //skip
-            i=j+1;
-            //someone forgot the closing bracket.
-            if(j>=length) break;
-        }
-        if(input[i] == '^') {
-            (*output).type = Pow;
-            (*output).component1 = ParsePow(input, i-1);
-            (*output).component2 = ParsePow((input+i+1), length-i);
-            return(output);
-        }
-    }
-    //an equation devoid of Powers.
-    free(output);
-    return(ParseFunctions(input, length));
-}
 
 //To be used for parsing functions with a one-sided input (e.g. sin(f(x)) rather than f(x)+g(y))
 expression *ParseFunctions(char *input, int length) {
@@ -218,7 +81,146 @@ expression *ParseFunctions(char *input, int length) {
         }
     }
     //an equation devoid of pre-defined functions.
-    return(ParseParentheses(input, length));
+    return(ParseFactor(input, length));
+}
+
+//TODO: Figure out how to generalise algorithmic differentiation for e^x vs x^n
+expression *ParsePow(char* input, int length) {
+    expression *output = calloc(sizeof(expression), 1);
+    if (input[0] == '^') {
+        fprintf(stderr, "invalid input\n");
+        return NULL;
+    }
+    //skip parts in paranthesis for submitted for higher order evaluation, eventually they will be surrounded by operators.
+    for (int i=1; i<length; i++) {
+        if (input[i] == '(') {
+            int j=i+1;
+            while(j<length && input[j] != ')') {
+                j++;
+            }
+            //skip
+            i=j+1;
+            //someone forgot the closing bracket.
+            if(j>=length) break;
+        }
+        if(input[i] == '^') {
+            (*output).type = Pow;
+            (*output).component1 = ParsePow(input, i-1);
+            (*output).component2 = ParsePow((input+i+1), length-i);
+            return(output);
+        }
+    }
+    //an equation devoid of Powers.
+    free(output);
+    return(ParseFunctions(input, length));
+}
+
+expression *ParseMult(char* input, int length) {
+    expression *output = calloc(sizeof(expression), 1);
+
+    if (input[0] == '/' || input[0] == '*') {
+        fprintf(stderr, "invalid input\n");
+        return NULL;
+    }
+    
+    //skip parts in paranthesis for submitted for higher order evaluation, eventually they will be surrounded by operators.
+    for (int i=1; i<length; i++) {
+        if (input[i] == '(') {
+            int j=i+1;
+            while(input[j] != ')' && j < length) {
+                j++;
+            }
+            //skip
+            i=j+1;
+        }
+        if(input[i] == '*' || input[i] == '/') {
+            (*output).type = input[i]== '*' ? Mult : Div;
+            (*output).component1 = ParseMult(input, i-1);
+            (*output).component2 = ParseMult((input+i+1), length-i);
+            return(output);
+        }
+    }
+    //an equation devoid of multiplications.
+    free(output);
+    return(ParsePow(input, length));
+}
+
+//TODO: The factured memory is inefficient see Types.h TODO
+expression *ParsePlus(char *input, int length){
+    expression *output = calloc(sizeof(expression), 1);
+    if (input[0] == '+' || input[0] == '-') {
+        (*output).type = input[0]== '+' ? Plus : Minus;
+        (*output).component1 = ParsePlus("0", 1);
+        (*output).component2 = ParsePlus((input+1), length-1);
+        return(output);
+    }
+    //skip parts in paranthesis for submitted for higher order evaluation, eventually they will be surrounded by operators.
+    for (int i=1; i<length; i++) {
+        if (input[i] == '(') {
+            int j=i+1;
+            while(input[j] != ')' && j < length) {
+                j++;
+            }
+            //skip
+            i=j+1;
+        }
+        if(input[i] == '+' || input[i] == '-') {
+            (*output).type = input[i]== '+' ? Plus : Minus;
+            (*output).component1 = ParsePlus(input, i-1);
+            (*output).component2 = ParsePlus((input+i+1), length-i);
+            return(output);
+        }
+    }
+    //an equation devoid of additions.
+    free(output);
+    return(ParseMult(input, length));
+}
+
+//factor is either ( + expression + ), a number, or a variable 
+expression *ParseFactor(char *input, int length) {
+    expression *output = NULL;
+    int i = 0; //intentionally declared externally, used later.
+    for(i=0; i<length; i++) {
+        if(input[i] == '(') {
+            int j=i+1;
+            while(j<length && input[j] != ')') {
+                j++;
+            }
+            output = ParsePlus(input+i+1, j-i);
+            j+=(j<length && j==')');
+            break;
+            i=j+1;
+        }
+
+        if(isalphanumeric(input[i])){
+            type item = Number;
+            int j = i;
+            while (isalphanumeric(input[j]) && j<length) {
+                if (isalpha(input[j])) item = Variable;
+                j++;
+            }
+            expression *output = calloc(sizeof(expression), 1);
+            (*output).type = item;
+            if(item == Variable) {
+                (*output).content.Id = mapVar(input[i], j-i);
+            } else {
+                (*output).content.value = getValue(input[i], j-i);
+            }
+            break;          
+        }
+    }
+    if(i<length){
+        printf("Warning: dropped unparsed section: ");
+        while(i<length){
+            printf("%c", input[i]);
+            i++;
+        }
+    }
+    if (output == NULL){
+        fprintf(stderr, "Invalid expression; empty expression or empty parantheses?\n");
+        exit(EXIT_FAILURE);
+    }
+    return(output);
 }
 /* number finder
     for(int i = 0; i<length; i++) {

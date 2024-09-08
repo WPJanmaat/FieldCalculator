@@ -51,8 +51,8 @@ void CSVTest() {
 
     printf("ParseTest complete, press enter to continue\n");
     fclose(file);
-    scanf("%c");
-
+    char out;
+    scanf("%c", &out);
     freeField(&testField);
 }
 
@@ -96,12 +96,11 @@ void SimTest() {
     Vector position = zeroVector();
     position.x = 1;
     position.y = 0.5;
-    //z = 0
+    position.z = 0;
     //lookup params
     int singleton = 1;
     Particle type = createParticle(5E-7, -1E-13, 0);
     Particle* Plist = ParticleRelease(&(type), &singleton, singleton, 0, list, &position, NULL);
-
 
     FieldProperties props;
     props.XStart = -3.0000;
@@ -118,7 +117,9 @@ void SimTest() {
 
     Field ACField = ParseField("./../Tests/testFiles/SimTestACField.csv", props);
     Field DCField = ParseField("./../Tests/testFiles/SimTestDCField.csv", props);
-
+    
     Resultset testresults = Simulate(Plist, &ACField, &DCField, 1, simparams, 100);
+
+    printf("Simulation Complete, comparing: \n");
     compareResults(testresults, "./../Tests/testFiles/TestPath.csv"); //from 0 to 400 microsec per 1 microsec
 }
