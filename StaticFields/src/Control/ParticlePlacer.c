@@ -5,11 +5,11 @@
 
 Particle* ListRelease(Particle* types, int* numP, int numTypes, Vector* position, Vector* velocities) {
     int totalParticles = 0;
-    if(totalParticles == 0) return NULL;
+    
     for (int i=0; i<numTypes; i++) totalParticles+=numP[i];
     Particle* output = calloc(sizeof(Particle), totalParticles);
     int P = 0;
-
+    if(totalParticles == 0) return NULL;
     if(position == NULL) {
         fprintf(stderr, "Invalid input on ParticleList positions\n");
         exit(EXIT_FAILURE);
@@ -20,7 +20,8 @@ Particle* ListRelease(Particle* types, int* numP, int numTypes, Vector* position
             output[P] = PutParticle(types[i], position[P], velocities == NULL ? zeroVector() : velocities[P]);
             P++;
         }
-    }   
+    }  
+    return output;
 }
 
 //grid release of particles (stationary)

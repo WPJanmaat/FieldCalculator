@@ -4,10 +4,17 @@ ResultNode createResult(double time, Particle* PList, int length) {
     ResultNode output;
     output.time = time;
     output.ParticleList = calloc(sizeof(Particle), length);
+    if (output.ParticleList == NULL) {
+        printf("ResultParticles is NULL\n");
+    }
+    if (PList == NULL) {
+        printf("PList is NULL\n");
+    }
     //Create copy rather than reference, as results are time snapshots.
     for(int i = 0; i<length; i++) {
         output.ParticleList[i] = PList[i];
     }
+    return output;
 }
 
 void resizeResults(Resultset* input, int newsize) {
@@ -27,15 +34,22 @@ Resultset CreateResultSet(int expectedSize) {
         fprintf(stderr, "Failed to allocate memory for CreateResultSet\n");
         exit(EXIT_FAILURE);
     }
+    output.length =0;
     output.size = expectedSize;
+    output.size = expectedSize;
+    return output;
 }
 
 void addResult(Resultset* resultset, ResultNode newResult) {
-    if(resultset->length >= resultset->size) {
+    if(resultset->length >= (resultset->size)-1) {
         resizeResults(resultset, resultset->size + 1000);
     }
-    resultset->results[resultset->length] = newResult;
-    resultset->length++;
+    printf("Length: %d, Size: %d\n", resultset->length, resultset->size);
+    (*resultset).results[resultset->length] = newResult;
+    resultset->length+=1;
+    
 }
 
+void freeResult(Resultset input) {
 
+}
