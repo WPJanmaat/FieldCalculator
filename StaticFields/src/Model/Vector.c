@@ -16,6 +16,7 @@ Vector vecMin(Vector a, Vector b) {
     result.x = a.x - b.x;
     result.y = a.y - b.y;
     result.z = a.z - b.z;
+    return result;
 }
 
 Vector scalarMult(Vector a, double mult) {
@@ -23,6 +24,7 @@ Vector scalarMult(Vector a, double mult) {
     result.x = a.x*mult;
     result.y = a.y*mult;
     result.z = a.z*mult;
+    return result;
 }
 
 Vector scalarDiv(Vector a, double divisor) {

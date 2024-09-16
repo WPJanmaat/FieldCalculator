@@ -15,8 +15,14 @@ Particle updateParticle(Particle input, Vector force, Parameters params) {
         Vector AirInteract = zeroVector(); // air friction gives 0 for now
         //TODO: implement air friction WILL REQUIRE CHANGES ABOVE AND BELOW
         Vector NextAcc = vecSum(CurrentAcc, scalarDiv(force, input.mass));
-        Vector NextPos = vecSum(vecSum(CurrentPos, scalarMult(CurrentVel, params.dt*(1/params.scale))), scalarMult(CurrentAcc, pow(params.dt,2)/2*(1/params.scale))); //verbose for xcur + vcur*dt + acur*(dt^2)/2
-        Vector NextVel = scalarDiv(vecSum(CurrentAcc, NextAcc),2);        
+        Vector NextPos = vecSum(vecSum(CurrentPos, scalarMult(CurrentVel, params.dt*(1/params.scale))), scalarMult(CurrentAcc, (pow(params.dt,2)/2)*(1/params.scale))); //verbose for xcur + vcur*dt + acur*(dt^2)/2
+        Vector NextVel = vecSum(CurrentVel, scalarDiv(vecSum(CurrentAcc, NextAcc),2));
+        printf("NextPos\n");
+        printVector(NextPos);
+        printf("NextVel\n");
+        printVector(NextVel);
+        printf("NextAcc\n");
+        printVector(NextAcc);    
         input.position = NextPos;
         input.acceleration = NextAcc;
         input.velocity = NextVel;
@@ -32,6 +38,7 @@ void simulateStep(Particle *particleList, Field* ACField, Field* DCField, int le
     Vector *forceList = calloc(sizeof(Vector), length);
     for (int i=0; i<length; i++) { 
         Vector NextForce = ModulateField(ACField, DCField, getParPos(particleList[i]), timestep, params);
+        forceList[i] = zeroVector();
         //n^2/2 :) best I can do short of creating field analysis.
         for (int j=i+1; j<length; j++) {
             Vector Pforce = getForce(particleList[i], particleList[j], params.scale);
