@@ -54,5 +54,3 @@ Vector *fieldGetPos(Field* input, Vector position, int offsetX, int offsetY, int
 
     return fieldGet(input, indexX+offsetX, indexY+offsetY, indexZ+offsetZ);
 }
-
-//TODO: separate to interpolator.c file

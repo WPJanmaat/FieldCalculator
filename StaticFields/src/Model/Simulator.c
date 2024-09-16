@@ -30,17 +30,18 @@ Particle updateParticle(Particle input, Vector force, Parameters params) {
 
 void simulateStep(Particle *particleList, Field* ACField, Field* DCField, int length, int timestep, Parameters params){
     Vector *forceList = calloc(sizeof(Vector), length);
-    for (int i=0; i++; i<length) { 
+    for (int i=0; i<length; i++) { 
         Vector NextForce = ModulateField(ACField, DCField, getParPos(particleList[i]), timestep, params);
         //n^2/2 :) best I can do short of creating field analysis.
-        for (int j=i+1; j++; j<length) {
+        for (int j=i+1; j<length; j++) {
             Vector Pforce = getForce(particleList[i], particleList[j], params.scale);
             forceList[i] = vecSum(forceList[i], Pforce);
             forceList[j] = vecSum(forceList[j], invertVec(Pforce)); //action is minus reaction, force on the second particle can already be calculated.
         }
         //TODO: implement magnetic interactions?
         NextForce = vecSum(NextForce, forceList[i]);
-        updateParticle(particleList[i], NextForce, params);
+        printVector(NextForce);
+        particleList[i] = updateParticle(particleList[i], NextForce, params);
     }
 }
 
@@ -56,12 +57,10 @@ Resultset Simulate(Particle* ParticleList, Field* ACField, Field* DCField, int l
     while(i*params.dt+params.startTime < params.endTime) {
         for(i; i < report*j; i++){
             simulateStep(ParticleList, ACField, DCField, length, i, params);
+            length = eliminateParticles(ParticleList, length);
         }
         ResultNode newResult = createResult(i*params.dt+params.startTime, ParticleList, length);
-        printf("ResultNode created\n");
         addResult(&output, newResult);
-        printf("Result added");
-        length = eliminateParticles(ParticleList, length);
         j++;
     }
     return output;

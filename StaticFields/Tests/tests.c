@@ -92,7 +92,7 @@ void SimTest() {
     simparams.dt = 0.00000001;
     simparams.startTime = 0;
     simparams.pressure = 0;
-    simparams.scale = 0.001;
+    simparams.scale = 1E-3;
     Vector position = zeroVector();
     position.x = 1;
     position.y = 0.5;

@@ -44,7 +44,6 @@ void addResult(Resultset* resultset, ResultNode newResult) {
     if(resultset->length >= (resultset->size)-1) {
         resizeResults(resultset, resultset->size + 1000);
     }
-    printf("Length: %d, Size: %d\n", resultset->length, resultset->size);
     (*resultset).results[resultset->length] = newResult;
     resultset->length+=1;
     
