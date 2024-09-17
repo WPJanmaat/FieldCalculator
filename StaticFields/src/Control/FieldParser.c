@@ -32,7 +32,7 @@ Field ParseField(char *filepath, FieldProperties properties) {
 
     //this could be updated to include 2D fields.
     if(Xstep == 0 || Ystep == 0 || Zstep == 0) {
-        printf("xstep: %lf, ystep: %lf, zstep: %lf\n");
+        printf("xstep: %lf, ystep: %lf, zstep: %lf\n", Xstep, Ystep, Zstep);
         fprintf(stderr, "0 steplength for X, Y or Z is not allowed in this program, please use a valid 3D field\n");
         exit(EXIT_FAILURE);
     }

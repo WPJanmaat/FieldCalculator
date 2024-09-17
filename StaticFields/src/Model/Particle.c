@@ -55,6 +55,7 @@ Particle createParticle(int charge, double mass, double impactParameter) {
     ReturnParticle.charge = charge;
     ReturnParticle.mass=mass;
     ReturnParticle.impactParameter = impactParameter;
+    return ReturnParticle;
 }
 
 Particle PutParticle(Particle type, Vector position, Vector velocity) {
