@@ -25,18 +25,35 @@ Vector interpTriLin(Field* inputField, Vector position) {
     //0 is lower, 1 is higher
     double Xvals[2], Yvals[2], Zvals[2];
     //position.x/inputField.steplengthX
-    Xvals[0] = floor(getVecValue(position, x));
-    Xvals[1] = ceil(getVecValue(position, x));
-    Yvals[0] = floor(getVecValue(position, y));
-    Yvals[1] = ceil(getVecValue(position, y));
-    Zvals[0] = floor(getVecValue(position, z));
-    Zvals[1] = ceil(getVecValue(position, z));
+    double Xpos = getVecValue(position, x);
+    Xvals[1] = inputField->startX;
+
+    while(Xvals[1]<= Xpos) {
+        Xvals[1]+=inputField->steplengthX;
+    }        
+    Xvals[0] = Xvals[1]-inputField->steplengthX;
+        
+    double Ypos = getVecValue(position, y);
+    Yvals[1] = inputField->startY;
+
+    while(Yvals[1]<= Ypos) {
+        Yvals[1]+=inputField->steplengthY;
+    }
+    Yvals[0] = Yvals[1]-inputField->steplengthY;
+
+    double Zpos = getVecValue(position, z);
+    Zvals[1] = inputField->startZ;
+
+    while(Zvals[1]<= Zpos) {
+        Zvals[1] += inputField ->steplengthZ;
+    }
+    Zvals[0] = Zvals[1]-inputField->steplengthZ;
 
     //only used to extract the positional fraction.
     double fracX, fracY, fracZ;
-    fracX = (getVecValue(position, x)-Xvals[0])/(Xvals[1]-Xvals[0]);
-    fracY = (getVecValue(position, y)-Yvals[0])/(Yvals[1]-Yvals[0]);
-    fracZ = (getVecValue(position, z)-Zvals[0])/(Zvals[1]-Zvals[0]);
+    fracX = (Xpos-Xvals[0])/(Xvals[1]-Xvals[0]); //Identical to inputField->steplengthX, used to insulate Field Variables
+    fracY = (Ypos-Yvals[0])/(Yvals[1]-Yvals[0]);
+    fracZ = (Zpos-Zvals[0])/(Zvals[1]-Zvals[0]);
 
     //i and j determine the offset, 0 is the lower bound value 1 is the higher bound value for x and y respectively.
     Vector InterpTwice[2];
