@@ -10,7 +10,7 @@ Vector getParPos(Particle p) {
 
 //Electric Coulomb force of a on b (= - b on a)
 Vector getForce(Particle a, Particle b, double scale) {
-    double chargeForce = a.charge + b.charge * e;
+    double chargeForce = a.charge * b.charge * e;
     double distance = getDistance(a.position, b.position);
     //a makeunit function exists, but since the length of this vector was already known this avoids redundancy
     Vector direction = scalarDiv(vecMin(b.position, a.position), distance);
