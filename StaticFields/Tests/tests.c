@@ -91,10 +91,10 @@ void SimTest() {
     R_trap : 5mm
     */
     Parameters simparams;
-    simparams.ACV = 600;
+    simparams.ACV = 50;
     simparams.DCV = 5;
     simparams.endTime = 0.000400;
-    simparams.freq = 19767.98;
+    simparams.freq = 500000;
     simparams.lowerX = simparams.lowerY = simparams.lowerZ = -2.9;
     simparams.upperX = simparams.upperY = simparams.upperZ = 2.9;
     simparams.dt = 0.00000001;
@@ -108,7 +108,7 @@ void SimTest() {
     //lookup params
     int singleton = 1;
     //138u * 1.6E-27 [Kg]
-    Particle type = createParticle(1, (138 * 1.6E-27), 0);
+    Particle type = createParticle(1, (138 * 1.6605E-27), 0);
     Particle* Plist = ParticleRelease(&(type), &singleton, singleton, 0, list, &position, NULL);
 
     FieldProperties props;
