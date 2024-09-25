@@ -82,6 +82,14 @@ void compareResults(Resultset testresults, char* filepath) {
 }
 
 void SimTest() {
+    //TODO: Replace TestPath.csv
+
+    /* 
+    ACV: 50 [V]
+    DCV: 5 [V]
+    freq: 500KhZ
+    R_trap : 5mm
+    */
     Parameters simparams;
     simparams.ACV = 600;
     simparams.DCV = 5;
@@ -94,12 +102,13 @@ void SimTest() {
     simparams.pressure = 0;
     simparams.scale = 1E-3;
     Vector position = zeroVector();
-    position.x = 1;
+    position.x = 1.1;
     position.y = 0.5;
-    position.z = 0;
+    position.z = 0.1;
     //lookup params
     int singleton = 1;
-    Particle type = createParticle(5E-7, -1E-13, 0);
+    //138u * 1.6E-27 [Kg]
+    Particle type = createParticle(1, (138 * 1.6E-27), 0);
     Particle* Plist = ParticleRelease(&(type), &singleton, singleton, 0, list, &position, NULL);
 
     FieldProperties props;

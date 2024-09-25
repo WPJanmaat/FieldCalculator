@@ -17,12 +17,6 @@ Particle updateParticle(Particle input, Vector force, Parameters params) {
         Vector NextAcc = vecSum(CurrentAcc, scalarDiv(force, input.mass));
         Vector NextPos = vecSum(vecSum(CurrentPos, scalarMult(CurrentVel, params.dt*(1/params.scale))), scalarMult(CurrentAcc, (pow(params.dt,2)/2)*(1/params.scale))); //verbose for xcur + vcur*dt + acur*(dt^2)/2
         Vector NextVel = vecSum(CurrentVel, scalarDiv(vecSum(CurrentAcc, NextAcc),2));
-        printf("NextPos\n");
-        printVector(NextPos);
-        printf("NextVel\n");
-        printVector(NextVel);
-        printf("NextAcc\n");
-        printVector(NextAcc);    
         input.position = NextPos;
         input.acceleration = NextAcc;
         input.velocity = NextVel;
@@ -38,6 +32,7 @@ void simulateStep(Particle *particleList, Field* ACField, Field* DCField, int le
     Vector *forceList = calloc(sizeof(Vector), length);
     for (int i=0; i<length; i++) { 
         Vector NextForce = ModulateField(ACField, DCField, getParPos(particleList[i]), timestep, params);
+        NextForce = scalarMult(NextForce, particleList[i].charge);
         forceList[i] = zeroVector();
         //n^2/2 :) best I can do short of creating field analysis.
         for (int j=i+1; j<length; j++) {
@@ -47,7 +42,6 @@ void simulateStep(Particle *particleList, Field* ACField, Field* DCField, int le
         }
         //TODO: implement magnetic interactions?
         NextForce = vecSum(NextForce, forceList[i]);
-        printVector(NextForce);
         particleList[i] = updateParticle(particleList[i], NextForce, params);
     }
 }

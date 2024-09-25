@@ -4,7 +4,7 @@
 #include <string.h>
 #include "./Model/Types.h"
 #include "./Model/Expression.h"
-#include "./Model/VarMaps.h"
+#include "./Model/VarMap.h"
 /*It is assumed for this program that the input expression is a valid one, a checker could be implemented later if necessary*/
 
 
