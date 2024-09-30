@@ -91,16 +91,18 @@ void SimTest() {
     R_trap : 5mm
     */
     Parameters simparams;
-    simparams.ACV = 50;
+    simparams.ACV = 45;
     simparams.DCV = 5;
-    simparams.endTime = 0.000400;
+    simparams.endTime = 0.00005;
     simparams.freq = 500000;
-    simparams.lowerX = simparams.lowerY = simparams.lowerZ = -2.9;
-    simparams.upperX = simparams.upperY = simparams.upperZ = 2.9;
-    simparams.dt = 0.00000001;
+    simparams.lowerX = simparams.lowerY = -4.5;
+    simparams.upperX = simparams.upperY = 4.5;
+    simparams.lowerZ = 0.0125;
+    simparams.upperZ = 0.0195;
+    simparams.dt = 0.000000001;
     simparams.startTime = 0;
     simparams.pressure = 0;
-    simparams.scale = 1E-3;
+    simparams.scale = 1;
     Vector position = zeroVector();
     position.x = 1.1;
     position.y = 0.5;
@@ -111,18 +113,19 @@ void SimTest() {
     Particle type = createParticle(1, (138 * 1.6605E-27), 0);
     Particle* Plist = ParticleRelease(&(type), &singleton, singleton, 0, list, &position, NULL);
 
+    //x = y = -0.004 <-> 0.004, 0.0001; z = 0.012 <-> 0.20, 0.0001 [m] 
     FieldProperties props;
-    props.XStart = -3.0000;
-    props.Xend = 3.0000;
-    props.Xstep = 0.1000;
+    props.XStart = -0.004;
+    props.Xend = 0.004;
+    props.Xstep = 0.0001;
 
-    props.YStart = -3.0000;
-    props.Yend = 3.0000;
-    props.Ystep = 0.1000;
+    props.YStart = -0.004;
+    props.Yend = 0.004;
+    props.Ystep = 0.0001;
 
-    props.ZStart = -3.0000;
-    props.Zend = 3.0000;
-    props.Zstep = 0.1000;
+    props.ZStart = 0.012;
+    props.Zend = 0.020;
+    props.Zstep = 0.0001;
 
     Field ACField = ParseField("./../Tests/testFiles/SimTestACField.csv", props);
     Field DCField = ParseField("./../Tests/testFiles/SimTestDCField.csv", props);
