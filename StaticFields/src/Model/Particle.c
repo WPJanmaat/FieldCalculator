@@ -34,10 +34,10 @@ void printParticle(Particle a) {
 }
 
 //eliminates inative Particles and shortens the array accordingly. Returns new array length.
-int eliminateParticles(Particle* ParticleList, int length) {
+int eliminateParticles(Particle* ParticleList, int length, double time) {
     for(int i = 0; i< length; i++) {
         if(!ParticleList[i].enabled) {
-            printf("eliminating Particle %d, at position ", i);
+            printf("eliminating Particle %d, time %lf, at position ", i, time);
             printPosition(ParticleList[i]);
             length--;
             for(int j = i; j<length; j++) {

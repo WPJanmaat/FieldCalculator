@@ -104,9 +104,9 @@ void SimTest() {
     simparams.pressure = 0;
     simparams.scale = 1;
     Vector position = zeroVector();
-    position.x = 1.1;
-    position.y = 0.5;
-    position.z = 0.1;
+    position.x = 0.0005;
+    position.y = 0.0015;
+    position.z = 0.017;
     //lookup params
     int singleton = 1;
     //138u * 1.6E-27 [Kg]

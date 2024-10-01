@@ -58,7 +58,7 @@ Resultset Simulate(Particle* ParticleList, Field* ACField, Field* DCField, int l
     while(i*params.dt+params.startTime < params.endTime) {
         for(i; i < report*j; i++){
             simulateStep(ParticleList, ACField, DCField, length, i, params);
-            length = eliminateParticles(ParticleList, length);
+            length = eliminateParticles(ParticleList, length, (i*params.dt+params.startTime));
         }
         ResultNode newResult = createResult(i*params.dt+params.startTime, ParticleList, length);
         addResult(&output, newResult);

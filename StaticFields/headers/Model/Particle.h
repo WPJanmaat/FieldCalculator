@@ -15,7 +15,7 @@ typedef struct Particle {
 //places particles of a given type at a given position with velocity.
 Particle PutParticle(Particle type, Vector position, Vector velocity);
 
-int eliminateParticles(Particle* ParticleList, int length);
+int eliminateParticles(Particle* ParticleList, int length, double time);
 
 //charge in e (hence int), mass in Kg
 Particle createParticle(int charge, double mass, double impactParameter);

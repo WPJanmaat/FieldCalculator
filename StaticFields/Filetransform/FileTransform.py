@@ -4,8 +4,8 @@
 from pathlib import Path
 import re #oh god
 outpath = "../../Fielddata/csv"
-output = "../../Fielddata/csv/SimTestDCField.csv" #output file name
-pathin = Path(__file__) / "../../Fielddata/txt/DC E Field from test trap Unlabeled.txt" #replace this last bit with the relevant file for usage.
+output = "../../Fielddata/csv/SimTestACField.csv" #output file name
+pathin = Path(__file__) / "../../Fielddata/txt/ACFieldUnlabeled.txt" #replace this last bit with the relevant file for usage.
 pathout = Path(__file__) / output
 dirpath = Path(__file__) / outpath
 dirpath.mkdir(parents=True, exist_ok=True)
