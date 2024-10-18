@@ -14,9 +14,9 @@ Particle updateParticle(Particle input, Vector force, Parameters params) {
         Vector CurrentVel = input.velocity;
         Vector AirInteract = zeroVector(); // air friction gives 0 for now
         //TODO: implement air friction WILL REQUIRE CHANGES ABOVE AND BELOW
-        Vector NextAcc = vecSum(CurrentAcc, scalarDiv(force, input.mass));
-        Vector NextPos = vecSum(vecSum(CurrentPos, scalarMult(CurrentVel, params.dt*(1/params.scale))), scalarMult(CurrentAcc, (pow(params.dt,2)/2)*(1/params.scale))); //verbose for xcur + vcur*dt + acur*(dt^2)/2
-        Vector NextVel = vecSum(CurrentVel, scalarDiv(vecSum(CurrentAcc, NextAcc),2));
+        Vector NextAcc = scalarDiv(force, input.mass);
+        Vector NextPos = vecSum(vecSum(CurrentPos, scalarMult(CurrentVel, params.dt*(1/params.scale))), scalarMult(CurrentAcc, (params.dt*params.dt/2)*(1/params.scale))); //verbose for xcur + vcur*dt + acur*(dt^2)/2
+        Vector NextVel = vecSum(CurrentVel, scalarMult(vecSum(CurrentAcc, NextAcc), params.dt/2));
         input.position = NextPos;
         input.acceleration = NextAcc;
         input.velocity = NextVel;
@@ -33,6 +33,8 @@ void simulateStep(Particle *particleList, Field* ACField, Field* DCField, int le
     for (int i=0; i<length; i++) { 
         Vector NextForce = ModulateField(ACField, DCField, getParPos(particleList[i]), timestep, params);
         NextForce = scalarMult(NextForce, particleList[i].charge);
+        //printf("Force at timestep %d: \n", timestep);
+        //printVector(NextForce);
         forceList[i] = zeroVector();
         //n^2/2 :) best I can do short of creating field analysis.
         for (int j=i+1; j<length; j++) {
@@ -58,7 +60,7 @@ Resultset Simulate(Particle* ParticleList, Field* ACField, Field* DCField, int l
     while(i*params.dt+params.startTime < params.endTime) {
         for(i; i < report*j; i++){
             simulateStep(ParticleList, ACField, DCField, length, i, params);
-            length = eliminateParticles(ParticleList, length, (i*params.dt+params.startTime));
+            length = eliminateParticles(ParticleList, length, i);
         }
         ResultNode newResult = createResult(i*params.dt+params.startTime, ParticleList, length);
         addResult(&output, newResult);

@@ -12,7 +12,8 @@ ResultNode createResult(double time, Particle* PList, int length) {
     }
     //Create copy rather than reference, as results are time snapshots.
     for(int i = 0; i<length; i++) {
-        output.ParticleList[i] = PList[i];
+        Particle copy = PList[i];
+        output.ParticleList[i] = copy;
     }
     return output;
 }
@@ -35,7 +36,6 @@ Resultset CreateResultSet(int expectedSize) {
         exit(EXIT_FAILURE);
     }
     output.length =0;
-    output.size = expectedSize;
     output.size = expectedSize;
     return output;
 }

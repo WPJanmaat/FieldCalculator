@@ -6,4 +6,5 @@
 #include "../headers/Model/Field.h"
 void CSVTest();
 void SimTest();
+void ParticleTest();
 #endif

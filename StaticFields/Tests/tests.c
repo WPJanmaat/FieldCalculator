@@ -49,6 +49,10 @@ void CSVTest() {
     assert(feof(file));
     printf("File successfully cleared.\n");
 
+    assert(testField.FieldValues[30][30][30].x == 0.0078589);
+    assert(testField.FieldValues[30][30][30].y == -1.7027E-4);
+    assert(testField.FieldValues[30][30][30].z == 0.0041130);
+
     printf("ParseTest complete, press enter to continue\n");
     fclose(file);
     char out;
@@ -81,6 +85,11 @@ void compareResults(Resultset testresults, char* filepath) {
     }
 }
 
+void ParticleTest() {
+    Particle TestParticle = createParticle(1, 10, 0);
+    printf("Charge: %lf\n", TestParticle.charge);
+}
+
 void SimTest() {
     //TODO: Replace TestPath.csv
 
@@ -94,12 +103,12 @@ void SimTest() {
     simparams.ACV = 45;
     simparams.DCV = 5;
     simparams.endTime = 0.00005;
-    simparams.freq = 500000;
-    simparams.lowerX = simparams.lowerY = -4.5;
-    simparams.upperX = simparams.upperY = 4.5;
+    simparams.freq = 500E3;
+    simparams.lowerX = simparams.lowerY = -0.0038;
+    simparams.upperX = simparams.upperY = 0.0038;
     simparams.lowerZ = 0.0125;
     simparams.upperZ = 0.0195;
-    simparams.dt = 0.000000001;
+    simparams.dt = 0.00000000001;
     simparams.startTime = 0;
     simparams.pressure = 0;
     simparams.scale = 1;
@@ -130,7 +139,7 @@ void SimTest() {
     Field ACField = ParseField("./../Tests/testFiles/SimTestACField.csv", props);
     Field DCField = ParseField("./../Tests/testFiles/SimTestDCField.csv", props);
     
-    Resultset testresults = Simulate(Plist, &ACField, &DCField, 1, simparams, 100);
+    Resultset testresults = Simulate(Plist, &ACField, &DCField, 1, simparams, 10000);
 
     printf("Simulation Complete, comparing: \n");
     compareResults(testresults, "./../Tests/testFiles/TestPath.csv"); //from 0 to 400 microsec per 1 microsec

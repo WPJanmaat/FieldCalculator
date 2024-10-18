@@ -10,7 +10,7 @@ Vector getParPos(Particle p) {
 
 //Electric Coulomb force of a on b (= - b on a)
 Vector getForce(Particle a, Particle b, double scale) {
-    double chargeForce = a.charge * b.charge * e;
+    double chargeForce = a.charge * b.charge;
     double distance = getDistance(a.position, b.position);
     //a makeunit function exists, but since the length of this vector was already known this avoids redundancy
     Vector direction = scalarDiv(vecMin(b.position, a.position), distance);
@@ -40,7 +40,7 @@ int eliminateParticles(Particle* ParticleList, int length, double time) {
             printf("eliminating Particle %d, time %lf, at position ", i, time);
             printPosition(ParticleList[i]);
             length--;
-            for(int j = i; j<length; j++) {
+            for(int j = i; j<length-1; j++) {
                 ParticleList[j] = ParticleList[j+1];
             }
             ParticleList = realloc(ParticleList, length);
@@ -49,10 +49,10 @@ int eliminateParticles(Particle* ParticleList, int length, double time) {
     return length;
 }
 
-Particle createParticle(int charge, double mass, double impactParameter) {
+Particle createParticle(double charge, double mass, double impactParameter) {
     Particle ReturnParticle;
     ReturnParticle.enabled = 1;
-    ReturnParticle.charge = charge;
+    ReturnParticle.charge = charge * e;
     ReturnParticle.mass=mass;
     ReturnParticle.impactParameter = impactParameter;
     return ReturnParticle;
@@ -61,6 +61,7 @@ Particle createParticle(int charge, double mass, double impactParameter) {
 Particle PutParticle(Particle type, Vector position, Vector velocity) {
     type.position = position;
     type.velocity = velocity;
+    type.acceleration = zeroVector();
     return type;
 }
 

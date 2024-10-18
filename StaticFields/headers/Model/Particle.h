@@ -4,7 +4,7 @@
 //NOTE: the low numbers involved in this calculation may compromise accuracy due to Floating point arithmatic.
 typedef struct Particle {
     char enabled; //Particles are disabled and not considered outside the relevant area, disabled Particles are cleared up every 100 steps.
-    int charge; //in e
+    double charge; //in C
     double mass; //kg (sorry)
     Vector position;
     Vector velocity;
@@ -18,7 +18,7 @@ Particle PutParticle(Particle type, Vector position, Vector velocity);
 int eliminateParticles(Particle* ParticleList, int length, double time);
 
 //charge in e (hence int), mass in Kg
-Particle createParticle(int charge, double mass, double impactParameter);
+Particle createParticle(double charge, double mass, double impactParameter);
 
 void printPosition(Particle a);
 Vector getParPos(Particle p);

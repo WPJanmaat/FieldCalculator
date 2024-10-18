@@ -5,6 +5,7 @@
 int main(int argc, char **argv) {
     printf("initialising tests\n");
 	CSVTest();
+    ParticleTest();
     printf("starting Simtest\n");
     SimTest();
     return 0;
