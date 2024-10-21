@@ -74,6 +74,10 @@ void compareResults(Resultset testresults, char* filepath) {
     Vector filePos;
 
     for(int i = 0; i < testresults.length; i++) {
+        if (feof(file)) {
+            printf("Unexpected EOF");
+            break;
+        }
         fscanf(file, "%lf\n", &filePos.x);
         fscanf(file, "%lf\n", &filePos.y);
         fscanf(file, "%lf\n", &filePos.z);
@@ -142,5 +146,6 @@ void SimTest() {
     Resultset testresults = Simulate(Plist, &ACField, &DCField, 1, simparams, 10000);
 
     printf("Simulation Complete, comparing: \n");
-    compareResults(testresults, "./../Tests/testFiles/TestPath.csv"); //from 0 to 400 microsec per 1 microsec
+    compareResults(testresults, "./../Tests/testFiles/TestPath.csv"); //from 0 to 50 microsec per 0.1 microsec
+    printf("Comparison completed\n");
 }

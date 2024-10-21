@@ -1,6 +1,7 @@
 #ifndef PARTICLE_H
 #define PARTICLE_H
 #include "Vector.h"
+#include "parameters.h"
 //NOTE: the low numbers involved in this calculation may compromise accuracy due to Floating point arithmatic.
 typedef struct Particle {
     char enabled; //Particles are disabled and not considered outside the relevant area, disabled Particles are cleared up every 100 steps.

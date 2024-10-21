@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <math.h>
 #define e 1.60217663E-19
+#define e0 8.55E-12
 
 Vector getParPos(Particle p) {
     return p.position;
@@ -11,10 +12,11 @@ Vector getParPos(Particle p) {
 //Electric Coulomb force of a on b (= - b on a)
 Vector getForce(Particle a, Particle b, double scale) {
     double chargeForce = a.charge * b.charge;
+    double factor = 1/(4*pi*e0);
     double distance = getDistance(a.position, b.position);
     //a makeunit function exists, but since the length of this vector was already known this avoids redundancy
     Vector direction = scalarDiv(vecMin(b.position, a.position), distance);
-    return scalarMult(direction, chargeForce/(distance*scale*distance*scale));
+    return scalarMult(direction, factor*chargeForce/(distance*scale*distance*scale));
 }
 
 void printVelocity(Particle a) {

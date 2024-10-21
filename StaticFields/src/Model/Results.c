@@ -12,15 +12,14 @@ ResultNode createResult(double time, Particle* PList, int length) {
     }
     //Create copy rather than reference, as results are time snapshots.
     for(int i = 0; i<length; i++) {
-        Particle copy = PList[i];
-        output.ParticleList[i] = copy;
+        output.ParticleList[i] = PList[i];
     }
     return output;
 }
 
 void resizeResults(Resultset* input, int newsize) {
     if(newsize<=input->size) return;
-    input->results = realloc(input->results, newsize);
+    input->results = realloc(input->results, newsize*sizeof(ResultNode));
     if(input->results == NULL) {
         fprintf(stderr, "Failed to allocate memory for resizeResults.\n");
         exit(EXIT_FAILURE);
@@ -36,6 +35,7 @@ Resultset CreateResultSet(int expectedSize) {
         exit(EXIT_FAILURE);
     }
     output.length =0;
+    output.size = expectedSize;
     output.size = expectedSize;
     return output;
 }

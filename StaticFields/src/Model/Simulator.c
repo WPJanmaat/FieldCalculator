@@ -50,12 +50,13 @@ void simulateStep(Particle *particleList, Field* ACField, Field* DCField, int le
 
 Resultset Simulate(Particle* ParticleList, Field* ACField, Field* DCField, int length, Parameters params, int report) {
     int i=0;
-    int j=1;
+    int j=0;
 
     //+1 due to truncation
     int expectedResults = (int) (((params.endTime-params.startTime)/params.dt)/report)+1;
     if (ParticleList == NULL) printf("EMPTY PARTICLELIST!\n");
     Resultset output = CreateResultSet(expectedResults);
+    printf("starting result size: %d\n", expectedResults);
     //strange loop, interrupts every report runs to eliminate disabled Particles and give output
     while(i*params.dt+params.startTime < params.endTime) {
         for(i; i < report*j; i++){
@@ -66,5 +67,6 @@ Resultset Simulate(Particle* ParticleList, Field* ACField, Field* DCField, int l
         addResult(&output, newResult);
         j++;
     }
+    printf("final time: %lf\n", i*params.dt+params.startTime);
     return output;
 }
