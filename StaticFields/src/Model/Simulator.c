@@ -28,42 +28,42 @@ Particle updateParticle(Particle input, Vector force, Parameters params) {
     return input;
 }
 
-void simulateStep(Particle *particleList, Field* ACField, Field* DCField, int length, int timestep, Parameters params){
-    Vector *forceList = calloc(sizeof(Vector), length);
-    for (int i=0; i<length; i++) { 
-        Vector NextForce = ModulateField(ACField, DCField, getParPos(particleList[i]), timestep, params);
-        NextForce = scalarMult(NextForce, particleList[i].charge);
+void simulateStep(ParticleList particleList, Field* ACField, Field* DCField, int timestep, Parameters params){
+    Vector *forceList = calloc(sizeof(Vector), particleList.length);
+    for (int i=0; i<particleList.length; i++) { 
+        Vector NextForce = ModulateField(ACField, DCField, getParPos(particleList.List[i]), timestep, params);
+        NextForce = scalarMult(NextForce, particleList.List[i].charge);
         //printf("Force at timestep %d: \n", timestep);
         //printVector(NextForce);
         forceList[i] = zeroVector();
         //n^2/2 :) best I can do short of creating field analysis.
-        for (int j=i+1; j<length; j++) {
-            Vector Pforce = getForce(particleList[i], particleList[j], params.scale);
+        for (int j=i+1; j<particleList.length; j++) {
+            Vector Pforce = getForce(particleList.List[i], particleList.List[j], params.scale);
             forceList[i] = vecSum(forceList[i], Pforce);
             forceList[j] = vecSum(forceList[j], invertVec(Pforce)); //action is minus reaction, force on the second particle can already be calculated.
         }
         //TODO: implement magnetic interactions?
         NextForce = vecSum(NextForce, forceList[i]);
-        particleList[i] = updateParticle(particleList[i], NextForce, params);
+        particleList.List[i] = updateParticle(particleList.List[i], NextForce, params);
     }
 }
 
-Resultset Simulate(Particle* ParticleList, Field* ACField, Field* DCField, int length, Parameters params, int report) {
+Resultset Simulate(ParticleList ParticleList, Field* ACField, Field* DCField, Parameters params, int report) {
     int i=0;
     int j=0;
 
     //+1 due to truncation
     int expectedResults = (int) (((params.endTime-params.startTime)/params.dt)/report)+1;
-    if (ParticleList == NULL) printf("EMPTY PARTICLELIST!\n");
+    if (ParticleList.List == NULL) printf("EMPTY PARTICLELIST!\n");
     Resultset output = CreateResultSet(expectedResults);
     printf("starting result size: %d\n", expectedResults);
     //strange loop, interrupts every report runs to eliminate disabled Particles and give output
     while(i*params.dt+params.startTime < params.endTime) {
         for(i; i < report*j; i++){
-            simulateStep(ParticleList, ACField, DCField, length, i, params);
-            length = eliminateParticles(ParticleList, length, i);
+            simulateStep(ParticleList, ACField, DCField, i, params);
+            eliminateParticles(&ParticleList, params.startTime+(i*params.dt));
         }
-        ResultNode newResult = createResult(i*params.dt+params.startTime, ParticleList, length);
+        ResultNode newResult = createResult((i*params.dt+params.startTime), ParticleList);
         addResult(&output, newResult);
         j++;
     }

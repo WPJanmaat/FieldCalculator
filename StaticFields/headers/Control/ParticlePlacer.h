@@ -21,6 +21,6 @@ typedef enum Release {
  * 
  * @return: Particle* array of particles released.
 */
-Particle* ParticleRelease(Particle* types, int* numP, int numTypes, double distance, Release type, Vector* position, Vector* velocities);
+ParticleList ParticleRelease(Particle* types, int* numP, int numTypes, double distance, Release type, Vector* position, Vector* velocities);
 
 #endif

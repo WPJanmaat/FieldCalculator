@@ -36,19 +36,19 @@ void printParticle(Particle a) {
 }
 
 //eliminates inative Particles and shortens the array accordingly. Returns new array length.
-int eliminateParticles(Particle* ParticleList, int length, double time) {
-    for(int i = 0; i< length; i++) {
-        if(!ParticleList[i].enabled) {
+int eliminateParticles(ParticleList* ParticleList, double time) {
+    for(int i = 0; i< (*ParticleList).length; i++) {
+        if(!(*ParticleList).List[i].enabled) {
             printf("eliminating Particle %d, time %lf, at position ", i, time);
-            printPosition(ParticleList[i]);
-            length--;
-            for(int j = i; j<length-1; j++) {
+            printPosition((*ParticleList).List[i]);
+            ParticleList->length--;
+            for(int j = i; j<(*ParticleList).length-1; j++) {
                 ParticleList[j] = ParticleList[j+1];
             }
-            ParticleList = realloc(ParticleList, length);
+            ParticleList = realloc(ParticleList, ParticleList->length);
         }
     }
-    return length;
+    return ParticleList->length;
 }
 
 Particle createParticle(double charge, double mass, double impactParameter) {

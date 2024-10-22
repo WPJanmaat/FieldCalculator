@@ -1,19 +1,20 @@
 #include "./../../headers/Model/Results.h"
 
-ResultNode createResult(double time, Particle* PList, int length) {
+ResultNode createResult(double time, ParticleList PList) {
     ResultNode output;
     output.time = time;
-    output.ParticleList = calloc(sizeof(Particle), length);
-    if (output.ParticleList == NULL) {
+    output.particleList.List = calloc(sizeof(Particle), PList.length);
+    if (output.particleList.List == NULL) {
         printf("ResultParticles is NULL\n");
     }
-    if (PList == NULL) {
+    if (PList.List == NULL) {
         printf("PList is NULL\n");
     }
     //Create copy rather than reference, as results are time snapshots.
-    for(int i = 0; i<length; i++) {
-        output.ParticleList[i] = PList[i];
+    for(int i = 0; i<PList.length; i++) {
+        output.particleList.List[i] = PList.List[i];
     }
+    output.particleList.length=PList.length;
     return output;
 }
 

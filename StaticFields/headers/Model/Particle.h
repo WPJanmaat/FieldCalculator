@@ -4,7 +4,7 @@
 #include "parameters.h"
 //NOTE: the low numbers involved in this calculation may compromise accuracy due to Floating point arithmatic.
 typedef struct Particle {
-    char enabled; //Particles are disabled and not considered outside the relevant area, disabled Particles are cleared up every 100 steps.
+    char enabled; //Particles are disabled and not considered outside the relevant area, disabled Particles are cleared up every step.
     double charge; //in C
     double mass; //kg (sorry)
     Vector position;
@@ -13,10 +13,15 @@ typedef struct Particle {
     double impactParameter; //for use in the air calculations
 } Particle;
 
+typedef struct ParticleList{
+    Particle* List;
+    int length;
+} ParticleList;
+
 //places particles of a given type at a given position with velocity.
 Particle PutParticle(Particle type, Vector position, Vector velocity);
 
-int eliminateParticles(Particle* ParticleList, int length, double time);
+int eliminateParticles(ParticleList* ParticleList, double time);
 
 //charge in e (hence int), mass in Kg
 Particle createParticle(double charge, double mass, double impactParameter);

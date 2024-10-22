@@ -5,7 +5,7 @@
 #include <stdlib.h>
 typedef struct ResultNode {
     double time;
-    Particle* ParticleList;
+    ParticleList particleList;
 } ResultNode;
 
 typedef ResultNode* Results;
@@ -17,7 +17,7 @@ typedef struct Resultset {
 } Resultset;
 
 void addResult(Resultset* resultset, ResultNode newResult);
-ResultNode createResult(double time, Particle* PList, int length);
+ResultNode createResult(double time, ParticleList PList);
 Resultset CreateResultSet(int expectedSize);
 
 #endif

@@ -18,7 +18,7 @@ CC := x86_64-w64-mingw32-gcc
 OBJPATH = .\..\obj
 
 
-MyTest : Vector.o Field.o Particle.o FieldParser.o ParticlePlacer.o Simulator.o Interpolate.o Results.o FieldModulate.o Tests.o TestMain.o
+MyTest : Vector.o Field.o Particle.o FieldParser.o ParticlePlacer.o Simulator.o Interpolate.o Results.o ResultWriter.o FieldModulate.o Tests.o TestMain.o
 	$(CC) -O2 -Wall -pedantic -o ./../bin/ParseTest.exe $^ 
 
 Vector.o : Vector.c Vector.h
@@ -42,6 +42,9 @@ Simulator.o : Simulator.c Simulator.h
 Interpolate.o : Interpolate.c Interpolate.h
 	$(CC) -c -Wall -pedantic $^
 
+ResultWriter.o : ResultWriter.c ResultWriter.h
+	$(CC) -c -Wall -pedantic $^
+
 Results.o : Results.c Results.h
 	$(CC) -c -Wall -pedantic $^
 
@@ -53,4 +56,5 @@ Tests.o : tests.c tests.h
 
 TestMain.o : testMain.c
 	$(CC) -c -Wall -pedantic $^
+
 

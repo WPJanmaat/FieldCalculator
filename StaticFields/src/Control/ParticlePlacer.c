@@ -3,13 +3,15 @@
 #include <stdlib.h>
 #include "../../headers/Control/ParticlePlacer.h"
 
-Particle* ListRelease(Particle* types, int* numP, int numTypes, Vector* position, Vector* velocities) {
+ParticleList ListRelease(Particle* types, int* numP, int numTypes, Vector* position, Vector* velocities) {
     int totalParticles = 0;
-    
+    ParticleList Output;
+    Output.length = 0;
+    Output.List = NULL;
     for (int i=0; i<numTypes; i++) totalParticles+=numP[i];
     Particle* output = calloc(sizeof(Particle), totalParticles);
     int P = 0;
-    if(totalParticles == 0) return NULL;
+    if(totalParticles == 0) return Output;
     if(position == NULL) {
         fprintf(stderr, "Invalid input on ParticleList positions\n");
         exit(EXIT_FAILURE);
@@ -20,15 +22,21 @@ Particle* ListRelease(Particle* types, int* numP, int numTypes, Vector* position
             output[P] = PutParticle(types[i], position[P], velocities == NULL ? zeroVector() : velocities[P]);
             P++;
         }
-    }  
-    return output;
+    } 
+    Output.length = totalParticles;
+    Output.List = output;
+    return Output;
 }
 
 //grid release of particles (stationary)
-Particle* GridRelease(Particle* types, int* numP, int numTypes, double distance) {
+ParticleList GridRelease(Particle* types, int* numP, int numTypes, double distance) {
     int totalParticles = 0;
-    if(totalParticles == 0) return NULL;
+    ParticleList Output;
+    Output.length = 0;
+    Output.List = NULL;
+    
     for (int i=0; i<numTypes; i++) totalParticles+=numP[i];
+    if(totalParticles == 0) return Output;
     Particle* output = calloc(sizeof(Particle), totalParticles);
 
     int placedParticles = 0;
@@ -115,7 +123,9 @@ Particle* GridRelease(Particle* types, int* numP, int numTypes, double distance)
 
         i++;
     }
-    return output;
+    Output.length = totalParticles;
+    Output.List = output;
+    return Output;
 }
 
 /**publicly available function: Parses the release type and passes the parameters to the corresponding release function
@@ -130,7 +140,7 @@ Particle* GridRelease(Particle* types, int* numP, int numTypes, double distance)
  * 
  * Return: Particle* array of particles released.
 */
-Particle* ParticleRelease(Particle* types, int* numP, int numTypes, double distance, Release type, Vector* position, Vector* velocities) {
+ParticleList ParticleRelease(Particle* types, int* numP, int numTypes, double distance, Release type, Vector* position, Vector* velocities) {
     switch (type) {
         case grid:
             return GridRelease(types, numP, numTypes, distance);

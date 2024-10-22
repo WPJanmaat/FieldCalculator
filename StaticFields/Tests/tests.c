@@ -83,7 +83,7 @@ void compareResults(Resultset testresults, char* filepath) {
         fscanf(file, "%lf\n", &filePos.z);
         printf("Timestep %d", i);
         printf("sim result: ");
-        printPosition(testresults.results[i].ParticleList[0]);
+        printPosition(testresults.results[i].particleList.List[0]);
         printf("file result: ");
         printVector(filePos);
     }
@@ -124,7 +124,7 @@ void SimTest() {
     int singleton = 1;
     //138u * 1.6E-27 [Kg]
     Particle type = createParticle(1, (138 * 1.6605E-27), 0);
-    Particle* Plist = ParticleRelease(&(type), &singleton, singleton, 0, list, &position, NULL);
+    ParticleList Plist = ParticleRelease(&(type), &singleton, singleton, 0, list, &position, NULL);
 
     //x = y = -0.004 <-> 0.004, 0.0001; z = 0.012 <-> 0.20, 0.0001 [m] 
     FieldProperties props;
@@ -143,9 +143,10 @@ void SimTest() {
     Field ACField = ParseField("./../Tests/testFiles/SimTestACField.csv", props);
     Field DCField = ParseField("./../Tests/testFiles/SimTestDCField.csv", props);
     
-    Resultset testresults = Simulate(Plist, &ACField, &DCField, 1, simparams, 10000);
+    Resultset testresults = Simulate(Plist, &ACField, &DCField, simparams, 10000);
 
     printf("Simulation Complete, comparing: \n");
     compareResults(testresults, "./../Tests/testFiles/TestPath.csv"); //from 0 to 50 microsec per 0.1 microsec
     printf("Comparison completed\n");
+    WriteResults(testresults);
 }
