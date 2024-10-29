@@ -8,4 +8,5 @@
 void CSVTest();
 void SimTest();
 void ParticleTest();
+void AccuracyTest();
 #endif

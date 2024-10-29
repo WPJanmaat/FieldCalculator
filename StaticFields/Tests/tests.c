@@ -112,7 +112,7 @@ void SimTest() {
     simparams.upperX = simparams.upperY = 0.0038;
     simparams.lowerZ = 0.0125;
     simparams.upperZ = 0.0195;
-    simparams.dt = 0.00000000001;
+    simparams.dt = 0.0000000000001;
     simparams.startTime = 0;
     simparams.pressure = 0;
     simparams.scale = 1;
@@ -143,10 +143,68 @@ void SimTest() {
     Field ACField = ParseField("./../Tests/testFiles/SimTestACField.csv", props);
     Field DCField = ParseField("./../Tests/testFiles/SimTestDCField.csv", props);
     
-    Resultset testresults = Simulate(Plist, &ACField, &DCField, simparams, 10000);
+    Resultset testresults = Simulate(Plist, &ACField, &DCField, simparams, 1000000);
 
     printf("Simulation Complete, comparing: \n");
     compareResults(testresults, "./../Tests/testFiles/TestPath.csv"); //from 0 to 50 microsec per 0.1 microsec
     printf("Comparison completed\n");
     WriteResults(testresults);
+}
+
+//awful duplicate code, sorry
+void AccuracyTest() {
+    Parameters simparams;
+    simparams.ACV = 45;
+    simparams.DCV = 5;
+    simparams.endTime = 0.00005;
+    simparams.freq = 500E3;
+    simparams.lowerX = simparams.lowerY = -0.0038;
+    simparams.upperX = simparams.upperY = 0.0038;
+    simparams.lowerZ = 0.0125;
+    simparams.upperZ = 0.0195;
+    simparams.dt = 0.00000000001;
+    simparams.startTime = 0;
+    simparams.pressure = 0;
+    simparams.scale = 1;
+    Vector position = zeroVector();
+    position.x = 0.0005;
+    position.y = 0.0015;
+    position.z = 0.017;
+    //lookup params
+    int singleton = 1;
+    //138u * 1.6E-27 [Kg]
+    Particle type = createParticle(1, (138 * 1.6605E-27), 0);
+    ParticleList Plist = ParticleRelease(&(type), &singleton, singleton, 0, list, &position, NULL);
+
+    //x = y = -0.004 <-> 0.004, 0.0001; z = 0.012 <-> 0.20, 0.0001 [m] 
+    FieldProperties props;
+    props.XStart = -0.004;
+    props.Xend = 0.004;
+    props.Xstep = 0.0001;
+
+    props.YStart = -0.004;
+    props.Yend = 0.004;
+    props.Ystep = 0.0001;
+
+    props.ZStart = 0.012;
+    props.Zend = 0.020;
+    props.Zstep = 0.0001;
+
+    Field ACField = ParseField("./../Tests/testFiles/SimTestACField.csv", props);
+    Field DCField = ParseField("./../Tests/testFiles/SimTestDCField.csv", props);
+    Vector FinalResults[5];
+    float baseTime = simparams.dt;
+    for (int i = 1; i <= 10000; i*=10) {
+        printf("Simulation #%d\n", i);
+        simparams.dt = baseTime*i;
+        Resultset tempresults = Simulate(Plist, &ACField, &DCField, simparams, 10000/i);
+        FinalResults[i] = getFinalPos(tempresults, 0);
+        freeResult(tempresults);
+    }
+    double Deviation[5];
+    Deviation[0] = 0;
+    for (int i=1; i<5; i++) {
+        Deviation[i] = getDistance(FinalResults[0], FinalResults[i]);
+        printf("final deviation of step %d: %lf\n",i ,Deviation[i]);
+    }
 }

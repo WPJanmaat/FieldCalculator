@@ -8,5 +8,6 @@ int main(int argc, char **argv) {
     ParticleTest();
     printf("starting Simtest\n");
     SimTest();
+    AccuracyTest();
     return 0;
 }

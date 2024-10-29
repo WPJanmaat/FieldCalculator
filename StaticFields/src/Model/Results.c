@@ -51,5 +51,17 @@ void addResult(Resultset* resultset, ResultNode newResult) {
 }
 
 void freeResult(Resultset input) {
+    free(input.results);
+}
 
+//get the final position of the indicated particle
+Vector getFinalPos(Resultset input, int index) {
+    ResultNode finalResult = input.results[input.length-1];
+    if (finalResult.particleList.length <= index) {
+        fprintf(stderr, "getFinalPosition, index out of scope: %d", index);
+        return zeroVector();
+    }
+    int finalIndex = finalResult.particleList.length-1;
+    Particle FinalParticle = finalResult.particleList.List[finalIndex];
+    return getParPos(FinalParticle);
 }

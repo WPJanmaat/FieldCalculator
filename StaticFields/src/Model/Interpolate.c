@@ -20,15 +20,16 @@ Vector interpTriLin(Field* inputField, Vector position) {
     double Xvals[2], Yvals[2], Zvals[2];
     //position.x/inputField.steplengthX
     double Xpos = getVecValue(position, x);
-    Xvals[1] = inputField->startX;
-
+    int steps = (Xpos-inputField->startX)/inputField->steplengthX;
+    Xvals[1] = inputField->startX + steps*(inputField->steplengthX);
     while(Xvals[1]<= Xpos) {
         Xvals[1]+=inputField->steplengthX;
     }        
     Xvals[0] = Xvals[1]-inputField->steplengthX;
         
     double Ypos = getVecValue(position, y);
-    Yvals[1] = inputField->startY;
+    steps = (Ypos-inputField->startY)/inputField->steplengthY;
+    Yvals[1] = inputField->startY + steps*(inputField->steplengthY);
 
     while(Yvals[1]<= Ypos) {
         Yvals[1]+=inputField->steplengthY;
@@ -36,7 +37,8 @@ Vector interpTriLin(Field* inputField, Vector position) {
     Yvals[0] = Yvals[1]-inputField->steplengthY;
 
     double Zpos = getVecValue(position, z);
-    Zvals[1] = inputField->startZ;
+    steps = (Zpos-inputField->startZ)/inputField->steplengthZ;
+    Zvals[1] = inputField->startZ + steps*(inputField->steplengthZ);
 
     while(Zvals[1]<= Zpos) {
         Zvals[1] += inputField ->steplengthZ;

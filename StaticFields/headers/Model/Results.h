@@ -19,5 +19,7 @@ typedef struct Resultset {
 void addResult(Resultset* resultset, ResultNode newResult);
 ResultNode createResult(double time, ParticleList PList);
 Resultset CreateResultSet(int expectedSize);
+void freeResult(Resultset input);
+Vector getFinalPos(Resultset input, int index);
 
 #endif
