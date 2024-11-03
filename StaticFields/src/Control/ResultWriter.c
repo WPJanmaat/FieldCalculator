@@ -8,11 +8,11 @@ void WriteResults(Resultset results) {
     }
     fprintf(f, "\n");
     for (int i=0; i< results.length; i++) {
-        fprintf(f, "%lf,", results.results[i].time);
+        fprintf(f, "%.10e,", results.results[i].time);
         for(int j=0; j < results.results[i].particleList.length; j++) {
             Particle current = results.results[i].particleList.List[j];
             Vector CurrentPos = getParPos(current);
-            fprintf(f, "%lf,%lf,%lf,", CurrentPos.x, CurrentPos.y, CurrentPos.z);
+            fprintf(f, "%.10e,%.10e,%.10e,", CurrentPos.x, CurrentPos.y, CurrentPos.z);
         }
         fprintf(f,"\n");
     }

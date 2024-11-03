@@ -19,7 +19,7 @@ OBJPATH = .\..\obj
 
 
 MyTest : Vector.o Field.o Particle.o FieldParser.o ParticlePlacer.o Simulator.o Interpolate.o Results.o ResultWriter.o FieldModulate.o Tests.o TestMain.o
-	$(CC) -O2 -Wall -pedantic -o ./../bin/ParseTest.exe $^ 
+	$(CC) -O3 -Wall -pedantic -o ./../bin/ParseTest.exe $^ 
 
 Vector.o : Vector.c Vector.h
 	$(CC) -c -Wall -pedantic $^ 

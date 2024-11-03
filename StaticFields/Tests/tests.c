@@ -157,7 +157,7 @@ void AccuracyTest() {
     simparams.ACV = 45;
     simparams.DCV = 5;
     simparams.endTime = 0.00005;
-    simparams.freq = 500E3;
+    simparams.freq = -500E3;
     simparams.lowerX = simparams.lowerY = -0.0038;
     simparams.upperX = simparams.upperY = 0.0038;
     simparams.lowerZ = 0.0125;
